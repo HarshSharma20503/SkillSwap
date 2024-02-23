@@ -1,16 +1,25 @@
-const Login = () => {
-  // const [message, setMessage] = useState("");
+import Button from "react-bootstrap/Button";
+import { FaGoogle } from "react-icons/fa";
 
+const Login = () => {
   const handleGoogleLogin = () => {
     window.location.href = "http://localhost:5000/auth/google";
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <button onClick={handleGoogleLogin}>Login with Google</button>
-      {/* <p>{message}</p> */}
-    </div>
+    <>
+      <div style={{ height: "90%" }} className="d-flex justify-content-center align-items-center">
+        <div style={{ height: "300px" }} className="d-flex flex-column justify-content-between p-3 border rounded">
+          <h1 className="text-center">Login</h1>
+          <div className="h-100 d-flex justify-content-center align-items-center">
+            <Button variant="primary" className="mx-auto" onClick={handleGoogleLogin}>
+              <FaGoogle />
+              &nbsp; Login with Google
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

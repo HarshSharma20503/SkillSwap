@@ -1,39 +1,28 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import Slide from "@mui/material/Slide";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
 
-function HideOnScroll(props) {
-  const { children, window } = props;
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-  });
-
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
-}
-
-const Navbar = (props) => {
+const Header = () => {
   return (
     <>
-      <HideOnScroll {...props}>
-        <AppBar>
-          <Toolbar>
-            <Typography variant="h6" component="div">
-              SkillSwap
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll>
-      <Toolbar />
+      <Navbar sticky="top" bg="primary" data-bs-theme="dark">
+        <Container fluid>
+          <Navbar.Brand as={Link} to="/">
+            Navbar
+          </Navbar.Brand>
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} to="/">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/login">
+              Login/Register
+            </Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
     </>
   );
 };
 
-export default Navbar;
+export default Header;
