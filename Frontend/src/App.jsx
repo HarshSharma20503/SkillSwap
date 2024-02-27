@@ -8,6 +8,7 @@ const App = () => {
   return (
     <div className="vh-100">
       <Header />
+
       <Routes>
         <Route path="/" element={<Discover />} />
         <Route path="/login" element={<Login />} />
