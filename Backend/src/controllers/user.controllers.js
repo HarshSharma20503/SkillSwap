@@ -1,10 +1,11 @@
+import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
-import passport from "passport";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-
-const userAuthGoogle = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "User Login " });
+const UserDetails = asyncHandler(async (req, res) => {
+  console.log("\n******** Inside UserDetails Controller function ********");
+  const userDetail = { name: req.user.name, email: req.user.email };
+  console.log(" userDetail: ", userDetail);
+  return res.status(200).json(new ApiResponse(200, userDetail, "User details fetched successfully"));
 });
 
-export { userAuthGoogle };
+export { UserDetails };

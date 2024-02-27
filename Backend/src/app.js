@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import passport from "passport";
 
 const app = express();
 
@@ -16,10 +17,15 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })); // to parse url
 app.use(express.static("public")); // to use static public folder
 app.use(cookieParser()); // to enable CRUD operation on browser cookies
 
+// Passport middleware
+app.use(passport.initialize());
+
 // Importing routes
 import userRouter from "./routes/user.routes.js";
+import authRouter from "./routes/auth.routes.js";
 
 // Using routes
-app.use("/api/v1/users", userRouter);
+app.use("/user", userRouter);
+app.use("/auth", authRouter);
 
 export { app };
