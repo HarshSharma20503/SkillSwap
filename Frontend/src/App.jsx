@@ -8,12 +8,14 @@ import AboutUs from "./Pages/AboutUs/AboutUs";
 import WhySkillSwap from "./Pages/WhySkillSwap/WhySkillSwap";
 import NotFound from "./Pages/NotFound/NotFound";
 import Register from "./Pages/Register/Register";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <>
       <Header />
-
+      <ToastContainer position="top-center" />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />

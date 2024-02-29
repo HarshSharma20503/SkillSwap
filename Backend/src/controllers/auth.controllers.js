@@ -4,7 +4,6 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { User } from "../models/user.model.js";
 import { UnRegisteredUser } from "../models/unRegisteredUser.model.js";
 import dotenv from "dotenv";
-import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 dotenv.config();
@@ -30,7 +29,7 @@ export const googleAuthCallback = passport.authenticate("google", {
 });
 
 export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
-  console.log("******** Inside handleGoogleLoginCallback function ********");
+  console.log("\n******** Inside handleGoogleLoginCallback function ********");
   const existingUser = await User.findOne({ email: req.user._json.email });
 
   if (existingUser) {
@@ -41,24 +40,24 @@ export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
   }
 
   const unregisteredUser = await UnRegisteredUser.findOne({ email: req.user._json.email });
-  if (unregisteredUser) {
-    return res.redirect("http://localhost:5173/register");
-  } else {
+  if (!unregisteredUser) {
+    console.log("Creating new Unregistered User");
     const newUnregisteredUser = await UnRegisteredUser.create({
       name: req.user._json.name,
       email: req.user._json.email,
     });
-    return res.redirect("http://localhost:5173/register");
   }
+  return res.redirect("http://localhost:5173/register");
 });
 
 export const handleLogout = (req, res) => {
-  console.log("******** Inside handleLogout function ********");
+  console.log("\n******** Inside handleLogout function ********");
   res.clearCookie("accessToken");
   res.redirect("http://localhost:5173");
 };
 
 export const registerUser = async (req, res) => {
+  console.log("\n******** Inside registerUser function ********");
   // First check if the user is already registered
   // if the user is already registerd than send a message that the user is already registered
   // redirect him to the discover page

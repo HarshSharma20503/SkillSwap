@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const generateJWTToken = (user) => {
+  console.log("\n******** Inside GenerateJWTToken Function ********");
   console.log(user);
   const payload = {
     id: user.id,

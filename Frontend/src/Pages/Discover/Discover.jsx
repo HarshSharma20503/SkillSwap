@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import ApiCall from "../../../util/ApiCall";
 
 const Discover = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get("/user/getDetails", { withCredentials: true });
-      setUser(response.data.data);
+      const response = await ApiCall("/user/getDetails", "GET");
+      console.log(response);
     };
     getUser();
   }, []);
