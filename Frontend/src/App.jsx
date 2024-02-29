@@ -11,7 +11,7 @@ import Register from "./Pages/Register/Register";
 
 const App = () => {
   return (
-    <div className="vh-100">
+    <>
       <Header />
 
       <Routes>
@@ -25,7 +25,7 @@ const App = () => {
       </Routes>
 
       <Footer />
-    </div>
+    </>
   );
 };
 
