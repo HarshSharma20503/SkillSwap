@@ -2,6 +2,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 90%; */
-  background-color: #d69696;
+  flex-direction: column;
+  min-height: 91vh;
+}
+
+.register_section {
+  min-height: 80vh;
+  width: 50%;
+  border: 1px solid black;
+}
+
+/* write media query for max-width medium screen */
+@media (max-width: 768px) {
+  .register_section {
+    width: 80%;
+  }
 }

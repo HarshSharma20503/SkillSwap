@@ -8,7 +8,7 @@ const Login = () => {
 
   return (
     <>
-      <div style={{ height: "90%" }} className="d-flex justify-content-center align-items-center ">
+      <div style={{ height: "90.4vh" }} className="d-flex justify-content-center align-items-center ">
         <div style={{ height: "300px" }} className="d-flex flex-column justify-content-between p-3 border rounded">
           <h1 style={{ textDecoration: "underline" }} className="text-center">
             Login
