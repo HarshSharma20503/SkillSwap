@@ -15,7 +15,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-right" />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
