@@ -12,7 +12,7 @@ const Register = () => {
   return (
     <>
       <div className="register_page">
-        <h1>Registeration Form</h1>
+        <h1>Registration Form</h1>
         <div className="register_section">
           <Tabs defaultActiveKey="registration" id="justify-tab-example" className="mb-3" justify>
             <Tab eventKey="registration" title="Registration">
