@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const ApiCall = async (url, method, navigate, data) => {
+const ApiCall = async (url, method, navigate, setUser, data) => {
   console.log("******** Inside ApiCall function ********");
 
   if (method === "GET") {
@@ -10,6 +10,7 @@ const ApiCall = async (url, method, navigate, data) => {
       return response.data;
     } catch (error) {
       console.error("Error in API call:", error);
+      setUser(null);
       if (error.response.status === 401) {
         toast.error("You are not authorized to access this page. Please login first.");
         navigate("/login");
@@ -30,6 +31,7 @@ const ApiCall = async (url, method, navigate, data) => {
       return response.data;
     } catch (error) {
       console.error("Error in API call:", error);
+      setUser(null);
       if (error.response.status === 401) {
         toast.error("You are not authorized to access this page. Please login first.");
         navigate("/login");

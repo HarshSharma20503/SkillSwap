@@ -57,7 +57,7 @@ export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
 export const handleLogout = (req, res) => {
   console.log("\n******** Inside handleLogout function ********");
   res.clearCookie("accessToken");
-  res.redirect("http://localhost:5173");
+  return res.redirect("http://localhost:5173/");
 };
 
 export const registerUser = async (req, res) => {

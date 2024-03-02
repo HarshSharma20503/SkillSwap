@@ -1,14 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ApiCall from "../../util/ApiCall";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../util/UserContext";
 
 const Discover = () => {
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  const { user, setUser } = useUser();
+
   useEffect(() => {
+    console.log(user);
+    if (user !== null) return;
     const getUser = async () => {
-      const response = await ApiCall("/user/registered/getDetails", "GET", navigate, null);
+      const response = await ApiCall("/user/registered/getDetails", "GET", navigate, setUser, null);
       console.log("User Data: ", response.data);
       setUser(response.data);
     };
