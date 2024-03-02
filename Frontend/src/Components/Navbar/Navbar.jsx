@@ -27,7 +27,7 @@ const Header = () => {
                 <Nav.Link as={Link} to="/about_us">
                   About Us
                 </Nav.Link>
-                <Nav.Link as={a} href="#why_skillswap">
+                <Nav.Link as={Link} to="/why_skillswap">
                   Why SkillSwap
                 </Nav.Link>
                 <Nav.Link as={Link} to="/login">
