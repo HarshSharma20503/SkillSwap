@@ -2,6 +2,8 @@ import "./Register.css";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import ApiCall from "../../util/ApiCall";
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -9,6 +11,17 @@ const Register = () => {
     email: "",
     username: "",
   });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await ApiCall("/user/unregistered/getDetails", "GET", navigate, null);
+      console.log("User Data: ", response.data);
+    };
+    getUser();
+  }, []);
+
   return (
     <>
       <div className="register_page">
