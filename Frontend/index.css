@@ -1,0 +1,19 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital@0;1&family=Oswald:wght@200&display=swap');
+:root
+{
+    --cyan: #3BB4A1;
+    --light-grey: #6D6E70;
+    --grey: #2d2d2d;
+    --yellow: #FBF1A4;
+    --dark-cyan: #028477;
+    --red: #EE3B38;
+    --basefont: "Oswald", sans-serif;
+    --secfont: "Montserrat", sans-serif;
+}
+body {
+    font-family: var(--basefont);
+    background-color: var(--grey);
+    color: white;
+    text-align: center;
+}
