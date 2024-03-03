@@ -99,25 +99,25 @@ const Header = () => {
                 </Nav.Link>
                 {user ? (
                   <>
-                    <Nav.Link as={Link} to="/discover">
+                    <Nav.Link as={Link} to="/discover" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
                       Discover
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/chats">
+                    <Nav.Link as={Link} to="/chats" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
                       Your Chats
                     </Nav.Link>
-                    <Nav.Link as={Dropdown}>
+                    <Nav.Link as={Dropdown} style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
                       <UserProfileDropdown />
                     </Nav.Link>
                   </>
                 ) : (
                   <>
-                    <Nav.Link as={Link} to="/about_us">
+                    <Nav.Link as={Link} to="/about_us" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
                       About Us
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/why_skillswap">
+                    <Nav.Link as={Link} to="/why_skillswap" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
                       Why SkillSwap
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/login">
+                    <Nav.Link as={Link} to="/login" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
                       Login/Register
                     </Nav.Link>
                   </>

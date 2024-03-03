@@ -25,10 +25,10 @@ const LandingPage = () => {
   };
 
   const titleContainerStyle = {
-    marginTop: '300px',
     backgroundColor: '#2D2D2D',
     padding: '20px', 
     margin: '60px', 
+    marginTop: '300px',
     border: '10px solid #3BB4A1'
     
   };
