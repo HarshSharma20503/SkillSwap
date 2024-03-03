@@ -114,7 +114,7 @@ const Header = () => {
                     <Nav.Link as={Link} to="/about_us" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
                       About Us
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/why_skillswap" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
+                    <Nav.Link as={Link} to="/#why-skill-swap" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
                       Why SkillSwap
                     </Nav.Link>
                     <Nav.Link as={Link} to="/login" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
