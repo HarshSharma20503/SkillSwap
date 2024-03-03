@@ -5,13 +5,13 @@ const containerStyle = {
   flexDirection: 'row',
   alignItems: 'start',
   backgroundColor: '#2D2D2D',
-  justifyContent: 'center'
+  justifyContent: 'center',
 };
 
 const contentContainerStyle = {
   maxWidth: '50vw',
   margin: '60px',
-  marginTop: '200px'
+  justifyContent: 'center'
 };
 
 const titleStyle = {
@@ -26,9 +26,10 @@ const titleStyle = {
 const descriptionStyle = {
   fontFamily: 'Montserrat, sans-serif',
   color: '#f2efdb',
-  fontSize: '1.2rem',
+  fontSize: '1rem',
   lineHeight: '1.6',
   textAlign: 'left',
+  maxHeight: '100vh'
 };
 
 const imageContainerStyle = {
@@ -52,7 +53,7 @@ const AboutUs = () => {
         <br/><br/>Our mission is to empower individuals to unlock their full potential through skill sharing. By facilitating meaningful interactions and fostering a culture of lifelong learning, we aim to create a community where everyone has the opportunity to thrive.
         </p>
       </div>
-        <img src={'/assets/images/about us.png'} style={{maxWidth: '50vw'}}/>
+        <img src={'/assets/images/about us.png'} style={{maxWidth: '50vw', maxHeight: '100vh'}}/>
     </div>
   );
 };
