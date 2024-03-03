@@ -1,27 +1,20 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import ApiCall from "../../../util/ApiCall";
-import { toast } from "react-toastify";
+import { useEffect } from "react";
+import ApiCall from "../../util/ApiCall";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../util/UserContext";
 
 const Discover = () => {
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  const { user, setUser } = useUser();
+
   useEffect(() => {
+    console.log(user);
+    if (user !== null) return;
     const getUser = async () => {
-      try {
-        // const response = await ApiCall("/user/getDetails", "GET");
-        const response = await axios.get("/user/getDetails");
-        console.log(response);
-      } catch (error) {
-        console.error("Error in API call:", error);
-        if (error.response.status === 401) {
-          // alert("You are not authorized to access this page. Please login first.");
-          toast.error("You are not authorized to access this page. Please login first.");
-          // window.location.href = "/login";
-          navigate("/login");
-        }
-      }
+      const response = await ApiCall("/user/registered/getDetails", "GET", navigate, setUser, null);
+      console.log("User Data: ", response.data);
+      setUser(response.data);
     };
     getUser();
   }, []);
