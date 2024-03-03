@@ -90,7 +90,7 @@ const Header = () => {
             placement="end"
           >
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`} style={{ fontFamily: 'Josefin Sans, sans-serif', color: '#2d2d2d' }}>SkillSwap</Offcanvas.Title>
+              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`} style={{ fontFamily: 'Josefin Sans, sans-serif', color: '#028477' }}>SKILL SWAP</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
