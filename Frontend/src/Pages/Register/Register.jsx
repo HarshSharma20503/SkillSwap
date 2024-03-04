@@ -50,7 +50,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="register_page" style={{ backgroundColor: "#013e38", fontFamily: "Montserrat", color: "white" }}>
+      <div className="register_page" style={{ backgroundColor: "#013e38", fontFamily: "Montserrat", color: "white", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         <h1 style={{ fontFamily: "Oswald", color: "#3BB4A1" }}>Registration Form</h1>
         <div className="register_section" style={{ backgroundColor: "#f2f2f2", color: "#2d2d2d", minHeight: "80vh", width: "50%", border: "1px solid black", padding: "20px", borderRadius: "10px" }}>
           <Tabs defaultActiveKey="registration" id="justify-tab-example" className="mb-3" justify>
