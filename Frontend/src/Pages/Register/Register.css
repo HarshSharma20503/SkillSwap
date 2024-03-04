@@ -9,7 +9,8 @@
 .register_section {
   min-height: 80vh;
   width: 50%;
-  border: 1px solid black;
+  border: 1px solid cyan;
+  border-radius: 10px;
 }
 
 /* write media query for max-width medium screen */
