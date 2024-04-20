@@ -50,17 +50,17 @@ const Register = () => {
 
   return (
     <>
-      <div className="register_page" style={{ backgroundColor: "#013e38", fontFamily: "Montserrat", color: "white", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+      <div className="register_page" style={{ backgroundColor: "#013e38", fontFamily: "Montserrat", color: "white", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "100vh"}}>
         <h1 style={{ fontFamily: "Oswald", color: "#3BB4A1" }}>Registration Form</h1>
         <div className="register_section" style={{ backgroundColor: "#f2f2f2", color: "#2d2d2d", minHeight: "80vh", width: "50%", border: "1px solid black", padding: "20px", borderRadius: "10px" }}>
-          <Tabs defaultActiveKey="registration" id="justify-tab-example" className="mb-3" justify>
+          <Tabs defaultActiveKey="registration" id="justify-tab-example" className="mb-3">
             <Tab eventKey="registration" title="Registration">
               <div>
                 <label style={{ color: "#3BB4A1" }}>Username</label><br />
                 <input type="text" name="username" onChange={handleInputChange} style={{ borderRadius: "5px", border: "1px solid #3BB4A1", padding: "5px", width: "100%", marginBottom: "10px" }} placeholder="Enter your username" />
               </div>
               <div>
-                <label style={{ color: "#3BB4A1", marginTop: "20px"}}>Skills Proficient At</label><br />
+                <label style={{ color: "#3BB4A1", marginTop: "20px"}}>Skills Proficient At</label><br/>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <div>
                     <input type="checkbox" name="skillsProficientAt" value="React" onChange={handleInputChange} style={{ marginRight: "5px" }} />React<br />
