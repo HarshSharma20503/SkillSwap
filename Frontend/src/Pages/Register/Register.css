@@ -19,3 +19,27 @@
     width: 80%;
   }
 }
+/* Register.css */
+.previewContainer {
+  font-family: 'Montserrat', sans-serif;
+  color: #2d2d2d;
+  margin-bottom: 20px;
+}
+
+.previewItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.previewLabel {
+  flex: 1;
+  font-weight: bold;
+  color: #3BB4A1;
+}
+
+.previewValue {
+  flex: 2;
+  margin-left: 20px;
+}

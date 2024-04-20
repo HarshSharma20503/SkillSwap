@@ -5,6 +5,7 @@ import Login from "./Pages/Login/Login";
 import Header from "./Components/Navbar/Navbar";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import AboutUs from "./Pages/AboutUs/AboutUs";
+import Chats from "./Pages/Chats/Chats";
 import NotFound from "./Pages/NotFound/NotFound";
 import Register from "./Pages/Register/Register";
 import { ToastContainer } from "react-toastify";
@@ -21,7 +22,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/discover" element={<Discover />} />
         <Route path="/about_us" element={<AboutUs />} />
-        <Route path="/chats" element={<div>Chats</div>} />
+        <Route path="/chats" element={<Chats />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

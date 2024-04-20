@@ -109,8 +109,7 @@ const LandingPage = () => {
         </div>
       </div>
       <h2 style={contentTitleStyle}>WHY SKILL SWAP?</h2>
-      <div style={textContainer}>
-        <div id='why-skill-swap'></div>
+      <div id="why-skill-swap" style={textContainer}>
         <p style={descriptionStyle}>
         At Skill Swap, we believe in the power of mutual learning and collaboration. Here's why Skill Swap is the ultimate platform for skill acquisition and knowledge exchange:
         <br/><br/><br/>
