@@ -16,21 +16,21 @@ const verifyJWT_email = asyncHandler(async (req, res, next) => {
       throw new ApiError(401, "Unauthorized request");
     }
 
-    console.log("Token Found : ", token);
+    // console.log("Token Found : ", token);
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded Token is : ", decodedToken);
+    // console.log("Decoded Token is : ", decodedToken);
     const user = await UnRegisteredUser.findOne({ email: decodedToken?.email });
     if (!user) {
       throw new ApiError(401, "Invalid Access Token");
     }
-    console.log(user);
+    // console.log(user);
     req.user = user;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       console.log("Token Expired");
-      throw new ApiError(401, "Token Expired");
+      throw new ApiError(401, "Login Again, Session Expired");
     } else {
       console.log("Error in VerifyJWT Middleware:", error);
       throw new ApiError(401, error.message || "Invalid Access Token");
@@ -48,21 +48,21 @@ const verifyJWT_username = asyncHandler(async (req, res, next) => {
       throw new ApiError(401, "Unauthorized request");
     }
 
-    console.log("Token Found : ", token);
+    // console.log("Token Found : ", token);
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded Token is : ", decodedToken);
+    // console.log("Decoded Token is : ", decodedToken);
     const user = await User.findOne({ username: decodedToken?.username });
     if (!user) {
       throw new ApiError(401, "Invalid Access Token");
     }
-    console.log(user);
+    // console.log(user);
     req.user = user;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       console.log("Token Expired");
-      throw new ApiError(401, "Token Expired");
+      throw new ApiError(401, "Login Again Session Expired");
     } else {
       console.log("Error in VerifyJWT Middleware:", error);
       throw new ApiError(401, error.message || "Invalid Access Token");

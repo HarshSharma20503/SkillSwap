@@ -1,6 +1,6 @@
 class ApiResponse {
   constructor(statusCode, data, message = "Success") {
-    console.log("\n******** Inside ApiResponse Constructor ********");
+    console.log("\n******** Inside ApiResponse ********");
     this.statusCode = statusCode;
     this.data = data;
     this.message = message;

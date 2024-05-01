@@ -1,6 +1,6 @@
 class ApiError extends Error {
   constructor(statusCode, message = "Something went wrong", errors = [], stack = "") {
-    console.log("\n******** Inside ApiError constructor ********");
+    console.log("\n******** Inside ApiError ********");
     super(message);
     this.statusCode = statusCode;
     this.data = null;
