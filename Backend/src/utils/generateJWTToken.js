@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const generateJWTToken_email = (user) => {
   console.log("\n******** Inside GenerateJWTToken_email Function ********");
-  console.log(user);
+  // console.log(user);
   const payload = {
     id: user._id,
     email: user.email,
@@ -12,7 +12,7 @@ const generateJWTToken_email = (user) => {
 
 const generateJWTToken_username = (user) => {
   console.log("\n******** Inside GenerateJWTToken_username Function ********");
-  console.log(user);
+  // console.log(user);
   const payload = {
     id: user._id,
     username: user.username,
