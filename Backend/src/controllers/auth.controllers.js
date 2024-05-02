@@ -5,6 +5,7 @@ import { User } from "../models/user.model.js";
 import { UnRegisteredUser } from "../models/unRegisteredUser.model.js";
 import dotenv from "dotenv";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
 
 dotenv.config();
 
@@ -66,4 +67,13 @@ export const registerUser = async (req, res) => {
   // if the user is already registerd than send a message that the user is already registered
   // redirect him to the discover page
   // if the user is not registered than create a new user and redirect him to the discover page after generating the token and setting the cookie and also delete the user detail from unregistered user from the database
+
+  const email = req.user._json.email;
+  const existingUser = User.findOne({ email: email });
+
+  if (existingUser) {
+    throw new ApiError(400, "User Already registered");
+  }
+
+  // const {name, email, username, skillsToLearn, skillsProficientAt, }
 };
