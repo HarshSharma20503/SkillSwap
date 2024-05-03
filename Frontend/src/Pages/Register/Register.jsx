@@ -9,10 +9,10 @@ import { skills } from "./Skills";
 import axios from "axios";
 import "./Register.css";
 import Badge from "react-bootstrap/Badge";
+import { v4 as uuidv4 } from "uuid";
 
 const Register = () => {
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
 
@@ -24,6 +24,7 @@ const Register = () => {
     skillsToLearn: [],
     education: [
       {
+        id: uuidv4(),
         institution: "",
         degree: "",
         startDate: "",
@@ -152,6 +153,15 @@ const Register = () => {
       }));
     }
     console.log("Form: ", form);
+  };
+
+  const handleRemoveEducation = (e, tid) => {
+    const updatedEducation = form.education.filter((item, i) => item.id !== tid);
+    console.log("Updated Education: ", updatedEducation);
+    setForm((prevState) => ({
+      ...prevState,
+      education: updatedEducation,
+    }));
   };
 
   const handleEducationChange = (e, index) => {
@@ -462,20 +472,10 @@ const Register = () => {
             </Tab>
             <Tab eventKey="education" title="Education">
               {form.education.map((edu, index) => (
-                <div className="border border-dark rounded-1 p-3 m-1">
+                <div className="border border-dark rounded-1 p-3 m-1" key={edu.id}>
                   {index !== 0 && (
                     <span className="w-100 d-flex justify-content-end">
-                      <button
-                        className="w-25"
-                        onClick={() => {
-                          const updatedEducation = [...form.education];
-                          updatedEducation.splice(index, 1);
-                          setForm((prevState) => ({
-                            ...prevState,
-                            education: updatedEducation,
-                          }));
-                        }}
-                      >
+                      <button className="w-25" onClick={(e) => handleRemoveEducation(e, edu.id)}>
                         cross
                       </button>
                     </span>
@@ -589,6 +589,7 @@ const Register = () => {
                       education: [
                         ...prevState.education,
                         {
+                          id: uuidv4(),
                           institution: "",
                           degree: "",
                           startDate: "",
