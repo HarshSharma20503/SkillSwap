@@ -15,6 +15,7 @@ const Discover = () => {
       const response = await ApiCall("/user/registered/getDetails", "GET", navigate, setUser, null);
       console.log("User Data: ", response.data);
       setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
     };
     getUser();
   }, []);
