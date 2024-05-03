@@ -39,6 +39,34 @@ const unRegisteredUserSchema = new Schema(
         default: "",
       },
     ],
+    education: [
+      {
+        institution: {
+          type: String,
+          default: "",
+        },
+        degree: {
+          type: String,
+          default: "",
+        },
+        startDate: {
+          type: Date,
+          default: null,
+        },
+        endDate: {
+          type: Date,
+          default: null, // or you can leave it undefined
+        },
+        score: {
+          type: Number,
+          default: 0,
+        },
+        description: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

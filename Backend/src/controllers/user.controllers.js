@@ -73,3 +73,36 @@ export const saveRegUnRegisteredUser = asyncHandler(async (req, res) => {
   // console.log(" UnRegisteredUserDetail: ", userDetail);
   return res.status(200).json(new ApiResponse(200, user, "User details fetched successfully"));
 });
+
+export const saveEduUnRegisteredUser = asyncHandler(async (req, res) => {
+  console.log("******** Inside saveEduUnRegisteredUser Function *******");
+
+  const { education, email } = req.body;
+  if (education.length === 0) {
+    throw new ApiError(400, "Education is required");
+  }
+  education.forEach((edu) => {
+    console.log("Education: ", edu);
+    if (!edu.institution || !edu.degree || !edu.description) {
+      throw new ApiError(400, "Please provide all the details");
+    }
+    if (
+      !edu.startDate ||
+      !edu.endDate ||
+      !edu.score ||
+      edu.score < 0 ||
+      edu.score > 100 ||
+      edu.startDate > edu.endDate
+    ) {
+      throw new ApiError(400, "Please provide valid score and dates");
+    }
+  });
+
+  const user = await UnRegisteredUser.findOneAndUpdate({ email: email }, { education: education });
+
+  if (!user) {
+    throw new ApiError(500, "Error in saving user details");
+  }
+
+  return res.status(200).json(new ApiResponse(200, user, "User details fetched successfully"));
+});

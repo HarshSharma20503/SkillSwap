@@ -51,6 +51,11 @@ const Register = () => {
       try {
         const { data } = await axios.get("/user/unregistered/getDetails");
         console.log("User Data: ", data.data);
+        const edu = data?.data?.education;
+        edu.forEach((ele) => {
+          ele.id = uuidv4();
+        });
+        console.log(edu);
         setForm((prevState) => ({
           ...prevState,
           name: data?.data?.name,
@@ -61,6 +66,7 @@ const Register = () => {
           linkedinLink: data?.data?.linkedinLink,
           githubLink: data?.data?.githubLink,
           portfolioLink: data?.data?.portfolioLink,
+          education: edu ? edu : prevState.education,
         }));
       } catch (error) {
         console.log(error);
@@ -259,7 +265,7 @@ const Register = () => {
     if (check) {
       setSaveLoading(true);
       try {
-        const { data } = await axios.post("/user//unregistered/saveRegDetails", form);
+        const { data } = await axios.post("/user/unregistered/saveRegDetails", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -279,7 +285,7 @@ const Register = () => {
     if (check1 && check2) {
       setSaveLoading(true);
       try {
-        const { data } = await axios.post("/user/unregistered/saveEduDetails", form);
+        const { data } = await axios.post("/user/unregistered/saveEduDetail", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -568,6 +574,7 @@ const Register = () => {
                   <input
                     type="text"
                     name="institution"
+                    value={edu.institution}
                     onChange={(e) => handleEducationChange(e, index)}
                     style={{
                       borderRadius: "5px",
@@ -584,6 +591,7 @@ const Register = () => {
                   <input
                     type="text"
                     name="degree"
+                    value={edu.degree}
                     onChange={(e) => handleEducationChange(e, index)}
                     style={{
                       borderRadius: "5px",
@@ -600,6 +608,7 @@ const Register = () => {
                   <input
                     type="number"
                     name="score"
+                    value={edu.score}
                     onChange={(e) => handleEducationChange(e, index)}
                     style={{
                       borderRadius: "5px",
@@ -618,6 +627,7 @@ const Register = () => {
                       <input
                         type="date"
                         name="startDate"
+                        value={edu.startDate ? new Date(edu.startDate).toISOString().split("T")[0] : ""}
                         onChange={(e) => handleEducationChange(e, index)}
                         style={{
                           borderRadius: "5px",
@@ -635,6 +645,7 @@ const Register = () => {
                       <input
                         type="date"
                         name="endDate"
+                        value={edu.endDate ? new Date(edu.endDate).toISOString().split("T")[0] : ""}
                         onChange={(e) => handleEducationChange(e, index)}
                         style={{
                           borderRadius: "5px",
@@ -650,8 +661,9 @@ const Register = () => {
                   </label>
                   <br />
                   <input
-                    type="number"
+                    type="text"
                     name="description"
+                    value={edu.description}
                     onChange={(e) => handleEducationChange(e, index)}
                     style={{
                       borderRadius: "5px",
