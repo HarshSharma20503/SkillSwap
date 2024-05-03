@@ -20,6 +20,9 @@ const Register = () => {
     name: "",
     email: "",
     username: "",
+    portfolioLink: "",
+    githubLink: "",
+    linkedinLink: "",
     skillsProficientAt: [],
     skillsToLearn: [],
     education: [
@@ -34,12 +37,11 @@ const Register = () => {
       },
     ],
     bio: "",
-    portfolioLink: "",
-    githubLink: "",
-    linkedinLink: "",
+    projects: [],
   });
   const [skillsProficientAt, setSkillsProficientAt] = useState("Select some skill");
   const [skillsToLearn, setSkillsToLearn] = useState("Select some skill");
+  const [techStack, setTechStack] = useState([]);
 
   const [activeKey, setActiveKey] = useState("registration");
 
@@ -85,12 +87,17 @@ const Register = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     if (type === "checkbox") {
       setForm((prevState) => ({
         ...prevState,
         [name]: checked ? [...prevState[name], value] : prevState[name].filter((item) => item !== value),
       }));
     } else {
+      if (name === "bio" && value.length > 500) {
+        toast.error("Bio should be less than 500 characters");
+        return;
+      }
       setForm((prevState) => ({
         ...prevState,
         [name]: value,
@@ -173,6 +180,17 @@ const Register = () => {
     console.log("Form: ", form);
   };
 
+  const handleAdditionalChange = (e, index) => {
+    const { name, value } = e.target;
+    console.log("Name", name);
+    console.log("Value", value);
+    setForm((prevState) => ({
+      ...prevState,
+      projects: prevState.projects.map((item, i) => (i === index ? { ...item, [name]: value } : item)),
+    }));
+    console.log("Form: ", form);
+  };
+
   const validateRegForm = () => {
     if (!form.username) {
       toast.error("Username is empty");
@@ -206,9 +224,36 @@ const Register = () => {
     }
     return true;
   };
-  const validateEduForm = () => {};
+  const validateEduForm = () => {
+    form.education.forEach((edu, index) => {
+      if (!edu.institution) {
+        toast.error(`Institution name is empty in education field ${index + 1}`);
+        return false;
+      }
+      if (!edu.degree) {
+        toast.error("Degree is empty");
+        return false;
+      }
+      if (!edu.startDate) {
+        toast.error("Start date is empty");
+        return false;
+      }
+      if (!edu.endDate) {
+        toast.error("End date is empty");
+        return false;
+      }
+      if (!edu.score) {
+        toast.error("Score is empty");
+        return false;
+      }
+      if (!edu.description) {
+        toast.error("Description is empty");
+        return false;
+      }
+    });
+    return true;
+  };
   const validateAddForm = () => {};
-
   const handleSaveRegistration = async () => {
     setSaveLoading(true);
     const check = validateRegForm();
@@ -228,8 +273,47 @@ const Register = () => {
       }
     }
   };
-  const handleSaveEducation = async () => {};
-  const handleSaveAdditional = async () => {};
+  const handleSaveEducation = async () => {
+    setSaveLoading(true);
+    const check1 = validateRegForm();
+    const check2 = validateEduForm();
+    if (check1 && check2) {
+      try {
+        const { data } = await axios.post("/user/unregistered/saveEduDetails", form);
+        toast.success("Details saved successfully");
+      } catch (error) {
+        console.log(error);
+        if (error?.response?.data?.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Some error occurred");
+        }
+      } finally {
+        setSaveLoading(false);
+      }
+    }
+  };
+  const handleSaveAdditional = async () => {
+    setSaveLoading(true);
+    const check1 = validateRegForm();
+    const check2 = validateEduForm();
+    const check3 = validateAddForm();
+    if (check1 && check2 && check3) {
+      try {
+        const { data } = await axios.post("/user/unregistered/saveAddDetails", form);
+        toast.success("Details saved successfully");
+      } catch (error) {
+        console.log(error);
+        if (error?.response?.data?.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Some error occurred");
+        }
+      } finally {
+        setSaveLoading(false);
+      }
+    }
+  };
 
   const handleSubmit = () => {
     const check = validateForm();
@@ -604,23 +688,18 @@ const Register = () => {
                   Add Education
                 </button>
               </div>
-              <button
-                onClick={handleNext}
-                style={{
-                  backgroundColor: "#3BB4A1",
-                  color: "white",
-                  padding: "10px 20px",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                Next
-              </button>
+              <div className="row m-auto d-flex justify-content-center mt-3">
+                <button className="btn btn-warning" onClick={handleSaveEducation} disabled={saveLoading}>
+                  {saveLoading ? <Spinner animation="border" variant="primary" /> : "Save"}
+                </button>
+                <button onClick={handleNext} className="mt-2 btn btn-primary">
+                  Next
+                </button>
+              </div>
             </Tab>
             <Tab eventKey="longer-tab" title="Additional">
               <div>
-                <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Bio</label>
+                <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Bio (Max 500 Character)</label>
                 <br />
                 <textarea
                   name="bio"
@@ -635,20 +714,192 @@ const Register = () => {
                   placeholder="Enter your bio"
                 ></textarea>
               </div>
-              <button
-                onClick={handleNext}
-                style={{
-                  backgroundColor: "#3BB4A1",
-                  color: "white",
-                  padding: "10px 20px",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  marginTop: "20px",
-                }}
-              >
-                Next
-              </button>
+              <div className="">
+                <label style={{ color: "#3BB4A1" }}>Projects</label>
+
+                {form.projects.map((project, index) => (
+                  <div className="border border-dark rounded-1 p-3 m-1" key={project.id}>
+                    <span className="w-100 d-flex justify-content-end">
+                      <button
+                        className="w-25"
+                        onClick={() => {
+                          setForm((prevState) => ({
+                            ...prevState,
+                            projects: prevState.projects.filter((item) => item.id !== project.id),
+                          }));
+                        }}
+                      >
+                        cross
+                      </button>
+                    </span>
+                    <label style={{ color: "#3BB4A1" }}>Title</label>
+                    <br />
+                    <input
+                      type="text"
+                      name="title"
+                      onChange={(e) => handleAdditionalChange(e, index)}
+                      style={{
+                        borderRadius: "5px",
+                        border: "1px solid #3BB4A1",
+                        padding: "5px",
+                        width: "100%",
+                      }}
+                      placeholder="Enter your project title"
+                    />
+                    <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                      Tech Stack
+                    </label>
+                    <br />
+                    <Form.Select
+                      aria-label="Default select example"
+                      value={techStack[index]}
+                      onChange={(e) => {
+                        setTechStack((prevState) => prevState.map((item, i) => (i === index ? e.target.value : item)));
+                      }}
+                    >
+                      <option>Select some Tech Stack</option>
+                      {skills.map((skill, index) => (
+                        <option key={index} value={skill}>
+                          {skill}
+                        </option>
+                      ))}
+                    </Form.Select>
+                    {techStack[index].length > 0 && (
+                      <div>
+                        {form.projects[index].techStack.map((skill, i) => (
+                          <Badge
+                            key={i}
+                            bg="secondary"
+                            className="ms-2 mt-2"
+                            style={{ cursor: "pointer" }}
+                            onClick={(e) => {
+                              setForm((prevState) => ({
+                                ...prevState,
+                                projects: prevState.projects.map((item, i) =>
+                                  i === index
+                                    ? { ...item, techStack: item.techStack.filter((item) => item !== skill) }
+                                    : item
+                                ),
+                              }));
+                            }}
+                          >
+                            <div className="span d-flex p-1 fs-7 ">{skill} &#10005;</div>
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                    <button
+                      className="btn btn-primary mt-3 ms-1"
+                      name="tech_stack"
+                      onClick={(e) => {
+                        if (techStack[index] === "Select some Tech Stack") {
+                          toast.error("Select a tech stack to add");
+                          return;
+                        }
+                        if (form.projects[index].techStack.includes(techStack[index])) {
+                          toast.error("Tech Stack already added");
+                          return;
+                        }
+                        setForm((prevState) => ({
+                          ...prevState,
+                          projects: prevState.projects.map((item, i) =>
+                            i === index ? { ...item, techStack: [...item.techStack, techStack[index]] } : item
+                          ),
+                        }));
+                      }}
+                    >
+                      Add Tech Stack
+                    </button>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                          Start Date
+                        </label>
+                        <br />
+                        <input
+                          type="date"
+                          name="startDate"
+                          onChange={(e) => handleAdditionalChange(e, index)}
+                          style={{
+                            borderRadius: "5px",
+                            border: "1px solid #3BB4A1",
+                            padding: "5px",
+                            width: "100%",
+                          }}
+                        />
+                      </div>
+                      <div className="col-md-6">
+                        <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                          End Date
+                        </label>
+                        <br />
+                        <input
+                          type="date"
+                          name="endDate"
+                          onChange={(e) => handleAdditionalChange(e, index)}
+                          style={{
+                            borderRadius: "5px",
+                            border: "1px solid #3BB4A1",
+                            padding: "5px",
+                            width: "100%",
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                      Description
+                    </label>
+                    <br />
+                    <input
+                      type="text"
+                      name="description"
+                      onChange={(e) => handleAdditionalChange(e, index)}
+                      style={{
+                        borderRadius: "5px",
+                        border: "1px solid #3BB4A1",
+                        padding: "5px",
+                        width: "100%",
+                      }}
+                      placeholder="Enter your project description"
+                    />
+                  </div>
+                ))}
+
+                <div className="row my-2 d-flex justify-content-center">
+                  <button
+                    className="btn btn-primary w-50"
+                    onClick={() => {
+                      setTechStack((prevState) => {
+                        return [...prevState, "Select some Tech Stack"];
+                      });
+                      setForm((prevState) => ({
+                        ...prevState,
+                        projects: [
+                          ...prevState.projects,
+                          {
+                            id: uuidv4(),
+                            title: "",
+                            techStack: [],
+                            startDate: "",
+                            endDate: "",
+                            description: "",
+                          },
+                        ],
+                      }));
+                    }}
+                  >
+                    Add Project
+                  </button>
+                </div>
+              </div>
+              <div className="row m-auto d-flex justify-content-center mt-3">
+                <button className="btn btn-warning" onClick={handleSaveAdditional} disabled={saveLoading}>
+                  {saveLoading ? <Spinner animation="border" variant="primary" /> : "Save"}
+                </button>
+                <button onClick={handleNext} className="mt-2 btn btn-primary">
+                  Next
+                </button>
+              </div>
             </Tab>
             <Tab eventKey="Preview" title="Confirm Details">
               <div>
