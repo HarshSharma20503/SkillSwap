@@ -24,7 +24,7 @@ export const skills = [
   "JDBC",
   "Swing",
   "JavaFX",
-  "Android",
+  "Android Development",
   "iOS",
   "Swift",
   "Kotlin",

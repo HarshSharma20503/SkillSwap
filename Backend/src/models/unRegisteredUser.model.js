@@ -67,6 +67,40 @@ const unRegisteredUserSchema = new Schema(
         },
       },
     ],
+    bio: {
+      type: String,
+      default: "",
+    },
+    projects: [
+      {
+        title: {
+          type: String,
+          default: "",
+        },
+        description: {
+          type: String,
+          default: "",
+        },
+        projectLink: {
+          type: String,
+          default: "",
+        },
+        techStack: [
+          {
+            type: String,
+            default: "",
+          },
+        ],
+        startDate: {
+          type: Date,
+          default: null,
+        },
+        endDate: {
+          type: Date,
+          default: null,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

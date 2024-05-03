@@ -55,7 +55,14 @@ const Register = () => {
         edu.forEach((ele) => {
           ele.id = uuidv4();
         });
-        console.log(edu);
+        const proj = data?.data?.projects;
+        proj.forEach((ele) => {
+          ele.id = uuidv4();
+        });
+        console.log(proj);
+        if (proj) {
+          setTechStack(proj.map((item) => "Select some Tech Stack"));
+        }
         setForm((prevState) => ({
           ...prevState,
           name: data?.data?.name,
@@ -67,6 +74,8 @@ const Register = () => {
           githubLink: data?.data?.githubLink,
           portfolioLink: data?.data?.portfolioLink,
           education: edu ? edu : prevState.education,
+          bio: data?.data?.bio,
+          projects: proj ? proj : prevState.projects,
         }));
       } catch (error) {
         console.log(error);
@@ -259,13 +268,59 @@ const Register = () => {
     });
     return true;
   };
-  const validateAddForm = () => {};
+  const validateAddForm = () => {
+    if (!form.bio) {
+      toast.error("Bio is empty");
+      return false;
+    }
+    if (form.bio.length > 500) {
+      toast.error("Bio should be less than 500 characters");
+      return false;
+    }
+    var flag = true;
+    form.projects.forEach((project, index) => {
+      if (!project.title) {
+        toast.error(`Title is empty in project ${index + 1}`);
+        flag = false;
+      }
+      if (!project.techStack.length) {
+        toast.error(`Tech Stack is empty in project ${index + 1}`);
+        flag = false;
+      }
+      if (!project.startDate) {
+        toast.error(`Start Date is empty in project ${index + 1}`);
+        flag = false;
+      }
+      if (!project.endDate) {
+        toast.error(`End Date is empty in project ${index + 1}`);
+        flag = false;
+      }
+      if (!project.projectLink) {
+        toast.error(`Project Link is empty in project ${index + 1}`);
+        flag = false;
+      }
+      if (!project.description) {
+        toast.error(`Description is empty in project ${index + 1}`);
+        flag = false;
+      }
+      if (project.startDate > project.endDate) {
+        toast.error(`Start Date should be less than End Date in project ${index + 1}`);
+        flag = false;
+      }
+      if (!project.projectLink.match(/^(http|https):\/\/[^ "]+$/)) {
+        console.log("Valid URL");
+        toast.error(`Please provide valid project link in project ${index + 1}`);
+        flag = false;
+      }
+    });
+    return flag;
+  };
   const handleSaveRegistration = async () => {
     const check = validateRegForm();
     if (check) {
       setSaveLoading(true);
       try {
-        const { data } = await axios.post("/user/unregistered/saveRegDetails", form);
+        const { data } = await axios.post("/user/unregistered/saveAddDetail", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -302,11 +357,12 @@ const Register = () => {
   const handleSaveAdditional = async () => {
     const check1 = validateRegForm();
     const check2 = validateEduForm();
-    const check3 = validateAddForm();
+    const check3 = await validateAddForm();
+    console.log(check1, check2, check3);
     if (check1 && check2 && check3) {
       setSaveLoading(true);
       try {
-        const { data } = await axios.post("/user/unregistered/saveAddDetails", form);
+        const { data } = await axios.post("/user/unregistered/saveAddDetail", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -714,6 +770,7 @@ const Register = () => {
                 <br />
                 <textarea
                   name="bio"
+                  value={form.bio}
                   onChange={handleInputChange}
                   style={{
                     borderRadius: "5px",
@@ -748,6 +805,7 @@ const Register = () => {
                     <input
                       type="text"
                       name="title"
+                      value={project.title}
                       onChange={(e) => handleAdditionalChange(e, index)}
                       style={{
                         borderRadius: "5px",
@@ -830,6 +888,7 @@ const Register = () => {
                         <input
                           type="date"
                           name="startDate"
+                          value={project.startDate ? new Date(project.startDate).toISOString().split("T")[0] : ""}
                           onChange={(e) => handleAdditionalChange(e, index)}
                           style={{
                             borderRadius: "5px",
@@ -847,6 +906,7 @@ const Register = () => {
                         <input
                           type="date"
                           name="endDate"
+                          value={project.endDate ? new Date(project.endDate).toISOString().split("T")[0] : ""}
                           onChange={(e) => handleAdditionalChange(e, index)}
                           style={{
                             borderRadius: "5px",
@@ -858,12 +918,31 @@ const Register = () => {
                       </div>
                     </div>
                     <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                      Project Link
+                    </label>
+                    <br />
+                    <input
+                      type="text"
+                      name="projectLink"
+                      value={project.projectLink}
+                      onChange={(e) => handleAdditionalChange(e, index)}
+                      style={{
+                        borderRadius: "5px",
+                        border: "1px solid #3BB4A1",
+                        padding: "5px",
+                        width: "100%",
+                      }}
+                      placeholder="Enter your project link"
+                    />
+
+                    <label className="mt-2" style={{ color: "#3BB4A1" }}>
                       Description
                     </label>
                     <br />
                     <input
                       type="text"
                       name="description"
+                      value={project.description}
                       onChange={(e) => handleAdditionalChange(e, index)}
                       style={{
                         borderRadius: "5px",
@@ -893,6 +972,7 @@ const Register = () => {
                             techStack: [],
                             startDate: "",
                             endDate: "",
+                            projectLink: "",
                             description: "",
                           },
                         ],

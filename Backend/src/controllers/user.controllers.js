@@ -71,7 +71,7 @@ export const saveRegUnRegisteredUser = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Error in saving user details");
   }
   // console.log(" UnRegisteredUserDetail: ", userDetail);
-  return res.status(200).json(new ApiResponse(200, user, "User details fetched successfully"));
+  return res.status(200).json(new ApiResponse(200, user, "User details saved successfully"));
 });
 
 export const saveEduUnRegisteredUser = asyncHandler(async (req, res) => {
@@ -82,7 +82,7 @@ export const saveEduUnRegisteredUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Education is required");
   }
   education.forEach((edu) => {
-    console.log("Education: ", edu);
+    // console.log("Education: ", edu);
     if (!edu.institution || !edu.degree || !edu.description) {
       throw new ApiError(400, "Please provide all the details");
     }
@@ -104,5 +104,39 @@ export const saveEduUnRegisteredUser = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Error in saving user details");
   }
 
-  return res.status(200).json(new ApiResponse(200, user, "User details fetched successfully"));
+  return res.status(200).json(new ApiResponse(200, user, "User details saved successfully"));
+});
+
+export const saveAddUnRegisteredUser = asyncHandler(async (req, res) => {
+  console.log("******** Inside saveAddUnRegisteredUser Function *******");
+
+  const { bio, projects, email } = req.body;
+  if (!bio) {
+    throw new ApiError(400, "Bio is required");
+  }
+  if (bio.length > 500) {
+    throw new ApiError(400, "Bio should be less than 500 characters");
+  }
+
+  if (projects.size > 0) {
+    projects.forEach((project) => {
+      if (!project.title || !project.description || !project.projectLink || !project.startDate || !project.endDate) {
+        throw new ApiError(400, "Please provide all the details");
+      }
+      if (project.projectLink.match(/^(http|https):\/\/[^ "]+$/)) {
+        throw new ApiError(400, "Please provide valid project link");
+      }
+      if (project.startDate > project.endDate) {
+        throw new ApiError(400, "Please provide valid dates");
+      }
+    });
+  }
+
+  const user = await UnRegisteredUser.findOneAndUpdate({ email: email }, { bio: bio, projects: projects });
+
+  if (!user) {
+    throw new ApiError(500, "Error in saving user details");
+  }
+
+  return res.status(200).json(new ApiResponse(200, user, "User details saved successfully"));
 });
