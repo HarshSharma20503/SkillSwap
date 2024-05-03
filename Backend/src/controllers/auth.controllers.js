@@ -60,20 +60,3 @@ export const handleLogout = (req, res) => {
   res.clearCookie("accessToken");
   return res.redirect("http://localhost:5173/");
 };
-
-export const registerUser = async (req, res) => {
-  console.log("\n******** Inside registerUser function ********");
-  // First check if the user is already registered
-  // if the user is already registerd than send a message that the user is already registered
-  // redirect him to the discover page
-  // if the user is not registered than create a new user and redirect him to the discover page after generating the token and setting the cookie and also delete the user detail from unregistered user from the database
-
-  const email = req.user._json.email;
-  const existingUser = User.findOne({ email: email });
-
-  if (existingUser) {
-    throw new ApiError(400, "User Already registered");
-  }
-
-  // const {name, email, username, skillsToLearn, skillsProficientAt, }
-};

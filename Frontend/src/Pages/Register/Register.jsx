@@ -377,24 +377,28 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (check) {
-      const data = {
-        username: form.username,
-        skillsProficientAt: form.skillsProficientAt,
-        skillsToLearn: form.skillsToLearn,
-        college: form.college,
-        degreeAchieved: form.degreeAchieved,
-        subjectMajoredIn: form.subjectMajoredIn,
-        bio: form.bio,
-        portfolioLink: form.portfolioLink,
-        githubLink: form.githubLink,
-        linkedinLink: form.linkedinLink,
-      };
-      console.log("Data: ", data);
-      // Call the API to submit the form data
+  const handleSubmit = async () => {
+    const check1 = validateRegForm();
+    const check2 = validateEduForm();
+    const check3 = validateAddForm();
+    if (check1 && check2 && check3) {
+      setSaveLoading(true);
+      try {
+        const { data } = await axios.post("/user/registerUser", form);
+        toast.success("Registration Successful");
+        console.log("Data: ", data.data);
+        navigate("/discover");
+      } catch (error) {
+        console.log(error);
+        if (error?.response?.data?.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Some error occurred");
+        }
+      } finally {
+        setSaveLoading(false);
+      }
     }
-    // console.log("Form submitted:", form);
   };
 
   return (
@@ -994,7 +998,9 @@ const Register = () => {
             </Tab>
             <Tab eventKey="Preview" title="Confirm Details">
               <div>
-                <h3 style={{ color: "#3BB4A1", marginBottom: "20px" }}>Preview of the Form</h3>
+                <h3 style={{ color: "#3BB4A1", marginBottom: "20px" }} className="link w-100 text-center">
+                  Preview of the Form
+                </h3>
                 <div style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d", marginBottom: "20px" }}>
                   <div
                     style={{
@@ -1003,9 +1009,10 @@ const Register = () => {
                       alignItems: "center",
                       marginBottom: "10px",
                     }}
+                    className="link m-sm-0"
                   >
                     <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Name:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.name || "Yet to be filled"}</span>
+                    <span style={{ flex: 2 }}>{form.name || "Yet to be filled"}</span>
                   </div>
                   <div
                     style={{
@@ -1014,9 +1021,10 @@ const Register = () => {
                       alignItems: "center",
                       marginBottom: "10px",
                     }}
+                    className="link"
                   >
                     <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Email ID:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.email || "Yet to be filled"}</span>
+                    <span style={{ flex: 2 }}>{form.email || "Yet to be filled"}</span>
                   </div>
                   <div
                     style={{
@@ -1025,9 +1033,10 @@ const Register = () => {
                       alignItems: "center",
                       marginBottom: "10px",
                     }}
+                    className="link"
                   >
                     <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Username:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.username || "Yet to be filled"}</span>
+                    <span style={{ flex: 2 }}>{form.username || "Yet to be filled"}</span>
                   </div>
                   <div
                     style={{
@@ -1036,94 +1045,100 @@ const Register = () => {
                       alignItems: "center",
                       marginBottom: "10px",
                     }}
-                  >
-                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills Proficient At:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>
-                      {form.skillsProficientAt.join(", ") || "Yet to be filled"}
-                    </span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills To Learn:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>
-                      {form.skillsToLearn.join(", ") || "Yet to be filled"}
-                    </span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>College:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.college || "Yet to be filled"}</span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Highest Degree Achieved:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.degreeAchieved || "Yet to be filled"}</span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Subject Majored In:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.subjectMajoredIn || "Yet to be filled"}</span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Bio:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.bio || "Yet to be filled"}</span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                    }}
+                    className="link"
                   >
                     <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Portfolio Link:</span>
-                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.portfolioLink || "Yet to be filled"}</span>
+                    <span style={{ flex: 2 }}>{form.portfolioLink || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                    className="link"
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Github Link:</span>
+                    <span style={{ flex: 2 }}>{form.githubLink || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                    className="link"
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Linkedin Link:</span>
+                    <span
+                      style={{
+                        width: "100%",
+                        flex: 2,
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {form.linkedinLink || "Yet to be filled"}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                    className="link"
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills Proficient At:</span>
+                    <span style={{ flex: 2 }}>{form.skillsProficientAt.join(", ") || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                    className="link"
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills To Learn:</span>
+                    <span style={{ flex: 2 }}>{form.skillsToLearn.join(", ") || "Yet to be filled"}</span>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                    className="link"
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Bio:</span>
+                    <span style={{ flex: 2 }}>{form.bio || "Yet to be filled"}</span>
                   </div>
                 </div>
-                <button
-                  onClick={handleSubmit}
-                  style={{
-                    backgroundColor: "#3BB4A1",
-                    color: "white",
-                    padding: "10px 20px",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Submit
-                </button>
+                <div className="row">
+                  <button
+                    onClick={handleSubmit}
+                    style={{
+                      backgroundColor: "#3BB4A1",
+                      color: "white",
+                      padding: "10px 20px",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                    }}
+                    className="w-50 d-flex m-auto text-center align-content-center justify-content-center"
+                  >
+                    {saveLoading ? <Spinner animation="border" variant="primary" /> : "Submit"}
+                  </button>
+                </div>
               </div>
             </Tab>
           </Tabs>

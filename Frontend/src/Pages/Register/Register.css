@@ -24,6 +24,12 @@
   .register_section {
     width: 95%;
   }
+  .link {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 0 !important;
+  }
 }
 /* Register.css */
 .previewContainer {

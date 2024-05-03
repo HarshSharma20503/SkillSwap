@@ -6,6 +6,7 @@ import {
   saveRegUnRegisteredUser,
   saveEduUnRegisteredUser,
   saveAddUnRegisteredUser,
+  registerUser,
 } from "../controllers/user.controllers.js";
 
 const router = Router();
@@ -15,5 +16,6 @@ router.route("/unregistered/getDetails").get(verifyJWT_email, UnRegisteredUserDe
 router.route("/unregistered/saveRegDetails").post(saveRegUnRegisteredUser);
 router.route("/unregistered/saveEduDetail").post(saveEduUnRegisteredUser);
 router.route("/unregistered/saveAddDetail").post(saveAddUnRegisteredUser);
+router.route("/registerUser").post(registerUser);
 
 export default router;
