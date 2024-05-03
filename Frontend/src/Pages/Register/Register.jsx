@@ -55,6 +55,17 @@ const Register = () => {
         edu.forEach((ele) => {
           ele.id = uuidv4();
         });
+        if (edu.length === 0) {
+          edu.push({
+            id: uuidv4(),
+            institution: "",
+            degree: "",
+            startDate: "",
+            endDate: "",
+            score: "",
+            description: "",
+          });
+        }
         const proj = data?.data?.projects;
         proj.forEach((ele) => {
           ele.id = uuidv4();
@@ -73,7 +84,7 @@ const Register = () => {
           linkedinLink: data?.data?.linkedinLink,
           githubLink: data?.data?.githubLink,
           portfolioLink: data?.data?.portfolioLink,
-          education: edu ? edu : prevState.education,
+          education: edu,
           bio: data?.data?.bio,
           projects: proj ? proj : prevState.projects,
         }));
