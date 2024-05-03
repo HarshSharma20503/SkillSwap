@@ -255,9 +255,9 @@ const Register = () => {
   };
   const validateAddForm = () => {};
   const handleSaveRegistration = async () => {
-    setSaveLoading(true);
     const check = validateRegForm();
     if (check) {
+      setSaveLoading(true);
       try {
         const { data } = await axios.post("/user//unregistered/saveRegDetails", form);
         toast.success("Details saved successfully");
@@ -271,13 +271,13 @@ const Register = () => {
       } finally {
         setSaveLoading(false);
       }
-    }
+    } else setSaveLoading(false);
   };
   const handleSaveEducation = async () => {
-    setSaveLoading(true);
     const check1 = validateRegForm();
     const check2 = validateEduForm();
     if (check1 && check2) {
+      setSaveLoading(true);
       try {
         const { data } = await axios.post("/user/unregistered/saveEduDetails", form);
         toast.success("Details saved successfully");
@@ -294,11 +294,11 @@ const Register = () => {
     }
   };
   const handleSaveAdditional = async () => {
-    setSaveLoading(true);
     const check1 = validateRegForm();
     const check2 = validateEduForm();
     const check3 = validateAddForm();
     if (check1 && check2 && check3) {
+      setSaveLoading(true);
       try {
         const { data } = await axios.post("/user/unregistered/saveAddDetails", form);
         toast.success("Details saved successfully");
@@ -316,7 +316,6 @@ const Register = () => {
   };
 
   const handleSubmit = () => {
-    const check = validateForm();
     if (check) {
       const data = {
         username: form.username,
