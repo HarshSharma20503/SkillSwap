@@ -22,9 +22,16 @@ const Register = () => {
     username: "",
     skillsProficientAt: [],
     skillsToLearn: [],
-    college: "",
-    degreeAchieved: "",
-    subjectMajoredIn: "",
+    education: [
+      {
+        institution: "",
+        degree: "",
+        startDate: "",
+        endDate: "",
+        score: "",
+        description: "",
+      },
+    ],
     bio: "",
     portfolioLink: "",
     githubLink: "",
@@ -144,6 +151,15 @@ const Register = () => {
         skillsToLearn: prevState.skillsToLearn.filter((item) => item !== skill),
       }));
     }
+    console.log("Form: ", form);
+  };
+
+  const handleEducationChange = (e, index) => {
+    const { name, value } = e.target;
+    setForm((prevState) => ({
+      ...prevState,
+      education: prevState.education.map((item, i) => (i === index ? { ...item, [name]: value } : item)),
+    }));
     console.log("Form: ", form);
   };
 
@@ -445,56 +461,147 @@ const Register = () => {
               </div>
             </Tab>
             <Tab eventKey="education" title="Education">
-              <div>
-                <label style={{ color: "#3BB4A1" }}>College</label>
-                <br />
-                <input
-                  type="text"
-                  name="college"
-                  onChange={handleInputChange}
-                  style={{
-                    borderRadius: "5px",
-                    border: "1px solid #3BB4A1",
-                    padding: "5px",
-                    width: "100%",
-                    marginBottom: "10px",
+              {form.education.map((edu, index) => (
+                <div className="border border-dark rounded-1 p-3 m-1">
+                  {index !== 0 && (
+                    <span className="w-100 d-flex justify-content-end">
+                      <button
+                        className="w-25"
+                        onClick={() => {
+                          const updatedEducation = [...form.education];
+                          updatedEducation.splice(index, 1);
+                          setForm((prevState) => ({
+                            ...prevState,
+                            education: updatedEducation,
+                          }));
+                        }}
+                      >
+                        cross
+                      </button>
+                    </span>
+                  )}
+                  <label style={{ color: "#3BB4A1" }}>Institution Name</label>
+                  <br />
+                  <input
+                    type="text"
+                    name="institution"
+                    onChange={(e) => handleEducationChange(e, index)}
+                    style={{
+                      borderRadius: "5px",
+                      border: "1px solid #3BB4A1",
+                      padding: "5px",
+                      width: "100%",
+                    }}
+                    placeholder="Enter your institution name"
+                  />
+                  <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                    Degree
+                  </label>
+                  <br />
+                  <input
+                    type="text"
+                    name="degree"
+                    onChange={(e) => handleEducationChange(e, index)}
+                    style={{
+                      borderRadius: "5px",
+                      border: "1px solid #3BB4A1",
+                      padding: "5px",
+                      width: "100%",
+                    }}
+                    placeholder="Enter your degree"
+                  />
+                  <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                    Grade/Percentage
+                  </label>
+                  <br />
+                  <input
+                    type="number"
+                    name="score"
+                    onChange={(e) => handleEducationChange(e, index)}
+                    style={{
+                      borderRadius: "5px",
+                      border: "1px solid #3BB4A1",
+                      padding: "5px",
+                      width: "100%",
+                    }}
+                    placeholder="Enter your grade/percentage"
+                  />
+                  <div className="row w-100">
+                    <div className="col-md-6">
+                      <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                        Start Date
+                      </label>
+                      <br />
+                      <input
+                        type="date"
+                        name="startDate"
+                        onChange={(e) => handleEducationChange(e, index)}
+                        style={{
+                          borderRadius: "5px",
+                          border: "1px solid #3BB4A1",
+                          padding: "5px",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                        End Date
+                      </label>
+                      <br />
+                      <input
+                        type="date"
+                        name="endDate"
+                        onChange={(e) => handleEducationChange(e, index)}
+                        style={{
+                          borderRadius: "5px",
+                          border: "1px solid #3BB4A1",
+                          padding: "5px",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <label className="mt-2" style={{ color: "#3BB4A1" }}>
+                    Description
+                  </label>
+                  <br />
+                  <input
+                    type="number"
+                    name="description"
+                    onChange={(e) => handleEducationChange(e, index)}
+                    style={{
+                      borderRadius: "5px",
+                      border: "1px solid #3BB4A1",
+                      padding: "5px",
+                      width: "100%",
+                    }}
+                    placeholder="Enter your exp or achievements"
+                  />
+                </div>
+              ))}
+              <div className="row my-2 d-flex justify-content-center">
+                <button
+                  className="btn btn-primary w-50"
+                  onClick={() => {
+                    setForm((prevState) => ({
+                      ...prevState,
+                      education: [
+                        ...prevState.education,
+                        {
+                          institution: "",
+                          degree: "",
+                          startDate: "",
+                          endDate: "",
+                          score: "",
+                          description: "",
+                        },
+                      ],
+                    }));
                   }}
-                  placeholder="Enter your college"
-                />
-              </div>
-              <div>
-                <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Highest Degree Achieved</label>
-                <br />
-                <input
-                  type="text"
-                  name="degreeAchieved"
-                  onChange={handleInputChange}
-                  style={{
-                    borderRadius: "5px",
-                    border: "1px solid #3BB4A1",
-                    padding: "5px",
-                    width: "100%",
-                    marginBottom: "10px",
-                  }}
-                  placeholder="Enter your highest degree achieved"
-                />
-              </div>
-              <div>
-                <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Subject Majored In</label>
-                <br />
-                <input
-                  type="text"
-                  name="subjectMajoredIn"
-                  onChange={handleInputChange}
-                  style={{
-                    borderRadius: "5px",
-                    border: "1px solid #3BB4A1",
-                    padding: "5px",
-                    width: "100%",
-                    marginBottom: "10px",
-                  }}
-                  placeholder="Enter your subject majored in"
-                />
+                >
+                  Add Education
+                </button>
               </div>
               <button
                 onClick={handleNext}
@@ -505,7 +612,6 @@ const Register = () => {
                   border: "none",
                   borderRadius: "5px",
                   cursor: "pointer",
-                  marginTop: "20px",
                 }}
               >
                 Next
