@@ -2,7 +2,6 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ApiCall from "../../util/ApiCall";
 import { toast } from "react-toastify";
 import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
@@ -14,7 +13,8 @@ import Badge from "react-bootstrap/Badge";
 const Register = () => {
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saveLoading, setSaveLoading] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -43,8 +43,14 @@ const Register = () => {
         console.log("User Data: ", data.data);
         setForm((prevState) => ({
           ...prevState,
-          name: data.data.name,
-          email: data.data.email,
+          name: data?.data?.name,
+          email: data?.data?.email,
+          username: data?.data?.username,
+          skillsProficientAt: data?.data?.skillsProficientAt,
+          skillsToLearn: data?.data?.skillsToLearn,
+          linkedinLink: data?.data?.linkedinLink,
+          githubLink: data?.data?.githubLink,
+          portfolioLink: data?.data?.portfolioLink,
         }));
       } catch (error) {
         console.log(error);
@@ -54,10 +60,11 @@ const Register = () => {
         } else {
           toast.error("Some error occurred");
         }
+      } finally {
+        setLoading(false);
       }
     };
     getUser();
-    setLoading(false);
   }, []);
 
   const handleNext = () => {
@@ -171,17 +178,17 @@ const Register = () => {
       toast.error("Enter a valid portfolio link");
       return false;
     }
-
     return true;
   };
   const validateEduForm = () => {};
   const validateAddForm = () => {};
 
   const handleSaveRegistration = async () => {
+    setSaveLoading(true);
     const check = validateRegForm();
     if (check) {
       try {
-        const { data } = await axios.post("/user/unregistered/saveDetails", form);
+        const { data } = await axios.post("/user//unregistered/saveRegDetails", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -190,6 +197,8 @@ const Register = () => {
         } else {
           toast.error("Some error occurred");
         }
+      } finally {
+        setSaveLoading(false);
       }
     }
   };
@@ -217,439 +226,278 @@ const Register = () => {
     // console.log("Form submitted:", form);
   };
 
-  return loading ? (
-    <div className="row m-auto w-100 d-flex justify-content-center align-items-center" style={{ height: "90vh" }}>
-      <Spinner animation="border" variant="primary" />
-    </div>
-  ) : (
+  return (
     <div className="register_page ">
       <h1 className="m-4" style={{ fontFamily: "Oswald", color: "#3BB4A1" }}>
         Registration Form
       </h1>
-      <div className="register_section mb-3">
-        <Tabs
-          defaultActiveKey="registration"
-          id="justify-tab-example"
-          className="mb-3"
-          activeKey={activeKey}
-          onSelect={(k) => setActiveKey(k)}
-        >
-          <Tab eventKey="registration" title="Registration">
-            {/* Name */}
-            <div>
-              <label style={{ color: "#3BB4A1" }}>Name</label>
-              <br />
-              <input
-                type="text"
-                name="username"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                }}
-                value={form.name}
-                disabled
-              />
-            </div>
-            {/* Email */}
-            <div>
-              <label className="mt-3" style={{ color: "#3BB4A1" }}>
-                Email
-              </label>
-              <br />
-              <input
-                type="text"
-                name="username"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                }}
-                value={form.email}
-                disabled
-              />
-            </div>
-            {/* Username */}
-            <div>
-              <label className="mt-3" style={{ color: "#3BB4A1" }}>
-                Username
-              </label>
-              <br />
-              <input
-                type="text"
-                name="username"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                }}
-                placeholder="Enter your username"
-              />
-            </div>
-            {/* Linkedin Profile Link*/}
-            <div>
-              <label className="mt-3" style={{ color: "#3BB4A1" }}>
-                Linkedin Link
-              </label>
-              <br />
-              <input
-                type="text"
-                name="linkedinLink"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                }}
-                placeholder="Enter your Linkedin link"
-              />
-            </div>
-            {/* Github Profile Link*/}
-            <div>
-              <label className="mt-3" style={{ color: "#3BB4A1" }}>
-                Github Link
-              </label>
-              <br />
-              <input
-                type="text"
-                name="githubLink"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                }}
-                placeholder="Enter your Github link"
-              />
-            </div>
-            {/* Portfolio Link */}
-            <div>
-              <label className="mt-3" style={{ color: "#3BB4A1" }}>
-                Portfolio Link
-              </label>
-              <br />
-              <input
-                type="text"
-                name="portfolioLink"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                }}
-                placeholder="Enter your portfolio link"
-              />
-            </div>
-            {/* Skills Proficient At */}
-            <div>
-              <label className="mt-3" style={{ color: "#3BB4A1" }}>
-                Skills Proficient At
-              </label>
-              <br />
-              <Form.Select
-                aria-label="Default select example"
-                value={skillsProficientAt}
-                onChange={(e) => setSkillsProficientAt(e.target.value)}
-              >
-                <option>Select some skill</option>
-                {skills.map((skill, index) => (
-                  <option key={index} value={skill}>
-                    {skill}
-                  </option>
-                ))}
-              </Form.Select>
-              {form.skillsProficientAt.length > 0 && (
-                <div>
-                  {form.skillsProficientAt.map((skill, index) => (
-                    <Badge
-                      key={index}
-                      bg="secondary"
-                      className="ms-2 mt-2"
-                      style={{ cursor: "pointer" }}
-                      onClick={(event) => handleRemoveSkill(event, "skills_proficient_at")}
-                    >
-                      <div className="span d-flex p-1 fs-7 ">{skill} &#10005;</div>
-                    </Badge>
+      {loading ? (
+        <div className="row m-auto w-100 d-flex justify-content-center align-items-center" style={{ height: "80.8vh" }}>
+          <Spinner animation="border" variant="primary" />
+        </div>
+      ) : (
+        <div className="register_section mb-3">
+          <Tabs
+            defaultActiveKey="registration"
+            id="justify-tab-example"
+            className="mb-3"
+            activeKey={activeKey}
+            onSelect={(k) => setActiveKey(k)}
+          >
+            <Tab eventKey="registration" title="Registration">
+              {/* Name */}
+              <div>
+                <label style={{ color: "#3BB4A1" }}>Name</label>
+                <br />
+                <input
+                  type="text"
+                  name="username"
+                  onChange={handleInputChange}
+                  style={{
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
+                  }}
+                  value={form.name}
+                  disabled
+                />
+              </div>
+              {/* Email */}
+              <div>
+                <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                  Email
+                </label>
+                <br />
+                <input
+                  type="text"
+                  name="username"
+                  onChange={handleInputChange}
+                  style={{
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
+                  }}
+                  value={form.email}
+                  disabled
+                />
+              </div>
+              {/* Username */}
+              <div>
+                <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                  Username
+                </label>
+                <br />
+                <input
+                  type="text"
+                  name="username"
+                  onChange={handleInputChange}
+                  value={form.username}
+                  style={{
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
+                  }}
+                  placeholder="Enter your username"
+                />
+              </div>
+              {/* Linkedin Profile Link*/}
+              <div>
+                <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                  Linkedin Link
+                </label>
+                <br />
+                <input
+                  type="text"
+                  name="linkedinLink"
+                  value={form.linkedinLink}
+                  onChange={handleInputChange}
+                  style={{
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
+                  }}
+                  placeholder="Enter your Linkedin link"
+                />
+              </div>
+              {/* Github Profile Link*/}
+              <div>
+                <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                  Github Link
+                </label>
+                <br />
+                <input
+                  type="text"
+                  name="githubLink"
+                  value={form.githubLink}
+                  onChange={handleInputChange}
+                  style={{
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
+                  }}
+                  placeholder="Enter your Github link"
+                />
+              </div>
+              {/* Portfolio Link */}
+              <div>
+                <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                  Portfolio Link
+                </label>
+                <br />
+                <input
+                  type="text"
+                  name="portfolioLink"
+                  value={form.portfolioLink}
+                  onChange={handleInputChange}
+                  style={{
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
+                  }}
+                  placeholder="Enter your portfolio link"
+                />
+              </div>
+              {/* Skills Proficient At */}
+              <div>
+                <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                  Skills Proficient At
+                </label>
+                <br />
+                <Form.Select
+                  aria-label="Default select example"
+                  value={skillsProficientAt}
+                  onChange={(e) => setSkillsProficientAt(e.target.value)}
+                >
+                  <option>Select some skill</option>
+                  {skills.map((skill, index) => (
+                    <option key={index} value={skill}>
+                      {skill}
+                    </option>
                   ))}
-                </div>
-              )}
-              <button className="btn btn-primary mt-3 ms-1" name="skill_proficient_at" onClick={handleAddSkill}>
-                Add Skill
-              </button>
-            </div>
-            {/* Skills to learn */}
-            <div>
-              <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Skills To Learn</label>
-              <br />
-              <Form.Select
-                aria-label="Default select example"
-                value={skillsToLearn}
-                onChange={(e) => setSkillsToLearn(e.target.value)}
-              >
-                <option>Select some skill</option>
-                {skills.map((skill, index) => (
-                  <option key={index} value={skill}>
-                    {skill}
-                  </option>
-                ))}
-              </Form.Select>
-              {form.skillsToLearn.length > 0 && (
-                <div>
-                  {form.skillsToLearn.map((skill, index) => (
-                    <Badge
-                      key={index}
-                      bg="secondary"
-                      className="ms-2 mt-2 "
-                      style={{ cursor: "pointer" }}
-                      onClick={(event) => handleRemoveSkill(event, "skills_to_learn")}
-                    >
-                      <div className="span d-flex p-1 fs-7 ">{skill} &#10005;</div>
-                    </Badge>
+                </Form.Select>
+                {form.skillsProficientAt.length > 0 && (
+                  <div>
+                    {form.skillsProficientAt.map((skill, index) => (
+                      <Badge
+                        key={index}
+                        bg="secondary"
+                        className="ms-2 mt-2"
+                        style={{ cursor: "pointer" }}
+                        onClick={(event) => handleRemoveSkill(event, "skills_proficient_at")}
+                      >
+                        <div className="span d-flex p-1 fs-7 ">{skill} &#10005;</div>
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+                <button className="btn btn-primary mt-3 ms-1" name="skill_proficient_at" onClick={handleAddSkill}>
+                  Add Skill
+                </button>
+              </div>
+              {/* Skills to learn */}
+              <div>
+                <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Skills To Learn</label>
+                <br />
+                <Form.Select
+                  aria-label="Default select example"
+                  value={skillsToLearn}
+                  onChange={(e) => setSkillsToLearn(e.target.value)}
+                >
+                  <option>Select some skill</option>
+                  {skills.map((skill, index) => (
+                    <option key={index} value={skill}>
+                      {skill}
+                    </option>
                   ))}
-                </div>
-              )}
-              <button className="btn btn-primary mt-3 ms-1" name="skill_to_learn" onClick={handleAddSkill}>
-                Add Skill
-              </button>
-            </div>
-            <div className="row m-auto d-flex justify-content-center mt-3">
-              <button className="btn btn-warning" onClick={handleSaveRegistration}>
-                Save
-              </button>
-              <button onClick={handleNext} className="mt-2 btn btn-primary">
-                Next
-              </button>
-            </div>
-          </Tab>
-          <Tab eventKey="education" title="Education">
-            <div>
-              <label style={{ color: "#3BB4A1" }}>College</label>
-              <br />
-              <input
-                type="text"
-                name="college"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                  marginBottom: "10px",
-                }}
-                placeholder="Enter your college"
-              />
-            </div>
-            <div>
-              <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Highest Degree Achieved</label>
-              <br />
-              <input
-                type="text"
-                name="degreeAchieved"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                  marginBottom: "10px",
-                }}
-                placeholder="Enter your highest degree achieved"
-              />
-            </div>
-            <div>
-              <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Subject Majored In</label>
-              <br />
-              <input
-                type="text"
-                name="subjectMajoredIn"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                  marginBottom: "10px",
-                }}
-                placeholder="Enter your subject majored in"
-              />
-            </div>
-            <button
-              onClick={handleNext}
-              style={{
-                backgroundColor: "#3BB4A1",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                marginTop: "20px",
-              }}
-            >
-              Next
-            </button>
-          </Tab>
-          <Tab eventKey="longer-tab" title="Additional">
-            <div>
-              <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Bio</label>
-              <br />
-              <textarea
-                name="bio"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                  marginBottom: "10px",
-                }}
-                placeholder="Enter your bio"
-              ></textarea>
-            </div>
-            <button
-              onClick={handleNext}
-              style={{
-                backgroundColor: "#3BB4A1",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                marginTop: "20px",
-              }}
-            >
-              Next
-            </button>
-          </Tab>
-          <Tab eventKey="Preview" title="Confirm Details">
-            <div>
-              <h3 style={{ color: "#3BB4A1", marginBottom: "20px" }}>Preview of the Form</h3>
-              <div style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d", marginBottom: "20px" }}>
-                <div
+                </Form.Select>
+                {form.skillsToLearn.length > 0 && (
+                  <div>
+                    {form.skillsToLearn.map((skill, index) => (
+                      <Badge
+                        key={index}
+                        bg="secondary"
+                        className="ms-2 mt-2 "
+                        style={{ cursor: "pointer" }}
+                        onClick={(event) => handleRemoveSkill(event, "skills_to_learn")}
+                      >
+                        <div className="span d-flex p-1 fs-7 ">{skill} &#10005;</div>
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+                <button className="btn btn-primary mt-3 ms-1" name="skill_to_learn" onClick={handleAddSkill}>
+                  Add Skill
+                </button>
+              </div>
+              <div className="row m-auto d-flex justify-content-center mt-3">
+                <button className="btn btn-warning" onClick={handleSaveRegistration} disabled={saveLoading}>
+                  {saveLoading ? <Spinner animation="border" variant="primary" /> : "Save"}
+                </button>
+                <button onClick={handleNext} className="mt-2 btn btn-primary">
+                  Next
+                </button>
+              </div>
+            </Tab>
+            <Tab eventKey="education" title="Education">
+              <div>
+                <label style={{ color: "#3BB4A1" }}>College</label>
+                <br />
+                <input
+                  type="text"
+                  name="college"
+                  onChange={handleInputChange}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
                     marginBottom: "10px",
                   }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Name:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>{form.name || "Yet to be filled"}</span>
-                </div>
-                <div
+                  placeholder="Enter your college"
+                />
+              </div>
+              <div>
+                <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Highest Degree Achieved</label>
+                <br />
+                <input
+                  type="text"
+                  name="degreeAchieved"
+                  onChange={handleInputChange}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
                     marginBottom: "10px",
                   }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Email ID:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>{form.email || "Yet to be filled"}</span>
-                </div>
-                <div
+                  placeholder="Enter your highest degree achieved"
+                />
+              </div>
+              <div>
+                <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Subject Majored In</label>
+                <br />
+                <input
+                  type="text"
+                  name="subjectMajoredIn"
+                  onChange={handleInputChange}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
                     marginBottom: "10px",
                   }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Username:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>{form.username || "Yet to be filled"}</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills Proficient At:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>
-                    {form.skillsProficientAt.join(", ") || "Yet to be filled"}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills To Learn:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>
-                    {form.skillsToLearn.join(", ") || "Yet to be filled"}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>College:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>{form.college || "Yet to be filled"}</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Highest Degree Achieved:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>{form.degreeAchieved || "Yet to be filled"}</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Subject Majored In:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>{form.subjectMajoredIn || "Yet to be filled"}</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Bio:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>{form.bio || "Yet to be filled"}</span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Portfolio Link:</span>
-                  <span style={{ flex: 2, marginLeft: "20px" }}>{form.portfolioLink || "Yet to be filled"}</span>
-                </div>
+                  placeholder="Enter your subject majored in"
+                />
               </div>
               <button
-                onClick={handleSubmit}
+                onClick={handleNext}
                 style={{
                   backgroundColor: "#3BB4A1",
                   color: "white",
@@ -657,14 +505,181 @@ const Register = () => {
                   border: "none",
                   borderRadius: "5px",
                   cursor: "pointer",
+                  marginTop: "20px",
                 }}
               >
-                Submit
+                Next
               </button>
-            </div>
-          </Tab>
-        </Tabs>
-      </div>
+            </Tab>
+            <Tab eventKey="longer-tab" title="Additional">
+              <div>
+                <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Bio</label>
+                <br />
+                <textarea
+                  name="bio"
+                  onChange={handleInputChange}
+                  style={{
+                    borderRadius: "5px",
+                    border: "1px solid #3BB4A1",
+                    padding: "5px",
+                    width: "100%",
+                    marginBottom: "10px",
+                  }}
+                  placeholder="Enter your bio"
+                ></textarea>
+              </div>
+              <button
+                onClick={handleNext}
+                style={{
+                  backgroundColor: "#3BB4A1",
+                  color: "white",
+                  padding: "10px 20px",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  marginTop: "20px",
+                }}
+              >
+                Next
+              </button>
+            </Tab>
+            <Tab eventKey="Preview" title="Confirm Details">
+              <div>
+                <h3 style={{ color: "#3BB4A1", marginBottom: "20px" }}>Preview of the Form</h3>
+                <div style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d", marginBottom: "20px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Name:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.name || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Email ID:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.email || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Username:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.username || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills Proficient At:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>
+                      {form.skillsProficientAt.join(", ") || "Yet to be filled"}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills To Learn:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>
+                      {form.skillsToLearn.join(", ") || "Yet to be filled"}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>College:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.college || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Highest Degree Achieved:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.degreeAchieved || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Subject Majored In:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.subjectMajoredIn || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Bio:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.bio || "Yet to be filled"}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Portfolio Link:</span>
+                    <span style={{ flex: 2, marginLeft: "20px" }}>{form.portfolioLink || "Yet to be filled"}</span>
+                  </div>
+                </div>
+                <button
+                  onClick={handleSubmit}
+                  style={{
+                    backgroundColor: "#3BB4A1",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+            </Tab>
+          </Tabs>
+        </div>
+      )}
     </div>
   );
 };

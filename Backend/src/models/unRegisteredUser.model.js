@@ -10,6 +10,35 @@ const unRegisteredUserSchema = new Schema(
       type: String,
       required: true,
     },
+    username: {
+      type: String,
+      default: "",
+    },
+    linkedinLink: {
+      type: String,
+      default: "",
+    },
+
+    githubLink: {
+      type: String,
+      default: "",
+    },
+    portfolioLink: {
+      type: String,
+      default: "",
+    },
+    skillsProficientAt: [
+      {
+        type: String,
+        default: "",
+      },
+    ],
+    skillsToLearn: [
+      {
+        type: String,
+        default: "",
+      },
+    ],
   },
   { timestamps: true }
 );
