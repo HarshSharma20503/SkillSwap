@@ -81,10 +81,10 @@ const Register = () => {
         [name]: value,
       }));
     }
-    console.log("Form: ", form);
+    // console.log("Form: ", form);
   };
 
-  const handleSkillChange = (e) => {
+  const handleAddSkill = (e) => {
     const { name } = e.target;
     if (name === "skill_to_learn") {
       if (skillsToLearn === "Select some skill") {
@@ -119,6 +119,22 @@ const Register = () => {
       setForm((prevState) => ({
         ...prevState,
         skillsProficientAt: [...prevState.skillsProficientAt, skillsProficientAt],
+      }));
+    }
+    // console.log("Form: ", form);
+  };
+
+  const handleRemoveSkill = (e, temp) => {
+    const skill = e.target.innerText.split(" ")[0];
+    if (temp === "skills_proficient_at") {
+      setForm((prevState) => ({
+        ...prevState,
+        skillsProficientAt: prevState.skillsProficientAt.filter((item) => item !== skill),
+      }));
+    } else {
+      setForm((prevState) => ({
+        ...prevState,
+        skillsToLearn: prevState.skillsToLearn.filter((item) => item !== skill),
       }));
     }
     console.log("Form: ", form);
@@ -219,6 +235,7 @@ const Register = () => {
           onSelect={(k) => setActiveKey(k)}
         >
           <Tab eventKey="registration" title="Registration">
+            {/* Name */}
             <div>
               <label style={{ color: "#3BB4A1" }}>Name</label>
               <br />
@@ -236,6 +253,7 @@ const Register = () => {
                 disabled
               />
             </div>
+            {/* Email */}
             <div>
               <label className="mt-3" style={{ color: "#3BB4A1" }}>
                 Email
@@ -255,6 +273,7 @@ const Register = () => {
                 disabled
               />
             </div>
+            {/* Username */}
             <div>
               <label className="mt-3" style={{ color: "#3BB4A1" }}>
                 Username
@@ -273,6 +292,7 @@ const Register = () => {
                 placeholder="Enter your username"
               />
             </div>
+            {/* Linkedin Profile Link*/}
             <div>
               <label className="mt-3" style={{ color: "#3BB4A1" }}>
                 Linkedin Link
@@ -291,6 +311,7 @@ const Register = () => {
                 placeholder="Enter your Linkedin link"
               />
             </div>
+            {/* Github Profile Link*/}
             <div>
               <label className="mt-3" style={{ color: "#3BB4A1" }}>
                 Github Link
@@ -309,6 +330,7 @@ const Register = () => {
                 placeholder="Enter your Github link"
               />
             </div>
+            {/* Portfolio Link */}
             <div>
               <label className="mt-3" style={{ color: "#3BB4A1" }}>
                 Portfolio Link
@@ -327,6 +349,7 @@ const Register = () => {
                 placeholder="Enter your portfolio link"
               />
             </div>
+            {/* Skills Proficient At */}
             <div>
               <label className="mt-3" style={{ color: "#3BB4A1" }}>
                 Skills Proficient At
@@ -347,16 +370,23 @@ const Register = () => {
               {form.skillsProficientAt.length > 0 && (
                 <div>
                   {form.skillsProficientAt.map((skill, index) => (
-                    <Badge key={index} bg="secondary" className="ms-2 mt-2">
-                      {skill}
+                    <Badge
+                      key={index}
+                      bg="secondary"
+                      className="ms-2 mt-2"
+                      style={{ cursor: "pointer" }}
+                      onClick={(event) => handleRemoveSkill(event, "skills_proficient_at")}
+                    >
+                      <div className="span d-flex p-1 fs-7 ">{skill} &#10005;</div>
                     </Badge>
                   ))}
                 </div>
               )}
-              <button className="btn btn-primary mt-3 ms-1" name="skill_proficient_at" onClick={handleSkillChange}>
+              <button className="btn btn-primary mt-3 ms-1" name="skill_proficient_at" onClick={handleAddSkill}>
                 Add Skill
               </button>
             </div>
+            {/* Skills to learn */}
             <div>
               <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Skills To Learn</label>
               <br />
@@ -375,17 +405,22 @@ const Register = () => {
               {form.skillsToLearn.length > 0 && (
                 <div>
                   {form.skillsToLearn.map((skill, index) => (
-                    <Badge key={index} bg="secondary" className="ms-2 mt-2">
-                      {skill}
+                    <Badge
+                      key={index}
+                      bg="secondary"
+                      className="ms-2 mt-2 "
+                      style={{ cursor: "pointer" }}
+                      onClick={(event) => handleRemoveSkill(event, "skills_to_learn")}
+                    >
+                      <div className="span d-flex p-1 fs-7 ">{skill} &#10005;</div>
                     </Badge>
                   ))}
                 </div>
               )}
-              <button className="btn btn-primary mt-3 ms-1" name="skill_to_learn" onClick={handleSkillChange}>
+              <button className="btn btn-primary mt-3 ms-1" name="skill_to_learn" onClick={handleAddSkill}>
                 Add Skill
               </button>
             </div>
-
             <div className="row m-auto d-flex justify-content-center mt-3">
               <button className="btn btn-warning" onClick={handleSaveRegistration}>
                 Save
