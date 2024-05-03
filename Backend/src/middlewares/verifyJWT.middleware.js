@@ -47,7 +47,7 @@ const verifyJWT_username = asyncHandler(async (req, res, next) => {
     const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
     if (!token) {
       console.log("token not found");
-      throw new ApiError(401, "Unauthorized request");
+      throw new ApiError(401, "Please Login");
     }
 
     // console.log("Token Found : ", token);

@@ -6,6 +6,7 @@ import { UnRegisteredUser } from "../models/unRegisteredUser.model.js";
 import dotenv from "dotenv";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 dotenv.config();
 
@@ -58,5 +59,5 @@ export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
 export const handleLogout = (req, res) => {
   console.log("\n******** Inside handleLogout function ********");
   res.clearCookie("accessToken");
-  return res.redirect("http://localhost:5173/");
+  return res.status(200).json(new ApiResponse(200, null, "User logged out successfully"));
 };

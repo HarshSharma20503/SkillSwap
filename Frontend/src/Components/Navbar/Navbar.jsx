@@ -8,6 +8,7 @@ import { useUser } from "../../util/UserContext";
 import { Dropdown } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
   <div
@@ -54,13 +55,21 @@ const CustomMenu = React.forwardRef(({ children, style, className, "aria-labelle
 
 const UserProfileDropdown = () => {
   const { user, setUser } = useUser();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     // Perform logout logic
-    localStorage.removeItem("user");
+    localStorage.removeItem("userInfo");
     setUser(null);
-    const response = await axios.get("/auth/logout");
-    // Other logout actions such as clearing local storage and redirecting
+    try {
+      const response = await axios.get("/auth/logout");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      if (error?.response?.data?.message) {
+        console.error(error.response.data.message);
+      }
+    }
   };
 
   return (
@@ -80,9 +89,11 @@ const Header = () => {
 
   return (
     <>
-      <Navbar key="md" expand="md" className="bg-body-primary" style={{ backgroundColor: '#3BB4A1' }}>
+      <Navbar key="md" expand="md" className="bg-body-primary" style={{ backgroundColor: "#3BB4A1" }}>
         <Container fluid>
-          <Navbar.Brand href="/" style={{ fontFamily: 'Josefin Sans, sans-serif', color: '#2d2d2d', fontWeight: 500 }}>SKILL SWAP</Navbar.Brand>
+          <Navbar.Brand href="/" style={{ fontFamily: "Josefin Sans, sans-serif", color: "#2d2d2d", fontWeight: 500 }}>
+            SKILL SWAP
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-md`}
@@ -90,34 +101,51 @@ const Header = () => {
             placement="end"
           >
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`} style={{ fontFamily: 'Josefin Sans, sans-serif', color: '#028477' }}>SKILL SWAP</Offcanvas.Title>
+              <Offcanvas.Title
+                id={`offcanvasNavbarLabel-expand-md`}
+                style={{ fontFamily: "Josefin Sans, sans-serif", color: "#028477" }}
+              >
+                SKILL SWAP
+              </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link as={Link} to="/" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
+                <Nav.Link as={Link} to="/" style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
                   Home
                 </Nav.Link>
                 {user ? (
                   <>
-                    <Nav.Link as={Link} to="/discover" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
+                    <Nav.Link
+                      as={Link}
+                      to="/discover"
+                      style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}
+                    >
                       Discover
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/chats" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
+                    <Nav.Link as={Link} to="/chats" style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
                       Your Chats
                     </Nav.Link>
-                    <Nav.Link as={Dropdown} style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
+                    <Nav.Link as={Dropdown} style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
                       <UserProfileDropdown />
                     </Nav.Link>
                   </>
                 ) : (
                   <>
-                    <Nav.Link as={Link} to="/about_us" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
+                    <Nav.Link
+                      as={Link}
+                      to="/about_us"
+                      style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}
+                    >
                       About Us
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/#why-skill-swap" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
+                    <Nav.Link
+                      as={Link}
+                      to="/#why-skill-swap"
+                      style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}
+                    >
                       Why SkillSwap
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/login" style={{ fontFamily: 'Montserrat, sans-serif', color: '#2d2d2d' }}>
+                    <Nav.Link as={Link} to="/login" style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
                       Login/Register
                     </Nav.Link>
                   </>
