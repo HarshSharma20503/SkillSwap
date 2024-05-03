@@ -9,6 +9,7 @@ import Form from "react-bootstrap/Form";
 import { skills } from "./Skills";
 import axios from "axios";
 import "./Register.css";
+import Badge from "react-bootstrap/Badge";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -90,6 +91,14 @@ const Register = () => {
         toast.error("Select a skill to add");
         return;
       }
+      if (form.skillsToLearn.includes(skillsToLearn)) {
+        toast.error("Skill already added");
+        return;
+      }
+      if (form.skillsProficientAt.includes(skillsToLearn)) {
+        toast.error("Skill already added in skills proficient at");
+        return;
+      }
       setForm((prevState) => ({
         ...prevState,
         skillsToLearn: [...prevState.skillsToLearn, skillsToLearn],
@@ -99,11 +108,20 @@ const Register = () => {
         toast.error("Select a skill to add");
         return;
       }
+      if (form.skillsProficientAt.includes(skillsProficientAt)) {
+        toast.error("Skill already added");
+        return;
+      }
+      if (form.skillsToLearn.includes(skillsProficientAt)) {
+        toast.error("Skill already added in skills to learn");
+        return;
+      }
       setForm((prevState) => ({
         ...prevState,
         skillsProficientAt: [...prevState.skillsProficientAt, skillsProficientAt],
       }));
     }
+    console.log("Form: ", form);
   };
 
   const validateForm = () => {
@@ -235,20 +253,28 @@ const Register = () => {
             <div>
               <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Skills Proficient At</label>
               <br />
-              <Form.Select aria-label="Default select example" value={skillsProficientAt} onChange={handleSkillChange}>
+              <Form.Select
+                aria-label="Default select example"
+                value={skillsProficientAt}
+                onChange={(e) => setSkillsProficientAt(e.target.value)}
+              >
                 <option>Select some skill</option>
-                <option value="1">One</option>
                 {skills.map((skill, index) => (
                   <option key={index} value={skill}>
                     {skill}
                   </option>
                 ))}
               </Form.Select>
-              <button
-                className="btn btn-primary mt-3 ms-1"
-                name="skill_proficient_at"
-                onClick={(e) => setSkillsProficientAt(e.target.value)}
-              >
+              {form.skillsProficientAt.length > 0 && (
+                <div>
+                  {form.skillsProficientAt.map((skill, index) => (
+                    <Badge key={index} bg="secondary" className="ms-2 mt-2">
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+              <button className="btn btn-primary mt-3 ms-1" name="skill_proficient_at" onClick={handleSkillChange}>
                 Add Skill
               </button>
             </div>
@@ -268,6 +294,15 @@ const Register = () => {
                   </option>
                 ))}
               </Form.Select>
+              {form.skillsToLearn.length > 0 && (
+                <div>
+                  {form.skillsToLearn.map((skill, index) => (
+                    <Badge key={index} bg="secondary" className="ms-2 mt-2">
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              )}
               <button className="btn btn-primary mt-3 ms-1" name="skill_to_learn" onClick={handleSkillChange}>
                 Add Skill
               </button>
