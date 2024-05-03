@@ -124,7 +124,7 @@ const Register = () => {
     console.log("Form: ", form);
   };
 
-  const validateForm = () => {
+  const validateRegForm = () => {
     if (!form.username) {
       toast.error("Username is empty");
       return false;
@@ -137,28 +137,48 @@ const Register = () => {
       toast.error("Enter atleast one Skill you want to learn");
       return false;
     }
-    if (!form.college) {
-      toast.error("College is empty");
-      return false;
-    }
-    if (!form.degreeAchieved) {
-      toast.error("Degree achieved is empty");
-      return false;
-    }
-    if (!form.subjectMajoredIn) {
-      toast.error("Subject majored in is empty");
-      return false;
-    }
-    if (!form.bio) {
-      toast.error("Bio is empty");
-      return false;
-    }
     if (!form.portfolioLink && !form.githubLink && !form.linkedinLink) {
       toast.error("Enter atleast one link among portfolio, github and linkedin");
       return false;
     }
+    const githubRegex = /^(?:http(?:s)?:\/\/)?(?:www\.)?github\.com\/[a-zA-Z0-9_-]+(?:\/)?$/;
+    if (form.githubLink && githubRegex.test(form.githubLink) === false) {
+      toast.error("Enter a valid github link");
+      return false;
+    }
+    const linkedinRegex = /^(?:http(?:s)?:\/\/)?(?:www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+(?:\/)?$/;
+    if (form.linkedinLink && linkedinRegex.test(form.linkedinLink) === false) {
+      toast.error("Enter a valid linkedin link");
+      return false;
+    }
+    if (form.portfolioLink && form.portfolioLink.includes("http") === false) {
+      toast.error("Enter a valid portfolio link");
+      return false;
+    }
+
     return true;
   };
+  const validateEduForm = () => {};
+  const validateAddForm = () => {};
+
+  const handleSaveRegistration = async () => {
+    const check = validateRegForm();
+    if (check) {
+      try {
+        const { data } = await axios.post("/user/unregistered/saveDetails", form);
+        toast.success("Details saved successfully");
+      } catch (error) {
+        console.log(error);
+        if (error?.response?.data?.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Some error occurred");
+        }
+      }
+    }
+  };
+  const handleSaveEducation = async () => {};
+  const handleSaveAdditional = async () => {};
 
   const handleSubmit = () => {
     const check = validateForm();
@@ -187,7 +207,9 @@ const Register = () => {
     </div>
   ) : (
     <div className="register_page ">
-      <h1 style={{ fontFamily: "Oswald", color: "#3BB4A1" }}>Registration Form</h1>
+      <h1 className="m-4" style={{ fontFamily: "Oswald", color: "#3BB4A1" }}>
+        Registration Form
+      </h1>
       <div className="register_section mb-3">
         <Tabs
           defaultActiveKey="registration"
@@ -209,14 +231,15 @@ const Register = () => {
                   border: "1px solid #3BB4A1",
                   padding: "5px",
                   width: "100%",
-                  marginBottom: "10px",
                 }}
                 value={form.name}
                 disabled
               />
             </div>
             <div>
-              <label style={{ color: "#3BB4A1" }}>Email</label>
+              <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                Email
+              </label>
               <br />
               <input
                 type="text"
@@ -227,14 +250,15 @@ const Register = () => {
                   border: "1px solid #3BB4A1",
                   padding: "5px",
                   width: "100%",
-                  marginBottom: "10px",
                 }}
                 value={form.email}
                 disabled
               />
             </div>
             <div>
-              <label style={{ color: "#3BB4A1" }}>Username</label>
+              <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                Username
+              </label>
               <br />
               <input
                 type="text"
@@ -245,13 +269,68 @@ const Register = () => {
                   border: "1px solid #3BB4A1",
                   padding: "5px",
                   width: "100%",
-                  marginBottom: "10px",
                 }}
                 placeholder="Enter your username"
               />
             </div>
             <div>
-              <label style={{ color: "#3BB4A1", marginTop: "20px" }}>Skills Proficient At</label>
+              <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                Linkedin Link
+              </label>
+              <br />
+              <input
+                type="text"
+                name="linkedinLink"
+                onChange={handleInputChange}
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #3BB4A1",
+                  padding: "5px",
+                  width: "100%",
+                }}
+                placeholder="Enter your Linkedin link"
+              />
+            </div>
+            <div>
+              <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                Github Link
+              </label>
+              <br />
+              <input
+                type="text"
+                name="githubLink"
+                onChange={handleInputChange}
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #3BB4A1",
+                  padding: "5px",
+                  width: "100%",
+                }}
+                placeholder="Enter your Github link"
+              />
+            </div>
+            <div>
+              <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                Portfolio Link
+              </label>
+              <br />
+              <input
+                type="text"
+                name="portfolioLink"
+                onChange={handleInputChange}
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #3BB4A1",
+                  padding: "5px",
+                  width: "100%",
+                }}
+                placeholder="Enter your portfolio link"
+              />
+            </div>
+            <div>
+              <label className="mt-3" style={{ color: "#3BB4A1" }}>
+                Skills Proficient At
+              </label>
               <br />
               <Form.Select
                 aria-label="Default select example"
@@ -286,8 +365,7 @@ const Register = () => {
                 value={skillsToLearn}
                 onChange={(e) => setSkillsToLearn(e.target.value)}
               >
-                <option>Open this select menu</option>
-                <option value="1">One</option>
+                <option>Select some skill</option>
                 {skills.map((skill, index) => (
                   <option key={index} value={skill}>
                     {skill}
@@ -307,69 +385,15 @@ const Register = () => {
                 Add Skill
               </button>
             </div>
-            <div>
-              <label style={{ color: "#3BB4A1", marginTop: "15px" }}>Linkedin Link</label>
-              <br />
-              <input
-                type="text"
-                name="linkedinLink"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                }}
-                placeholder="Enter your Linkedin link"
-              />
+
+            <div className="row m-auto d-flex justify-content-center mt-3">
+              <button className="btn btn-warning" onClick={handleSaveRegistration}>
+                Save
+              </button>
+              <button onClick={handleNext} className="mt-2 btn btn-primary">
+                Next
+              </button>
             </div>
-            <div>
-              <label style={{ color: "#3BB4A1", marginTop: "15px" }}>Github Link</label>
-              <br />
-              <input
-                type="text"
-                name="githubLink"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                }}
-                placeholder="Enter your Github link"
-              />
-            </div>
-            <div>
-              <label style={{ color: "#3BB4A1", marginTop: "15px" }}>Portfolio Link</label>
-              <br />
-              <input
-                type="text"
-                name="portfolioLink"
-                onChange={handleInputChange}
-                style={{
-                  borderRadius: "5px",
-                  border: "1px solid #3BB4A1",
-                  padding: "5px",
-                  width: "100%",
-                  marginBottom: "10px",
-                }}
-                placeholder="Enter your portfolio link"
-              />
-            </div>
-            <button
-              onClick={handleNext}
-              style={{
-                backgroundColor: "#3BB4A1",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                marginTop: "20px",
-              }}
-            >
-              Next
-            </button>
           </Tab>
           <Tab eventKey="education" title="Education">
             <div>

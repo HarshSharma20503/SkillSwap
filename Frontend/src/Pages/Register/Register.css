@@ -22,7 +22,7 @@
 /* write media query for max-width medium screen */
 @media (max-width: 768px) {
   .register_section {
-    width: 80%;
+    width: 95%;
   }
 }
 /* Register.css */
