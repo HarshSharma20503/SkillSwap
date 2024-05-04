@@ -1,0 +1,126 @@
+/* ProfilePage.css */
+
+.profile-box
+{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+.profile-container {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    padding: 20px;
+    background-color: #2d2d2d;
+  }
+  
+  .profile-photo img {
+    width: 150px; /* Adjust size as needed */
+    border-radius: 50%;
+  }
+  
+  .profile-name {
+    margin-top: 10px;
+  }
+  
+  .rating {
+    margin-top: 10px;
+  }
+  
+  .rating-stars {
+    font-size: 24px;
+  }
+  
+  .rating-value {
+    margin-left: 5px;
+  }
+  
+  .buttons {
+    margin-top: 10px;
+  }
+  
+  .connect-button {
+    padding: 10px 20px;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    margin-left: 2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #3bb4a1;
+    color: white;
+    cursor: pointer;
+  }
+
+  .report-button {
+    padding: 10px 20px;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    margin-left: 2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #f56664;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .bio {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  .portfolio-links {
+    display: flex;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .link {
+    width: 50px;
+  }
+  
+  .portfolio-link {
+    margin-right: 5rem;
+  }
+  
+  .skill-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    margin-bottom: 6rem;
+
+  }
+  
+  .skill-box {
+    background-color: #9c955c;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .education-boxes {
+    margin-top: 1rem;
+    margin-bottom: 6rem;
+  }
+  
+  .education-box {
+    background-color: white;
+    color: #013e38;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+  }
+  
+  .project-boxes {
+    margin-top: 1rem;
+    margin-bottom: 6rem;
+  }
+  
+  .project-box {
+    background-color: white;
+    color: #013e38;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
