@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
+import axios from "axios";
 
 const Chats = () => {
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
@@ -34,6 +35,26 @@ const Chats = () => {
     },
     // Add more chat histories as needed
   ];
+
+  useEffect(() => {
+    // Fetch chats from the backend
+    const fetchChats = async () => {
+      const response = await fetch("http://localhost:5000/api/chats", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      if (data.status === 200) {
+        setChats(data.data);
+      } else {
+        alert(data.message);
+      }
+    };
+    // fetchChats();
+  }, []);
 
   return (
     <div

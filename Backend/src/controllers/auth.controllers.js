@@ -23,7 +23,9 @@ passport.use(
   )
 );
 
-export const googleAuthHandler = passport.authenticate("google", { scope: ["profile", "email"] });
+export const googleAuthHandler = passport.authenticate("google", {
+  scope: ["profile", "email"],
+});
 
 export const googleAuthCallback = passport.authenticate("google", {
   failureRedirect: "http://localhost:5173/login",
@@ -32,6 +34,7 @@ export const googleAuthCallback = passport.authenticate("google", {
 
 export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
   console.log("\n******** Inside handleGoogleLoginCallback function ********");
+  console.log("User Google Info", req.user);
 
   const existingUser = await User.findOne({ email: req.user._json.email });
 
@@ -48,6 +51,7 @@ export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
     unregisteredUser = await UnRegisteredUser.create({
       name: req.user._json.name,
       email: req.user._json.email,
+      picture: req.user._json.picture,
     });
   }
   const jwtToken = generateJWTToken_email(unregisteredUser);

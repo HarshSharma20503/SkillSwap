@@ -11,11 +11,12 @@ import {
 
 const router = Router();
 
-router.route("/registered/getDetails").get(verifyJWT_username, UserDetails);
 router.route("/unregistered/getDetails").get(verifyJWT_email, UnRegisteredUserDetails);
-router.route("/unregistered/saveRegDetails").post(saveRegUnRegisteredUser);
-router.route("/unregistered/saveEduDetail").post(saveEduUnRegisteredUser);
-router.route("/unregistered/saveAddDetail").post(saveAddUnRegisteredUser);
-router.route("/registerUser").post(registerUser);
+router.route("/unregistered/saveRegDetails").post(verifyJWT_email, saveRegUnRegisteredUser);
+router.route("/unregistered/saveEduDetail").post(verifyJWT_email, saveEduUnRegisteredUser);
+router.route("/unregistered/saveAddDetail").post(verifyJWT_email, saveAddUnRegisteredUser);
+router.route("/registerUser").post(verifyJWT_email, registerUser);
+
+router.route("/registered/getDetails").get(verifyJWT_username, UserDetails);
 
 export default router;

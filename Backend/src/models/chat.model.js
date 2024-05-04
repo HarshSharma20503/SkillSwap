@@ -2,10 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 const chatSchema = new Schema(
   {
-    chatName: {
-      type: String,
-      trim: true,
-    },
     users: [
       {
         type: Schema.Types.ObjectId,
@@ -15,6 +11,7 @@ const chatSchema = new Schema(
     latestMessage: {
       type: Schema.Types.ObjectId,
       ref: "Message",
+      default: null,
     },
   },
   { timestamps: true }

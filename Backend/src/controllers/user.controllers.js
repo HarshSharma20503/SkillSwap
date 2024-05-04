@@ -24,7 +24,7 @@ export const saveRegUnRegisteredUser = asyncHandler(async (req, res) => {
 
   const { name, email, username, linkedinLink, githubLink, portfolioLink, skillsProficientAt, skillsToLearn } =
     req.body;
-  console.log("Body: ", req.body);
+  // console.log("Body: ", req.body);
 
   if (!name || !email || !username || skillsProficientAt.length === 0 || skillsToLearn.length === 0) {
     throw new ApiError(400, "Please provide all the details");
@@ -147,6 +147,7 @@ export const registerUser = async (req, res) => {
   // if the user is already registerd than send a message that the user is already registered
   // redirect him to the discover page
   // if the user is not registered than create a new user and redirect him to the discover page after generating the token and setting the cookie and also delete the user detail from unregistered user from the database
+  console.log("User:", req.user);
 
   const {
     name,
@@ -240,6 +241,7 @@ export const registerUser = async (req, res) => {
     education: education,
     bio: bio,
     projects: projects,
+    picture: req.user.picture,
   });
 
   if (!newUser) {

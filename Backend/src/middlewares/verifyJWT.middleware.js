@@ -26,7 +26,7 @@ const verifyJWT_email = asyncHandler(async (req, res, next) => {
     if (!user) {
       throw new ApiError(401, "Invalid Access Token");
     }
-    // console.log(user);
+    console.log("middleware", user);
     req.user = user;
     next();
   } catch (error) {
@@ -54,7 +54,7 @@ const verifyJWT_username = asyncHandler(async (req, res, next) => {
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     // console.log("Decoded Token is : ", decodedToken);
-    const user = await User.findOne({ username: decodedToken?.username }).select("-_id -__v -createdAt -updatedAt");
+    const user = await User.findOne({ username: decodedToken?.username }).select("-__v -createdAt -updatedAt");
     if (!user) {
       throw new ApiError(401, "Invalid Access Token");
     }
