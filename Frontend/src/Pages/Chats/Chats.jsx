@@ -27,7 +27,7 @@ const Chats = () => {
   const handleChatClick = async (chatId) => {
     try {
       setChatMessageLoading(true);
-      const { data } = await axios.get(`http://localhost:8000/chat/${chatId}`);
+      const { data } = await axios.get(`http://localhost:8000/message/${chatId}`);
       setChatMessages(data.data.data.message);
       setSelectedChat(chatId);
       toast.success(data.data.message);
@@ -53,7 +53,7 @@ const Chats = () => {
         // console.log(data.data);
         toast.success(data.message);
         const temp = data.data.map((chat) => {
-          // console.log("chat:", chat);
+          console.log("chat:", chat);
           // console.log("user:", user);
           const name = chat?.users.find((u) => u?._id !== user?._id).name;
           return {
