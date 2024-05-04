@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import './Card.css'
 
 const ProfileCard = ({ coverImageUrl, profileImageUrl, name, skills }) => {
   return (
