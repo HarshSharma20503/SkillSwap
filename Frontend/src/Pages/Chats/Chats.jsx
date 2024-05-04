@@ -3,57 +3,79 @@ import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useUser } from "../../util/UserContext";
+import Spinner from "react-bootstrap/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const Chats = () => {
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
   const [selectedChat, setSelectedChat] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [chatLoading, setChatLoading] = useState(true);
+  const [chatMessageLoading, setChatMessageLoading] = useState(false);
+
+  const { user, setUser } = useUser();
+
+  const navigate = useNavigate();
 
   const handleScheduleClick = () => {
     setScheduleModalShow(true);
   };
 
-  const handleChatClick = (chatId) => {
-    setSelectedChat(chatId);
+  const handleChatClick = async (chatId) => {
+    try {
+      setChatMessageLoading(true);
+      const { data } = await axios.get(`http://localhost:8000/chat/${chatId}`);
+      setChatMessages(data.data.data.message);
+      setSelectedChat(chatId);
+      toast.success(data.data.message);
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.data?.message) {
+        toast.error(err.response.data.message);
+        if (err.response.data.message === "Please Login") navigate("/login");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setChatMessageLoading(false);
+    }
   };
-
-  const chats = [
-    {
-      id: 1,
-      name: "Chat 1",
-      messages: [
-        { text: "Hello", sender: "me" },
-        { text: "Hi there!", sender: "other" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Chat 2",
-      messages: [
-        { text: "Hey!", sender: "me" },
-        { text: "What's up?", sender: "other" },
-      ],
-    },
-    // Add more chat histories as needed
-  ];
 
   useEffect(() => {
     // Fetch chats from the backend
     const fetchChats = async () => {
-      const response = await fetch("http://localhost:5000/api/chats", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-      if (data.status === 200) {
-        setChats(data.data);
-      } else {
-        alert(data.message);
+      try {
+        setChatLoading(true);
+        const { data } = await axios.get("http://localhost:8000/chat");
+        // console.log(data.data);
+        toast.success(data.message);
+        const temp = data.data.map((chat) => {
+          // console.log("chat:", chat);
+          // console.log("user:", user);
+          const name = chat?.users.find((u) => u?._id !== user?._id).name;
+          return {
+            id: chat._id,
+            name: name,
+          };
+        });
+        // console.log(temp);
+        setChats(temp);
+      } catch (err) {
+        console.log(err);
+        if (err?.response?.data?.message) {
+          toast.error(err.response.data.message);
+          if (err.response.data.message === "Please Login") navigate("/login");
+        } else {
+          toast.error("Something went wrong");
+        }
+      } finally {
+        setChatLoading(false);
       }
     };
-    // fetchChats();
+    fetchChats();
   }, []);
 
   return (
@@ -65,23 +87,32 @@ const Chats = () => {
         <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "100vh" }}>
           <h2 style={{ padding: "10px" }}>Chat History</h2>
           <ListGroup style={{ padding: "10px" }}>
-            {chats.map((chat) => (
-              <ListGroup.Item
-                key={chat.id}
-                onClick={() => handleChatClick(chat.id)}
-                style={{
-                  cursor: "pointer",
-                  marginBottom: "10px",
-                  padding: "10px",
-                  backgroundColor: selectedChat === chat.id ? "#3BB4A1" : "lightgrey",
-                  borderRadius: "5px",
-                }}
-              >
-                {chat.name}
-              </ListGroup.Item>
-            ))}
+            {chatLoading ? (
+              <div className="row m-auto">
+                <Spinner animation="border" variant="primary" />
+              </div>
+            ) : (
+              <>
+                {chats.map((chat) => (
+                  <ListGroup.Item
+                    key={chat.id}
+                    onClick={() => handleChatClick(chat.id)}
+                    style={{
+                      cursor: "pointer",
+                      marginBottom: "10px",
+                      padding: "10px",
+                      backgroundColor: selectedChat === chat.id ? "#3BB4A1" : "lightgrey",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    {chat.name}
+                  </ListGroup.Item>
+                ))}
+              </>
+            )}
           </ListGroup>
         </div>
+        {/* Right Section */}
         <div style={{ minWidth: "70vw" }}>
           {/* Profile Bar */}
           <div
@@ -90,21 +121,27 @@ const Chats = () => {
               justifyContent: "space-between",
               padding: "10px",
               borderBottom: "1px solid #2d2d2d",
+              minHeight: "50px",
             }}
           >
             {/* Profile Info (Placeholder) */}
-            <div>
-              <img
-                src="profile-image-url"
-                alt="Profile"
-                style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
-              />
-              <span style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>Username</span>
-            </div>
+            {selectedChat && (
+              <>
+                <div>
+                  <img
+                    src="profile-image-url"
+                    alt="Profile"
+                    style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
+                  />
+                  <span style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>Username</span>
+                </div>
+                <Button variant="info" onClick={handleScheduleClick}>
+                  Schedule Video Call
+                </Button>
+              </>
+            )}
+
             {/* Schedule Video Call Button */}
-            <Button variant="info" onClick={handleScheduleClick}>
-              Schedule Video Call
-            </Button>
           </div>
 
           {/* Chat Interface */}
@@ -119,32 +156,49 @@ const Chats = () => {
                 position: "relative",
               }}
             >
-              {selectedChat &&
-                chats
-                  .find((chat) => chat.id === selectedChat)
-                  ?.messages.map((message, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        display: "flex",
-                        justifyContent: message.sender === "me" ? "flex-end" : "flex-start",
-                        marginBottom: "10px",
-                      }}
-                    >
+              {selectedChat ? (
+                <>
+                  {chatMessages.map((message, index) => {
+                    return (
                       <div
+                        key={index}
                         style={{
-                          backgroundColor: message.sender === "me" ? "#3BB4A1" : "#2d2d2d",
-                          color: "#ffffff",
-                          padding: "10px",
-                          borderRadius: "10px",
-                          maxWidth: "70%",
-                          textAlign: message.sender === "me" ? "right" : "left",
+                          display: "flex",
+                          justifyContent: message.sender === "me" ? "flex-end" : "flex-start",
+                          marginBottom: "10px",
                         }}
                       >
-                        {message.text}
+                        <div
+                          style={{
+                            backgroundColor: message.sender === "me" ? "#3BB4A1" : "#2d2d2d",
+                            color: "#ffffff",
+                            padding: "10px",
+                            borderRadius: "10px",
+                            maxWidth: "70%",
+                            textAlign: message.sender === user._id ? "right" : "left",
+                          }}
+                        >
+                          {message.text}
+                        </div>
                       </div>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  {chatMessageLoading ? (
+                    <div className="row h-100 d-flex justify-content-center align-items-center">
+                      <Spinner animation="border" variant="primary" />
                     </div>
-                  ))}
+                  ) : (
+                    <div className="row w-100 h-100 d-flex justify-content-center align-items-center">
+                      <h3 className="row w-100 d-flex justify-content-center align-items-center">
+                        Select a chat to start messaging
+                      </h3>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
             {/* Chat Input */}
