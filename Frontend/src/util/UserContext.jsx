@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import ApiCall from "./ApiCall";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UserContext = createContext();
 
@@ -24,7 +24,10 @@ const UserContextProvider = ({ children }) => {
         console.error("Error parsing userInfo:", error);
       }
     } else {
-      navigate("/");
+      const url = window.location.href.split("/").pop();
+      if (url !== "about_us" && url !== "#why-skill-swap" && url === "") {
+        navigate("/login");
+      }
     }
     return () => {
       window.removeEventListener("popstate", handleUrlChange);

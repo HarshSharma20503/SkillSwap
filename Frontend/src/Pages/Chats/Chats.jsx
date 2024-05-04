@@ -28,7 +28,7 @@ const Chats = () => {
     try {
       setChatMessageLoading(true);
       const { data } = await axios.get(`http://localhost:8000/message/${chatId}`);
-      setChatMessages(data.data.data.message);
+      setChatMessages(data.data);
       setSelectedChat(chatId);
       toast.success(data.data.message);
     } catch (err) {
@@ -178,7 +178,7 @@ const Chats = () => {
                             textAlign: message.sender === user._id ? "right" : "left",
                           }}
                         >
-                          {message.text}
+                          {message.content}
                         </div>
                       </div>
                     );
