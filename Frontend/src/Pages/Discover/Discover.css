@@ -1,0 +1,119 @@
+:root {
+    --cyan: #3bb4a1;
+    --light-grey: #6d6e70;
+    --grey: #2d2d2d;
+    --yellow: #fbf1a4;
+    --dark-cyan: #013e38;
+    --red: #f56664;
+    --basefont: "Oswald", sans-serif;
+    --secfont: "Montserrat", sans-serif;
+  }
+  
+  .discover-page {
+    background-color: var(--grey);
+    min-height: 100vh;
+    color: white;
+  }
+  
+  .content-container {
+    margin-left: 30vw;
+    display: flex;
+  }
+  
+  .nav-bar {
+    background-color: #013e38;
+    top: 0;
+    height: 100vh;
+    width: 20vw;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .navlink
+  {
+    color: white !important;
+  }
+  
+  .nav-link {
+    font-family: var(--secfont);
+    text-decoration: none;
+    padding: 10px;
+    margin: 5px;
+  }
+  
+  .nav-link:hover {
+    color: #6d706f !important;
+  }
+
+
+  #foryou {
+    color: #f56664 !important;
+    font-size: 20px;
+    margin-left: -1rem;
+  }
+
+  #popular1 {
+    color: #3bb4a1 !important;
+    font-size: 20px;
+    margin-left: -1rem;
+  }
+
+  .heading-container {
+    flex: 80%;
+  }
+  
+  .profile-cards {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 50px;
+  }
+  
+  .profile-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 20px;
+  }
+  
+  .profile-card {
+    background-color: #6d6e70 !important;
+    margin: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  } 
+  
+  
+  .profile-card .profile-info {
+    padding: 20px;
+  }
+  
+  .profile-cards {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap to the next line */
+  padding: 20px;
+}
+
+.profile-row {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent cards from wrapping in the row */
+  overflow-x: auto;
+  gap: 20px;
+  width: 100%; /* Ensure the row takes full width */
+}
+
+.profile-card {
+  width: calc(33.33% - 20px); /* Adjust the width of each card to fit four cards in a row */
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+h2 {
+    font-family: var(--secfont);
+    margin-top: 5rem;
+}

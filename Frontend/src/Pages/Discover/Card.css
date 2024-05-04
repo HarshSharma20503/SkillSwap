@@ -1,0 +1,54 @@
+/* ProfileCard.css */
+
+.profile-card {
+    background-color: #2d2d2d !important;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 1rem;
+  }
+  
+  .cover-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .profile-info {
+    padding: 20px;
+  }
+  
+  .profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .profile-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .profile-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .skills {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .rating {
+    margin-left: auto;
+  }
+  
+  .availability {
+    font-size: 14px;
+    color: #999;
+  }
+  
