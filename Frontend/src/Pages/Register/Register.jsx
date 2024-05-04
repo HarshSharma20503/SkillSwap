@@ -272,10 +272,6 @@ const Register = () => {
         toast.error("Score is empty");
         return false;
       }
-      if (!edu.description) {
-        toast.error("Description is empty");
-        return false;
-      }
     });
     return true;
   };
