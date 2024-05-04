@@ -331,7 +331,7 @@ const Register = () => {
     if (check) {
       setSaveLoading(true);
       try {
-        const { data } = await axios.post("/user/unregistered/saveAddDetail", form);
+        const { data } = await axios.post("/user/unregistered/saveRegDetails", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -343,7 +343,7 @@ const Register = () => {
       } finally {
         setSaveLoading(false);
       }
-    } else setSaveLoading(false);
+    }
   };
   const handleSaveEducation = async () => {
     const check1 = validateRegForm();
