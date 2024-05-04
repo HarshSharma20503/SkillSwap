@@ -107,7 +107,7 @@
 }
 
 .profile-card {
-  width: calc(25% - 20px); /* Adjust the width of each card to fit four cards in a row */
+  width: calc(33.33% - 20px); /* Adjust the width of each card to fit four cards in a row */
   background-color: #1a1a1a;
   border-radius: 10px;
   padding: 10px;

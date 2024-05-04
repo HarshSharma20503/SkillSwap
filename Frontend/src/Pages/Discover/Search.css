@@ -1,0 +1,35 @@
+.search-bar {
+    transform: translateY(-50%);
+    width: 80%;
+    left: 0 !important;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    transition: width 0.3s ease;
+  }
+  
+  .search-bar.active {
+    width: 90%;
+  }
+  
+  .search-bar input {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+  }
+  
+  .search-icon {
+    color: #999;
+    transition: color 0.3s ease;
+  }
+  
+  .search-bar:hover .search-icon {
+    color: #333;
+  }
+  

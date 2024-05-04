@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ProfileCard from './ProfileCard';
 import './Discover.css';
+import Search from './Search';
 
 
 const Discover = () => {
@@ -57,6 +58,7 @@ const Discover = () => {
           </Nav>
         </div>
         <div className="heading-container">
+        <div><Search /></div>
           <h1 id="for-you" style = {{fontFamily: "Josefin Sans, sans-serif", color: "#fbf1a4", marginTop: "1rem", marginBottom: "1rem"}}>For You</h1>
             <div className="profile-cards">
             {/* Profile cards go here */}
