@@ -30,6 +30,7 @@ const Chats = () => {
       const { data } = await axios.get(`http://localhost:8000/message/${chatId}`);
       setChatMessages(data.data);
       setSelectedChat(chatId);
+      console.log(data.data);
       toast.success(data.data.message);
     } catch (err) {
       console.log(err);
@@ -159,12 +160,14 @@ const Chats = () => {
               {selectedChat ? (
                 <>
                   {chatMessages.map((message, index) => {
+                    // console.log("user:", user._id);
+                    // console.log("sender:", message.sender);
                     return (
                       <div
                         key={index}
                         style={{
                           display: "flex",
-                          justifyContent: message.sender === "me" ? "flex-end" : "flex-start",
+                          justifyContent: message.sender == user._id ? "flex-end" : "flex-start",
                           marginBottom: "10px",
                         }}
                       >
@@ -175,7 +178,7 @@ const Chats = () => {
                             padding: "10px",
                             borderRadius: "10px",
                             maxWidth: "70%",
-                            textAlign: message.sender === user._id ? "right" : "left",
+                            textAlign: message.sender == user._id ? "right" : "left",
                           }}
                         >
                           {message.content}

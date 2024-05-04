@@ -63,7 +63,7 @@ const UserProfileDropdown = () => {
     setUser(null);
     try {
       const response = await axios.get("/auth/logout");
-      navigate("/");
+      window.location.href = "http://localhost:5173/login";
     } catch (error) {
       console.log(error);
       if (error?.response?.data?.message) {
@@ -89,7 +89,7 @@ const Header = () => {
 
   return (
     <>
-      <Navbar key="md" expand="md" className="bg-body-primary" style={{ backgroundColor: "#3BB4A1", zIndex: 998}}>
+      <Navbar key="md" expand="md" className="bg-body-primary" style={{ backgroundColor: "#3BB4A1", zIndex: 998 }}>
         <Container fluid>
           <Navbar.Brand href="/" style={{ fontFamily: "Josefin Sans, sans-serif", color: "#2d2d2d", fontWeight: 500 }}>
             SKILL SWAP
