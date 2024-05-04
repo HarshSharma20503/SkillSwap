@@ -34,22 +34,22 @@
     align-items: center;
   }
   
+  .navlink
+  {
+    color: white !important;
+  }
+  
   .nav-link {
     font-family: var(--secfont);
-    color: white !important;
     text-decoration: none;
     padding: 10px;
     margin: 5px;
   }
   
   .nav-link:hover {
-    color: #2d2d2d !important;
+    color: #6d706f !important;
   }
 
-  .activeLink {
-    background-color: #3bb4a1;
-    color: white !important;
-  }
 
   #foryou {
     color: #f56664 !important;

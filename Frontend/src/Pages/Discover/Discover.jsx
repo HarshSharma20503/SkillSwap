@@ -19,8 +19,6 @@ import Search from './Search';
 const Discover = () => {
   const navigate = useNavigate();
 
-  const [activeLink, setActiveLink] = useState('');
-
   const { user, setUser } = useUser();
 
   useEffect(() => {
@@ -48,13 +46,13 @@ const Discover = () => {
       <div className="content-container">
         <div className="nav-bar">
           <Nav defaultActiveKey="/home" className="flex-column">
-            <Nav.Link href="#for-you" className={activeLink === 'for-you' ? 'active-link' : ''} id="foryou">For You</Nav.Link>
-            <Nav.Link href="#popular" className={activeLink === 'popular' ? 'active-link' : ''} id="popular1">Popular</Nav.Link>
-            <Nav.Link href="#web-development" className={activeLink === 'web-development' ? 'active-link' : ''}>Web Development</Nav.Link>
-            <Nav.Link href="#machine-learning" className={activeLink === 'machine-learning' ? 'active-link' : ''}>Machine Learning</Nav.Link>
-            <Nav.Link href="#graphic-design" className={activeLink === 'graphic-design' ? 'active-link' : ''}>Graphic Design</Nav.Link>
-            <Nav.Link href="#soft-skills" className={activeLink === 'soft-skills' ? 'active-link' : ''}>Soft Skills</Nav.Link>
-            <Nav.Link href="#others" className={activeLink === 'others' ? 'active-link' : ''}>Others</Nav.Link>
+            <Nav.Link href="#for-you" className="navlink" id="foryou">For You</Nav.Link>
+            <Nav.Link href="#popular" className="navlink" id="popular1">Popular</Nav.Link>
+            <Nav.Link href="#web-development" className="navlink">Web Development</Nav.Link>
+            <Nav.Link href="#machine-learning" className="navlink">Machine Learning</Nav.Link>
+            <Nav.Link href="#graphic-design" className="navlink">Graphic Design</Nav.Link>
+            <Nav.Link href="#soft-skills" className="navlink">Soft Skills</Nav.Link>
+            <Nav.Link href="#others" className="navlink">Others</Nav.Link>
           </Nav>
         </div>
         <div className="heading-container">
