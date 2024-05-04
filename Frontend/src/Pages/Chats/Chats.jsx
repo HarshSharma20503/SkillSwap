@@ -25,20 +25,27 @@ const Chats = () => {
     const fetchChats = async () => {
       try {
         setChatLoading(true);
+        const tempUser = JSON.parse(localStorage.getItem("userInfo"));
         const { data } = await axios.get("http://localhost:8000/chat");
-        // console.log(data.data);
+        // console.log("Chats", data.data);
         toast.success(data.message);
-        const temp = data.data.map((chat) => {
-          // console.log("chat:", chat);
-          // console.log("user:", user);
-          const name = chat?.users.find((u) => u?._id !== user?._id).name;
-          return {
-            id: chat._id,
-            name: name,
-          };
-        });
+        if (tempUser?._id) {
+          const temp = data.data.map((chat) => {
+            const name = chat?.users.find((u) => u?._id !== tempUser?._id).name;
+            console.log(
+              "array:",
+              chat?.users.find((u) => u?._id !== user?._id)
+            );
+            console.log(name);
+            return {
+              id: chat._id,
+              name: name,
+            };
+          });
+          setChats(temp);
+        }
+
         // console.log(temp);
-        setChats(temp);
       } catch (err) {
         console.log(err);
         if (err?.response?.data?.message) {
