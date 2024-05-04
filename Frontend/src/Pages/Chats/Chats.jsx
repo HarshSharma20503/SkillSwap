@@ -15,36 +15,11 @@ const Chats = () => {
   const [chats, setChats] = useState([]);
   const [chatLoading, setChatLoading] = useState(true);
   const [chatMessageLoading, setChatMessageLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const { user, setUser } = useUser();
 
   const navigate = useNavigate();
-
-  const handleScheduleClick = () => {
-    setScheduleModalShow(true);
-  };
-
-  const handleChatClick = async (chatId) => {
-    try {
-      setChatMessageLoading(true);
-      const { data } = await axios.get(`http://localhost:8000/message/${chatId}`);
-      setChatMessages(data.data);
-      setSelectedChat(chatId);
-      console.log(data.data);
-      toast.success(data.data.message);
-    } catch (err) {
-      console.log(err);
-      if (err?.response?.data?.message) {
-        toast.error(err.response.data.message);
-        if (err.response.data.message === "Please Login") navigate("/login");
-      } else {
-        toast.error("Something went wrong");
-      }
-    } finally {
-      setChatMessageLoading(false);
-    }
-  };
-
   useEffect(() => {
     // Fetch chats from the backend
     const fetchChats = async () => {
@@ -54,7 +29,7 @@ const Chats = () => {
         // console.log(data.data);
         toast.success(data.message);
         const temp = data.data.map((chat) => {
-          console.log("chat:", chat);
+          // console.log("chat:", chat);
           // console.log("user:", user);
           const name = chat?.users.find((u) => u?._id !== user?._id).name;
           return {
@@ -78,6 +53,51 @@ const Chats = () => {
     };
     fetchChats();
   }, []);
+
+  const handleScheduleClick = () => {
+    setScheduleModalShow(true);
+  };
+
+  const handleChatClick = async (chatId) => {
+    try {
+      setChatMessageLoading(true);
+      const { data } = await axios.get(`http://localhost:8000/message/getMessages/${chatId}`);
+      setChatMessages(data.data);
+      setMessage("");
+      setSelectedChat(chatId);
+      // console.log("Data", data.message);
+      toast.success(data.message);
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.data?.message) {
+        toast.error(err.response.data.message);
+        if (err.response.data.message === "Please Login") navigate("/login");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setChatMessageLoading(false);
+    }
+  };
+
+  const sendMessage = async (e) => {
+    try {
+      const { data } = await axios.post("/message/sendMessage", { chatId: selectedChat, content: message });
+      console.log("after sending message", data);
+      setChatMessages(data.data);
+      setMessage("");
+      // console.log("Data", data.message);
+      toast.success(data.message);
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.data?.message) {
+        toast.error(err.response.data.message);
+        if (err.response.data.message === "Please Login") navigate("/login");
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
+  };
 
   return (
     <div
@@ -205,33 +225,37 @@ const Chats = () => {
             </div>
 
             {/* Chat Input */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: "0",
-                left: "0",
-                right: "0",
-                padding: "10px",
-                borderTop: "1px solid #2d2d2d",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Type your message..."
+            {selectedChat && (
+              <div
                 style={{
-                  flex: "1",
+                  position: "absolute",
+                  bottom: "0",
+                  left: "0",
+                  right: "0",
                   padding: "10px",
-                  borderRadius: "5px",
-                  marginRight: "10px",
-                  border: "1px solid #2d2d2d",
+                  borderTop: "1px solid #2d2d2d",
+                  display: "flex",
+                  alignItems: "center",
                 }}
-              />
-              <Button variant="success" style={{ padding: "10px 20px", borderRadius: "5px" }}>
-                Send
-              </Button>
-            </div>
+              >
+                <input
+                  type="text"
+                  placeholder="Type your message..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  style={{
+                    flex: "1",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    marginRight: "10px",
+                    border: "1px solid #2d2d2d",
+                  }}
+                />
+                <Button variant="success" style={{ padding: "10px 20px", borderRadius: "5px" }} onClick={sendMessage}>
+                  Send
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

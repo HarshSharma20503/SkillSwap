@@ -30,7 +30,9 @@ export const sendMessage = asyncHandler(async (req, res) => {
     content: content,
   });
 
-  return res.status(201).json(new ApiResponse(201, message, "Message sent successfully"));
+  const newMessages = await Message.find({ chatId: chatId });
+
+  return res.status(201).json(new ApiResponse(201, newMessages, "Message sent successfully"));
 });
 
 export const getMessages = asyncHandler(async (req, res) => {

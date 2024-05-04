@@ -25,7 +25,7 @@ const UserContextProvider = ({ children }) => {
       }
     } else {
       const url = window.location.href.split("/").pop();
-      console.log("url", url);
+      // console.log("url", url);
       if (url !== "about_us" && url !== "#why-skill-swap" && url !== "" && url !== "discover") {
         navigate("/login");
       }
