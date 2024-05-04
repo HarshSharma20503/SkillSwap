@@ -48,6 +48,12 @@
     background-color: #3bb4a1;
     color: white;
     cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+
+  .connect-button:hover {
+    background-color: white;
+    color: #3bb4a1;
   }
 
   .report-button {
@@ -60,6 +66,11 @@
     background-color: #f56664;
     color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .report-button:hover {
+    background-color: red;
   }
   
   .bio {
