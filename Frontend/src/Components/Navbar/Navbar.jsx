@@ -89,7 +89,7 @@ const Header = () => {
 
   return (
     <>
-      <Navbar key="md" expand="md" className="bg-body-primary" style={{ backgroundColor: "#3BB4A1" }}>
+      <Navbar key="md" expand="md" className="bg-body-primary" style={{ backgroundColor: "#3BB4A1", zIndex: 999}}>
         <Container fluid>
           <Navbar.Brand href="/" style={{ fontFamily: "Josefin Sans, sans-serif", color: "#2d2d2d", fontWeight: 500 }}>
             SKILL SWAP

@@ -1,0 +1,142 @@
+:root {
+    --cyan: #3bb4a1;
+    --light-grey: #6d6e70;
+    --grey: #2d2d2d;
+    --yellow: #fbf1a4;
+    --dark-cyan: #013e38;
+    --red: #f56664;
+    --basefont: "Oswald", sans-serif;
+    --secfont: "Montserrat", sans-serif;
+  }
+  
+  .discover-page {
+    background-color: var(--grey);
+    min-height: 100vh;
+    color: white;
+  }
+  
+  .content-container {
+    margin-left: 30vw;
+    display: flex;
+  }
+  
+  .nav-bar {
+    background-color: #013e38;
+    top: 0;
+    height: 100vh;
+    width: 20vw;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .nav-link {
+    font-family: var(--secfont);
+    color: white !important;
+    text-decoration: none;
+    padding: 10px;
+    margin: 5px;
+  }
+  
+  .nav-link:hover {
+    color: #2d2d2d !important;
+  }
+
+  .activeLink {
+    background-color: #3bb4a1;
+    color: white !important;
+  }
+
+  #foryou {
+    color: #f56664 !important;
+    font-size: 20px;
+    margin-left: -1rem;
+  }
+
+  #popular1 {
+    color: #3bb4a1 !important;
+    font-size: 20px;
+    margin-left: -1rem;
+  }
+
+  .heading-container {
+    flex: 80%;
+  }
+  
+  .profile-cards {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 50px;
+  }
+  
+  .profile-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 20px;
+  }
+  
+  /* Styles for ProfileCard component */
+  .profile-card {
+    background-color: #1a1a1a !important;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 1rem;
+  }
+  
+  .profile-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .profile-card .profile-info {
+    padding: 10px;
+  }
+  
+  .profile-card h3,
+  .profile-card p {
+    color: white !important;
+    margin: 0;
+  }
+  
+  .profile-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  .profile-card p {
+    font-size: 0.9rem;
+    color: var(--light-grey);
+  }
+  
+  .profile-cards {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap to the next line */
+  padding: 20px;
+}
+
+.profile-row {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent cards from wrapping in the row */
+  overflow-x: auto;
+  gap: 20px;
+  width: 100%; /* Ensure the row takes full width */
+}
+
+.profile-card {
+  width: calc(25% - 20px); /* Adjust the width of each card to fit four cards in a row */
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+h2 {
+    font-family: var(--secfont);
+    margin-top: 5rem;
+}
