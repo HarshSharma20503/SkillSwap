@@ -83,7 +83,7 @@ export const saveEduUnRegisteredUser = asyncHandler(async (req, res) => {
   }
   education.forEach((edu) => {
     // console.log("Education: ", edu);
-    if (!edu.institution || !edu.degree || !edu.description) {
+    if (!edu.institution || !edu.degree) {
       throw new ApiError(400, "Please provide all the details");
     }
     if (
@@ -183,7 +183,7 @@ export const registerUser = async (req, res) => {
     throw new ApiError(400, "Education is required");
   }
   education.forEach((edu) => {
-    if (!edu.institution || !edu.degree || !edu.description) {
+    if (!edu.institution || !edu.degree) {
       throw new ApiError(400, "Please provide all the details");
     }
     if (
