@@ -69,14 +69,14 @@ const Discover = () => {
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
@@ -99,14 +99,14 @@ const Discover = () => {
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
@@ -118,14 +118,14 @@ const Discover = () => {
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
@@ -137,14 +137,14 @@ const Discover = () => {
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
@@ -156,14 +156,14 @@ const Discover = () => {
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
@@ -175,14 +175,14 @@ const Discover = () => {
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
                 profileImageUrl="profile-image-url"
                 name="Name"
-                rating="★★★★★"
+                rating="⭐⭐⭐⭐⭐"
                 bio="yahan apan bio rakhre"
                 skills={["HTML", "CSS", "JS"]}
               />

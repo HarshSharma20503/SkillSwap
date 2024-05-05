@@ -28,14 +28,18 @@ p {
 }
 
 .card-container {
-  font-family: var(--secfont);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+  	font-family: var(--secfont);
 	background-color: #00000050;
 	border-radius: 25px;
 	box-shadow: 10px 10px 15px rgba(0,0,0,0.35);
 	color: #B3B8CD;
-	padding: 30px 0 0;
 	position: relative;
-	width: 350px;
+	width: 25vw;
+	height: 60vh;
 	max-width: 100%;
 	text-align: center;
 	margin: 3rem;
@@ -43,11 +47,13 @@ p {
 }
 
 .card-container img {
+
 	border: 1px solid #fbf1a4;
 	border-radius: 50%;
 	padding: 7px;
-	height: 150px;
-	width: 150px;
+	height: 100px;
+	width: 100px;
+	margin: 1rem;
 }
 
 .prof-buttons
@@ -55,7 +61,9 @@ p {
   display: flex;
   justify-content: space-around;
 }
+
 button.primary {
+	margin: 1rem;
 	background-color: #3bb4a1;
 	border: 1px solid #3bb4a1;
 	border-radius: 3px;
@@ -66,15 +74,20 @@ button.primary {
 }
 
 button.primary.ghost {
+	margin: 1rem;
 	background-color: transparent;
 	color: #3bb4a1;
 }
 
 .profskills {
+	
 	background-color: rgba(48, 88, 100, 0.284);
+	padding: 1rem;
 	text-align: left;
-	padding: 15px;
-	margin-top: 30px;
+	margin-top: 2rem;
+	height: 15vh;
+	width: 100%;
+	bottom: 0;
 }
 
 .profskill-boxes
