@@ -2,22 +2,32 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import './Card.css'
 
-const ProfileCard = ({ coverImageUrl, profileImageUrl, name, skills }) => {
+const ProfileCard = ({profileImageUrl, bio, name, skills, rating }) => {
   return (
-    <Card className="profile-card">
-      <Card.Img variant="top" src={coverImageUrl} />
-      <Card.ImgOverlay>
-        <img src={profileImageUrl} alt="Profile" className="profile-image-overlay" />
-      </Card.ImgOverlay>
-      <Card.Body>
-        <Card.Title>{name}</Card.Title>
-        <Card.Text>
-          Skills: {skills}
-        </Card.Text>
-        {/* Rating Star */}
-        {/* Availability Time */}
-      </Card.Body>
-    </Card>
+    <div class="card-container">
+    <img src={profileImageUrl} alt="user"/>
+    <h3>{name}</h3>
+    <h6>{rating}</h6>
+    <p>{bio}</p>
+    <div class="buttons">
+        <button class="primary">
+            Connect
+        </button>
+        <button class="primary ghost">
+            View Profile
+        </button>
+    </div>
+    <div class="skills">
+        <h6>Skills</h6>
+        <div className="boxskill-boxes">
+            {skills.map((skill, index) => (
+                <div key={index} className="skill-box">
+                <span className="skill">{skill}</span>
+                </div>
+            ))}
+        </div>
+    </div>
+</div>
   );
 };
 

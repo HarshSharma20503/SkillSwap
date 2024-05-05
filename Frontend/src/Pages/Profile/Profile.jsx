@@ -47,7 +47,7 @@ const Profile = () => {
             {/* Rating */}
             <div className="rating" style={{ marginLeft: "2rem" }}>
               {/* Rating stars */}
-              <span className="rating-stars">⭐⭐⭐⭐⭐</span>
+              <span className="rating-stars">★★★★★</span>
               {/* Rating out of 5 */}
               <span className="rating-value">(5)</span>
             </div>

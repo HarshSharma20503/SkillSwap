@@ -67,16 +67,18 @@ const Discover = () => {
             <div className="profile-cards">
               {/* Profile cards go here */}
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               {/* Add more ProfileCard components as needed */}
             </div>
@@ -95,16 +97,18 @@ const Discover = () => {
             <div className="profile-cards">
               {/* Profile cards go here */}
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               {/* Add more ProfileCard components as needed */}
             </div>
@@ -112,16 +116,18 @@ const Discover = () => {
             <div className="profile-cards">
               {/* Profile cards go here */}
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               {/* Add more ProfileCard components as needed */}
             </div>
@@ -129,16 +135,18 @@ const Discover = () => {
             <div className="profile-cards">
               {/* Profile cards go here */}
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               {/* Add more ProfileCard components as needed */}
             </div>
@@ -146,16 +154,18 @@ const Discover = () => {
             <div className="profile-cards">
               {/* Profile cards go here */}
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               {/* Add more ProfileCard components as needed */}
             </div>
@@ -163,16 +173,18 @@ const Discover = () => {
             <div className="profile-cards">
               {/* Profile cards go here */}
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
-                coverImageUrl="cover-image-url"
                 profileImageUrl="profile-image-url"
                 name="Name"
-                skills="Skills they teach"
+                rating="★★★★★"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
               />
               {/* Add more ProfileCard components as needed */}
             </div>
