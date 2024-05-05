@@ -46,7 +46,10 @@ const Chats = () => {
         console.log(err);
         if (err?.response?.data?.message) {
           toast.error(err.response.data.message);
-          if (err.response.data.message === "Please Login") navigate("/login");
+          if (err.response.data.message === "Please Login") {
+            await axios.get("/auth/logout");
+            navigate("/login");
+          }
         } else {
           toast.error("Something went wrong");
         }
@@ -77,7 +80,10 @@ const Chats = () => {
       console.log(err);
       if (err?.response?.data?.message) {
         toast.error(err.response.data.message);
-        if (err.response.data.message === "Please Login") navigate("/login");
+        if (err.response.data.message === "Please Login") {
+          await axios.get("/auth/logout");
+          navigate("/login");
+        }
       } else {
         toast.error("Something went wrong");
       }
@@ -102,7 +108,10 @@ const Chats = () => {
       console.log(err);
       if (err?.response?.data?.message) {
         toast.error(err.response.data.message);
-        if (err.response.data.message === "Please Login") navigate("/login");
+        if (err.response.data.message === "Please Login") {
+          navigate("/login");
+          await axios.get("/auth/logout");
+        }
       } else {
         toast.error("Something went wrong");
       }
