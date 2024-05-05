@@ -97,7 +97,7 @@ const Header = () => {
 
   useEffect(() => {
     setNavUser(JSON.parse(localStorage.getItem("userInfo")));
-    console.log("navUser", navUser);
+    // console.log("navUser", navUser);
   }, [user]);
 
   return (

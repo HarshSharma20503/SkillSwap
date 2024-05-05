@@ -30,19 +30,22 @@ connectDB()
         socket.emit("connected");
       });
 
-      socket.on("join chat", (chat) => {
-        console.log("Joining chat: ", chat);
-        socket.join(chat);
-        console.log("Joined chat: ", chat);
+      socket.on("join chat", (room) => {
+        console.log("Joining chat: ", room);
+        socket.join(room);
+        console.log("Joined chat: ", room);
       });
 
       socket.on("new message", (newMessage) => {
-        console.log("New message: ", newMessage);
+        // console.log("New message: ", newMessage);
         var chat = newMessage.chatId;
         if (!chat.users) return console.log("Chat.users not defined");
+        // console.log("Chat.users: ", chat.users);
         chat.users.forEach((user) => {
+          // console.log("User: ", user);
           if (user._id === newMessage.sender._id) return;
-          io.to(user._id).emit("new message", newMessage);
+          io.to(user._id).emit("message recieved", newMessage);
+          console.log("Message sent to: ", user._id);
         });
       });
 

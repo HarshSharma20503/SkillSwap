@@ -36,7 +36,7 @@ const Chats = () => {
         setChatLoading(true);
         const tempUser = JSON.parse(localStorage.getItem("userInfo"));
         const { data } = await axios.get("http://localhost:8000/chat");
-        console.log("Chats", data.data);
+        // console.log("Chats", data.data);
         toast.success(data.message);
         if (tempUser?._id) {
           const temp = data.data.map((chat) => {
@@ -74,6 +74,15 @@ const Chats = () => {
       socket.on("connected", () => setSocketConnected(true));
       socket.on("typing", () => setIsTyping(true));
       socket.on("stop typing", () => setIsTyping(false));
+      socket.on("message recieved", (newMessageRecieved) => {
+        // console.log("New Message Recieved: ", newMessageRecieved);
+        // console.log("Selected Chat: ", selectedChat);
+        // console.log("Selected Chat ID: ", selectedChat.id);
+        // console.log("New Message Chat ID: ", newMessageRecieved.chatId._id);
+        if (selectedChat && selectedChat.id === newMessageRecieved.chatId._id) {
+          setChatMessages((prevState) => [...prevState, newMessageRecieved]);
+        }
+      });
     }
   }, []);
 
@@ -86,12 +95,12 @@ const Chats = () => {
       setChatMessageLoading(true);
       const { data } = await axios.get(`http://localhost:8000/message/getMessages/${chatId}`);
       setChatMessages(data.data);
-      console.log("Chat Messages:", data.data);
+      // console.log("Chat Messages:", data.data);
       setMessage("");
-      console.log("Chats: ", chats);
+      // console.log("Chats: ", chats);
       const chatDetails = chats.find((chat) => chat.id === chatId);
       setSelectedChat(chatDetails);
-      console.log("selectedChat", chatDetails);
+      // console.log("selectedChat", chatDetails);
       // console.log("Data", data.message);
       socket.emit("join chat", chatId);
       toast.success(data.message);
@@ -120,7 +129,7 @@ const Chats = () => {
         return;
       }
       const { data } = await axios.post("/message/sendMessage", { chatId: selectedChat.id, content: message });
-      console.log("after sending message", data);
+      // console.log("after sending message", data);
       socket.emit("new message", data.data);
       setChatMessages((prevState) => [...prevState, data.data]);
       setMessage("");
@@ -141,13 +150,9 @@ const Chats = () => {
     }
   };
 
-  useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved) => {
-      if (selectedChat && selectedChat.id === newMessageRecieved.chat) {
-        setChatMessages((prevState) => [...prevState, newMessageRecieved]);
-      }
-    });
-  });
+  // useEffect(() => {
+
+  // });
 
   return (
     <div
