@@ -5,8 +5,8 @@ const ReportForm = () => {
   return (
     <div className="form-container">
       <h1>REPORT PROFILE</h1>
+      <div className="form-box">
       <form>
-        <div className="form-box">
             <div className="form-group">
             <label className="question" htmlFor="username">Your Username</label>
             <input type="text" id="username" className="form-control" placeholder="Enter your username" />
@@ -40,8 +40,8 @@ const ReportForm = () => {
             <textarea id="issueDescription" className="form-control textarea-control" placeholder="Enter description"></textarea>
             </div>
             <button type="submit" className="submit-button">Submit</button>
-        </div>
-      </form>
+        </form>
+    </div>
     </div>
   );
 };

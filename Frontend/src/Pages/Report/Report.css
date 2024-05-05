@@ -1,7 +1,10 @@
-/* ReportForm.css */
-.form-container {
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: #2d2d2d;
     min-height: 100vh;
+    min-width: 70vw;
   }
   
   .form-container h1 {
@@ -10,10 +13,17 @@
     color: #f56664 !important;
     font-family: 'Montserrat', sans-serif;
   }
+
+  .form-group
+  {
+    display: flex;
+    flex-direction: column;
+  }
   
   .form-box {
     background-color: #f1f1f1;
     padding: 1rem;
+    min-width: 70vw;
     margin: 5rem;
     margin-top: 1rem;
     border-radius: 0.5rem;
@@ -35,7 +45,7 @@
     border: 1px solid #3bb4a1;
     border-radius: 5px;
     padding: 10px;
-    width: 90%;
+    width: 70%;
     margin-bottom: 20px;
   }
 
