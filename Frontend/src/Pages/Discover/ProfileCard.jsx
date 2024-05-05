@@ -9,7 +9,7 @@ const ProfileCard = ({profileImageUrl, bio, name, skills, rating }) => {
     <h3>{name}</h3>
     <h6>{rating}</h6>
     <p>{bio}</p>
-    <div class="buttons">
+    <div class="prof-buttons">
         <button class="primary">
             Connect
         </button>
@@ -17,11 +17,11 @@ const ProfileCard = ({profileImageUrl, bio, name, skills, rating }) => {
             View Profile
         </button>
     </div>
-    <div class="skills">
+    <div class="profskills">
         <h6>Skills</h6>
-        <div className="boxskill-boxes">
+        <div className="profskill-boxes">
             {skills.map((skill, index) => (
-                <div key={index} className="skill-box">
+                <div key={index} className="profskill-box">
                 <span className="skill">{skill}</span>
                 </div>
             ))}

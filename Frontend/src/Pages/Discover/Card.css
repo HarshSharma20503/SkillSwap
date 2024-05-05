@@ -50,7 +50,7 @@ p {
 	width: 150px;
 }
 
-.buttons
+.prof-buttons
 {
   display: flex;
   justify-content: space-around;
@@ -70,21 +70,21 @@ button.primary.ghost {
 	color: #3bb4a1;
 }
 
-.skills {
+.profskills {
 	background-color: rgba(48, 88, 100, 0.284);
 	text-align: left;
 	padding: 15px;
 	margin-top: 30px;
 }
 
-.boxskill-boxes
+.profskill-boxes
 {
   margin: 1rem;
   display: flex;
   flex-wrap: wrap;
 }
 
-.skill-box {
+.profskill-box {
   text-align: center;
   background-color: #809c5c;
   color: white;
