@@ -30,7 +30,7 @@ export const getChats = asyncHandler(async (req, res) => {
   console.log("\n******** Inside getChat Controller function ********");
 
   const userId = req.user._id;
-  console.log("User ID: ", userId);
+  // console.log("User ID: ", userId);
 
   //   find all the chats where inside user array userId is present
   const chats = await Chat.find({ users: userId })

@@ -25,17 +25,20 @@ connectDB()
       console.log("Connected to socket");
 
       socket.on("setup", (userData) => {
+        console.log("Connected to socket in setup: ", userData.username);
         socket.join(userData._id);
         socket.emit("connected");
       });
 
       socket.on("join chat", (chat) => {
+        console.log("Joining chat: ", chat);
         socket.join(chat);
         console.log("Joined chat: ", chat);
       });
 
       socket.on("new message", (newMessage) => {
-        var chat = newMessage.chat;
+        console.log("New message: ", newMessage);
+        var chat = newMessage.chatId;
         if (!chat.users) return console.log("Chat.users not defined");
         chat.users.forEach((user) => {
           if (user._id === newMessage.sender._id) return;
@@ -44,14 +47,17 @@ connectDB()
       });
 
       socket.on("typing", (room) => {
+        console.log("Typing in room: ", room);
         socket.in(room).emit("typing");
       });
 
       socket.on("stop typing", (room) => {
+        console.log("Stop typing in room: ", room);
         socket.in(room).emit("stop typing");
       });
 
       socket.off("setup", () => {
+        console.log("Disconnected from socket");
         console.log("Disconnected from socket");
         socket.leave(userData._id);
       });
