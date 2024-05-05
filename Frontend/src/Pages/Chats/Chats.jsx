@@ -31,15 +31,11 @@ const Chats = () => {
         toast.success(data.message);
         if (tempUser?._id) {
           const temp = data.data.map((chat) => {
-            const name = chat?.users.find((u) => u?._id !== tempUser?._id).name;
-            console.log(
-              "array:",
-              chat?.users.find((u) => u?._id !== user?._id)
-            );
-            console.log(name);
             return {
               id: chat._id,
-              name: name,
+              name: chat?.users.find((u) => u?._id !== tempUser?._id).name,
+              picture: chat?.users.find((u) => u?._id !== tempUser?._id).picture,
+              username: chat?.users.find((u) => u?._id !== tempUser?._id).username,
             };
           });
           setChats(temp);
@@ -71,7 +67,10 @@ const Chats = () => {
       const { data } = await axios.get(`http://localhost:8000/message/getMessages/${chatId}`);
       setChatMessages(data.data);
       setMessage("");
-      setSelectedChat(chatId);
+      console.log("Chats: ", chats);
+      const chatDetails = chats.find((chat) => chat.id === chatId);
+      setSelectedChat(chatDetails);
+      console.log("selectedChat", chatDetails);
       // console.log("Data", data.message);
       toast.success(data.message);
     } catch (err) {
@@ -157,11 +156,13 @@ const Chats = () => {
               <>
                 <div>
                   <img
-                    src="profile-image-url"
+                    src={selectedChat?.picture ? selectedChat.picture : "https://via.placeholder.com/150"}
                     alt="Profile"
                     style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
                   />
-                  <span style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>Username</span>
+                  <span style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
+                    {selectedChat?.username}
+                  </span>
                 </div>
                 <Button variant="info" onClick={handleScheduleClick}>
                   Schedule Video Call

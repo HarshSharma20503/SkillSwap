@@ -34,7 +34,7 @@ export const getChats = asyncHandler(async (req, res) => {
 
   //   find all the chats where inside user array userId is present
   const chats = await Chat.find({ users: userId })
-    .populate("users", "username name")
+    .populate("users", "username name picture")
     .populate("latestMessage")
     .sort({ updatedAt: -1 });
 
