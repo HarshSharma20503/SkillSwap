@@ -1008,13 +1008,14 @@ const Register = () => {
                 <h3 style={{ color: "#3BB4A1", marginBottom: "20px" }} className="link w-100 text-center">
                   Preview of the Form
                 </h3>
-                <div style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d", marginBottom: "20px" }}>
+                <div className="previewForm" style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d", marginBottom: "20px" }}>
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      width: "70vw",
                       alignItems: "center",
-                      marginBottom: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "1.5rem",
                     }}
                     className="link m-sm-0"
                   >
@@ -1024,9 +1025,10 @@ const Register = () => {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      width: "70vw",
                       alignItems: "center",
-                      marginBottom: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "1.5rem",
                     }}
                     className="link"
                   >
@@ -1036,9 +1038,10 @@ const Register = () => {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      width: "70vw",
                       alignItems: "center",
-                      marginBottom: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "1.5rem",
                     }}
                     className="link"
                   >
@@ -1048,9 +1051,10 @@ const Register = () => {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      width: "70vw",
                       alignItems: "center",
-                      marginBottom: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "1.5rem",
                     }}
                     className="link"
                   >
@@ -1060,9 +1064,10 @@ const Register = () => {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      width: "70vw",
                       alignItems: "center",
-                      marginBottom: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "1.5rem",
                     }}
                     className="link"
                   >
@@ -1072,9 +1077,10 @@ const Register = () => {
                   <div
                     style={{
                       display: "flex",
+                      width: "70vw",
+                      alignItems: "center",
                       justifyContent: "space-between",
                       flexWrap: "wrap",
-                      alignItems: "center",
                       marginBottom: "10px",
                     }}
                     className="link"
@@ -1082,11 +1088,13 @@ const Register = () => {
                     <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Linkedin Link:</span>
                     <span
                       style={{
-                        width: "100%",
+                        width: "70vw",
+                        alignItems: "center",
                         flex: 2,
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
+                        marginBottom: "1.5rem",
                       }}
                     >
                       {form.linkedinLink || "Yet to be filled"}
@@ -1095,9 +1103,10 @@ const Register = () => {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      width: "70vw",
                       alignItems: "center",
-                      marginBottom: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "1.5rem",
                     }}
                     className="link"
                   >
@@ -1107,9 +1116,10 @@ const Register = () => {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      width: "70vw",
                       alignItems: "center",
-                      marginBottom: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "1.5rem",
                     }}
                     className="link"
                   >
@@ -1120,9 +1130,10 @@ const Register = () => {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      width: "70vw",
                       alignItems: "center",
-                      marginBottom: "10px",
+                      justifyContent: "space-between",
+                      marginBottom: "1.5rem",
                     }}
                     className="link"
                   >

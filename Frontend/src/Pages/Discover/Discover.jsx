@@ -74,6 +74,34 @@ const Discover = () => {
                 skills={["HTML", "CSS", "JS"]}
               />
               <ProfileCard
+                profileImageUrl="profile-image-url"
+                name="Name"
+                rating="⭐⭐⭐⭐⭐"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
+              />
+              <ProfileCard
+                profileImageUrl="profile-image-url"
+                name="Name"
+                rating="⭐⭐⭐⭐⭐"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
+              />
+              <ProfileCard
+                profileImageUrl="profile-image-url"
+                name="Name"
+                rating="⭐⭐⭐⭐⭐"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
+              />
+              <ProfileCard
+                profileImageUrl="profile-image-url"
+                name="Name"
+                rating="⭐⭐⭐⭐⭐"
+                bio="yahan apan bio rakhre"
+                skills={["HTML", "CSS", "JS"]}
+              />
+              <ProfileCard
                 profileImageUrl="/assets/images/sample_profile.jpg"
                 name="Paakhi Maheshwari"
                 rating="⭐⭐⭐⭐⭐"

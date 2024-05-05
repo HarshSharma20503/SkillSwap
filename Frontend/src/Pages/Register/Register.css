@@ -19,6 +19,13 @@
   border-radius: 10px;
 }
 
+.previewForm{
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  justify-content: space-between;
+}
+
 /* write media query for max-width medium screen */
 @media (max-width: 768px) {
   .register_section {
@@ -31,7 +38,7 @@
     margin-left: 0 !important;
   }
 }
-/* Register.css */
+
 .previewContainer {
   font-family: "Montserrat", sans-serif;
   color: #2d2d2d;
