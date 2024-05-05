@@ -19,12 +19,16 @@ export const sendMessage = asyncHandler(async (req, res) => {
   const sender = req.user._id;
   console.log("Sender: ", sender);
 
+  console.log("Chat ID: ", chatId);
+
   const check = await Chat.findOne({ _id: chatId });
-  // console.log("check: ", check);
+  console.log("check: ", check);
 
   if (!check.users.includes(sender)) {
     throw new ApiError(400, "Chat is not approved");
   }
+
+  console.log("Chat ID: ", chatId);
 
   const chat = await Chat.findById(chatId);
   if (!chat) {

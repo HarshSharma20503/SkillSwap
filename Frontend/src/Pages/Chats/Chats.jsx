@@ -88,7 +88,11 @@ const Chats = () => {
 
   const sendMessage = async (e) => {
     try {
-      const { data } = await axios.post("/message/sendMessage", { chatId: selectedChat, content: message });
+      if (message === "") {
+        toast.error("Message is empty");
+        return;
+      }
+      const { data } = await axios.post("/message/sendMessage", { chatId: selectedChat.id, content: message });
       console.log("after sending message", data);
       setChatMessages((prevState) => [...prevState, data.data]);
       setMessage("");
