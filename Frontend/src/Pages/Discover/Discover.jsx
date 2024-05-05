@@ -14,6 +14,7 @@ import Card from "react-bootstrap/Card";
 import ProfileCard from "./ProfileCard";
 import "./Discover.css";
 import Search from "./Search";
+import Spinner from "react-bootstrap/Spinner";
 
 const Discover = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Discover = () => {
   const { user, setUser } = useUser();
 
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -73,172 +75,180 @@ const Discover = () => {
             </Nav>
           </div>
           <div className="heading-container">
-            <div>
-              <Search />
-            </div>
-            <h1
-              id="for-you"
-              style={{
-                fontFamily: "Josefin Sans, sans-serif",
-                color: "#fbf1a4",
-                marginTop: "1rem",
-                marginBottom: "1rem",
-              }}
-            >
-              For You
-            </h1>
-            <div className="profile-cards">
-              {/* Profile cards go here */}
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="/assets/images/sample_profile.jpg"
-                name="Paakhi Maheshwari"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["Machine Learning", "Python", "Data Science", "English", "Communication"]}
-              />
-              {/* Add more ProfileCard components as needed */}
-            </div>
-            <h1
-              id="popular"
-              style={{
-                fontFamily: "Josefin Sans, sans-serif",
-                color: "#fbf1a4",
-                marginTop: "1rem",
-                marginBottom: "3rem",
-              }}
-            >
-              Popular
-            </h1>
-            <h2 id="web-development">Web Development</h2>
-            <div className="profile-cards">
-              {/* Profile cards go here */}
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              {/* Add more ProfileCard components as needed */}
-            </div>
-            <h2 id="machine-learning">Machine Learning</h2>
-            <div className="profile-cards">
-              {/* Profile cards go here */}
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              {/* Add more ProfileCard components as needed */}
-            </div>
-            <h2 id="graphic-design">Graphic Design</h2>
-            <div className="profile-cards">
-              {/* Profile cards go here */}
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              {/* Add more ProfileCard components as needed */}
-            </div>
-            <h2 id="soft-skills">Soft Skills</h2>
-            <div className="profile-cards">
-              {/* Profile cards go here */}
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              {/* Add more ProfileCard components as needed */}
-            </div>
-            <h2 id="others">Others</h2>
-            <div className="profile-cards">
-              {/* Profile cards go here */}
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              <ProfileCard
-                profileImageUrl="profile-image-url"
-                name="Name"
-                rating="⭐⭐⭐⭐⭐"
-                bio="yahan apan bio rakhre"
-                skills={["HTML", "CSS", "JS"]}
-              />
-              {/* Add more ProfileCard components as needed */}
-            </div>
+            {loading ? (
+              <div className="container d-flex justify-content-center align-items-center" style={{ height: "50vh" }}>
+                <Spinner animation="border" variant="primary" />
+              </div>
+            ) : (
+              <>
+                <div>
+                  <Search />
+                </div>
+                <h1
+                  id="for-you"
+                  style={{
+                    fontFamily: "Josefin Sans, sans-serif",
+                    color: "#fbf1a4",
+                    marginTop: "1rem",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  For You
+                </h1>
+                <div className="profile-cards">
+                  {/* Profile cards go here */}
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="/assets/images/sample_profile.jpg"
+                    name="Paakhi Maheshwari"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["Machine Learning", "Python", "Data Science", "English", "Communication"]}
+                  />
+                  {/* Add more ProfileCard components as needed */}
+                </div>
+                <h1
+                  id="popular"
+                  style={{
+                    fontFamily: "Josefin Sans, sans-serif",
+                    color: "#fbf1a4",
+                    marginTop: "1rem",
+                    marginBottom: "3rem",
+                  }}
+                >
+                  Popular
+                </h1>
+                <h2 id="web-development">Web Development</h2>
+                <div className="profile-cards">
+                  {/* Profile cards go here */}
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  {/* Add more ProfileCard components as needed */}
+                </div>
+                <h2 id="machine-learning">Machine Learning</h2>
+                <div className="profile-cards">
+                  {/* Profile cards go here */}
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  {/* Add more ProfileCard components as needed */}
+                </div>
+                <h2 id="graphic-design">Graphic Design</h2>
+                <div className="profile-cards">
+                  {/* Profile cards go here */}
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  {/* Add more ProfileCard components as needed */}
+                </div>
+                <h2 id="soft-skills">Soft Skills</h2>
+                <div className="profile-cards">
+                  {/* Profile cards go here */}
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  {/* Add more ProfileCard components as needed */}
+                </div>
+                <h2 id="others">Others</h2>
+                <div className="profile-cards">
+                  {/* Profile cards go here */}
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  <ProfileCard
+                    profileImageUrl="profile-image-url"
+                    name="Name"
+                    rating="⭐⭐⭐⭐⭐"
+                    bio="yahan apan bio rakhre"
+                    skills={["HTML", "CSS", "JS"]}
+                  />
+                  {/* Add more ProfileCard components as needed */}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

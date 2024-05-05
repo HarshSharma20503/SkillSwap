@@ -22,8 +22,6 @@ const Profile = () => {
         const { data } = await axios.get(`/user/registered/getDetails/${username}`);
         console.log(data.data);
         setProfileUser(data.data);
-        // setUser(data.data);
-        // localStorage.setItem("userInfo", JSON.stringify(data.data));
       } catch (error) {
         console.log(error);
         if (error?.response?.data?.message) {
