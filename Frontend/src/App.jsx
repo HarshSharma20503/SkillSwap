@@ -6,7 +6,7 @@ import Header from "./Components/Navbar/Navbar";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import AboutUs from "./Pages/AboutUs/AboutUs";
 import Chats from "./Pages/Chats/Chats";
-import Profile from "./Pages/Profile/Profile";
+import Report from "./Pages/Report/Report";
 import NotFound from "./Pages/NotFound/NotFound";
 import Register from "./Pages/Register/Register";
 import PrivateRoutes from "./util/PrivateRoutes";
@@ -27,7 +27,7 @@ const App = () => {
         <Route path="/discover" element={<Discover />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about_us" element={<AboutUs />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/report" element={<Report />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
