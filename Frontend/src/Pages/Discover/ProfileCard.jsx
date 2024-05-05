@@ -4,20 +4,20 @@ import './Card.css'
 
 const ProfileCard = ({profileImageUrl, bio, name, skills, rating }) => {
   return (
-    <div class="card-container">
+    <div className="card-container">
     <img src={profileImageUrl} alt="user"/>
     <h3>{name}</h3>
     <h6>{rating}</h6>
     <p>{bio}</p>
-    <div class="prof-buttons">
-        <button class="primary">
+    <div className="prof-buttons">
+        <button className="primary">
             Connect
         </button>
-        <button class="primary ghost">
+        <button className="primary ghost">
             View Profile
         </button>
     </div>
-    <div class="profskills">
+    <div className="profskills">
         <h6>Skills</h6>
         <div className="profskill-boxes">
             {skills.map((skill, index) => (
