@@ -20,6 +20,29 @@ const Discover = () => {
 
   const { user, setUser } = useUser();
 
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(`/user/registered/getDetails`);
+        console.log(data.data);
+        setUser(data.data);
+        localStorage.setItem("userInfo", JSON.stringify(data.data));
+      } catch (error) {
+        console.log(error);
+        if (error?.response?.data?.message) {
+          toast.error(error.response.data.message);
+        }
+        localStorage.removeItem("userInfo");
+        await axios.get("/auth/logout");
+        navigate("/login");
+      }
+    };
+    getUser();
+    setLoading(false);
+  }, []);
+
   return (
     <>
       <div className="discover-page">

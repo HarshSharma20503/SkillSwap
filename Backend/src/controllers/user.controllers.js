@@ -5,6 +5,12 @@ import { User } from "../models/user.model.js";
 import { UnRegisteredUser } from "../models/unRegisteredUser.model.js";
 import { generateJWTToken_username } from "../utils/generateJWTToken.js";
 
+export const userDetailsWithoutID = asyncHandler(async (req, res) => {
+  console.log("\n******** Inside userDetailsWithoutID Controller function ********");
+
+  return res.status(200).json(new ApiResponse(200, req.user, "User details fetched successfully"));
+});
+
 export const UserDetails = asyncHandler(async (req, res) => {
   console.log("\n******** Inside UserDetails Controller function ********");
   const username = req.params.username;

@@ -79,6 +79,7 @@ const UserProfileDropdown = () => {
       <Dropdown.Menu as={CustomMenu}>
         <Dropdown.Item
           onClick={() => {
+            console.log(user.username);
             navigate(`/profile/${user.username}`);
           }}
         >
@@ -91,7 +92,13 @@ const UserProfileDropdown = () => {
 };
 
 const Header = () => {
+  const [navUser, setNavUser] = useState(null);
   const { user } = useUser();
+
+  useEffect(() => {
+    setNavUser(JSON.parse(localStorage.getItem("userInfo")));
+    console.log("navUser", navUser);
+  }, [user]);
 
   return (
     <>
@@ -119,7 +126,7 @@ const Header = () => {
                 <Nav.Link as={Link} to="/" style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
                   Home
                 </Nav.Link>
-                {user ? (
+                {navUser !== null ? (
                   <>
                     <Nav.Link
                       as={Link}
