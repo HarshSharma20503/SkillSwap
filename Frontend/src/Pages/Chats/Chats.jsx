@@ -8,6 +8,7 @@ import { useUser } from "../../util/UserContext";
 import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import ScrollableFeed from "react-scrollable-feed";
 
 var socket;
 const Chats = () => {
@@ -67,24 +68,32 @@ const Chats = () => {
       }
     };
     fetchChats();
+  }, []);
+
+  useEffect(() => {
     socket = io(axios.defaults.baseURL);
     if (user) {
       socket.emit("setup", user);
-      console.log("user", user);
-      socket.on("connected", () => setSocketConnected(true));
-      socket.on("typing", () => setIsTyping(true));
-      socket.on("stop typing", () => setIsTyping(false));
-      socket.on("message recieved", (newMessageRecieved) => {
-        // console.log("New Message Recieved: ", newMessageRecieved);
-        // console.log("Selected Chat: ", selectedChat);
-        // console.log("Selected Chat ID: ", selectedChat.id);
-        // console.log("New Message Chat ID: ", newMessageRecieved.chatId._id);
-        if (selectedChat && selectedChat.id === newMessageRecieved.chatId._id) {
-          setChatMessages((prevState) => [...prevState, newMessageRecieved]);
-        }
-      });
     }
-  }, []);
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
+    socket.on("message recieved", (newMessageRecieved) => {
+      console.log("New Message Recieved: ", newMessageRecieved);
+      console.log("Selected Chat: ", selectedChat);
+      console.log("Selected Chat ID: ", selectedChat.id);
+      console.log("New Message Chat ID: ", newMessageRecieved.chatId._id);
+      if (selectedChat && selectedChat.id === newMessageRecieved.chatId._id) {
+        setChatMessages((prevState) => [...prevState, newMessageRecieved]);
+      }
+    });
+    return () => {
+      socket.off("connected");
+      socket.off("typing");
+      socket.off("stop typing");
+      socket.off("message recieved");
+    };
+  }, [selectedChat]);
 
   const handleScheduleClick = () => {
     setScheduleModalShow(true);
@@ -149,10 +158,6 @@ const Chats = () => {
       }
     }
   };
-
-  // useEffect(() => {
-
-  // });
 
   return (
     <div
@@ -235,7 +240,7 @@ const Chats = () => {
               }}
             >
               {selectedChat ? (
-                <>
+                <ScrollableFeed forceScroll="true">
                   {chatMessages.map((message, index) => {
                     // console.log("user:", user._id);
                     // console.log("sender:", message.sender);
@@ -263,7 +268,7 @@ const Chats = () => {
                       </div>
                     );
                   })}
-                </>
+                </ScrollableFeed>
               ) : (
                 <>
                   {chatMessageLoading ? (

@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.22.1",
+    "react-scrollable-feed": "^2.0.1",
     "react-toastify": "^10.0.4",
     "socket.io-client": "^4.7.5",
     "uuid": "^9.0.1"
