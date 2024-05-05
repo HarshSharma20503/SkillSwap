@@ -7,9 +7,15 @@ import { generateJWTToken_username } from "../utils/generateJWTToken.js";
 
 export const UserDetails = asyncHandler(async (req, res) => {
   console.log("\n******** Inside UserDetails Controller function ********");
+  const username = req.params.username;
+
+  const user = await User.findOne({ username: username });
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
 
   // console.log(" userDetail: ", userDetail);
-  return res.status(200).json(new ApiResponse(200, req.user, "User details fetched successfully"));
+  return res.status(200).json(new ApiResponse(200, user, "User details fetched successfully"));
 });
 
 export const UnRegisteredUserDetails = asyncHandler(async (req, res) => {

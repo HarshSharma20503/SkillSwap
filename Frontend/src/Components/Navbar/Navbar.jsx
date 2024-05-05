@@ -10,49 +10,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-  <div
-    href=""
-    ref={ref}
-    onClick={(e) => {
-      onClick(e);
-    }}
-    style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
-  >
-    <div
-      style={{
-        width: "32px",
-        height: "32px",
-        borderRadius: "50%",
-        overflow: "hidden",
-        marginRight: "10px",
-      }}
-    >
-      <img
-        src="https://cloudfront-us-east-2.images.arcpublishing.com/reuters/OGGLXAIY4ZLCFGM3NYFG37OXRQ.jpg" // Replace with your image URL
-        alt="User Avatar"
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-      />
-    </div>
-    {children}
-    &#x25bc;
-  </div>
-));
-
-const CustomMenu = React.forwardRef(({ children, style, className, "aria-labelledby": labeledBy }, ref) => {
-  const [value, setValue] = useState("");
-
-  return (
-    <div ref={ref} style={style} className={className} aria-labelledby={labeledBy}>
-      <ul className="list-unstyled">
-        {React.Children.toArray(children).filter(
-          (child) => !value || child.props.children.toLowerCase().startsWith(value)
-        )}
-      </ul>
-    </div>
-  );
-});
-
 const UserProfileDropdown = () => {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
@@ -72,12 +29,61 @@ const UserProfileDropdown = () => {
     }
   };
 
+  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <div
+      href=""
+      ref={ref}
+      onClick={(e) => {
+        onClick(e);
+      }}
+      style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+    >
+      <div
+        style={{
+          width: "32px",
+          height: "32px",
+          borderRadius: "50%",
+          overflow: "hidden",
+          marginRight: "10px",
+        }}
+      >
+        <img
+          src={user.picture} // Replace with your image URL
+          alt="User Avatar"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      </div>
+      {children}
+      &#x25bc;
+    </div>
+  ));
+
+  const CustomMenu = React.forwardRef(({ children, style, className, "aria-labelledby": labeledBy }, ref) => {
+    const [value, setValue] = useState("");
+
+    return (
+      <div ref={ref} style={style} className={className} aria-labelledby={labeledBy}>
+        <ul className="list-unstyled">
+          {React.Children.toArray(children).filter(
+            (child) => !value || child.props.children.toLowerCase().startsWith(value)
+          )}
+        </ul>
+      </div>
+    );
+  });
+
   return (
     <Dropdown>
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
 
       <Dropdown.Menu as={CustomMenu}>
-        <Dropdown.Item onClick={() => console.log("Profile clicked")}>Profile</Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            navigate(`/profile/${user.username}`);
+          }}
+        >
+          Profile
+        </Dropdown.Item>
         <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

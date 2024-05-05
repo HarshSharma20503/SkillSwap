@@ -24,9 +24,15 @@ const UserContextProvider = ({ children }) => {
         console.error("Error parsing userInfo:", error);
       }
     } else {
-      const url = window.location.href.split("/").pop();
-      // console.log("url", url);
-      if (url !== "about_us" && url !== "#why-skill-swap" && url !== "" && url !== "discover" && url !== "register") {
+      const temp = window.location.href.split("/");
+      const url = temp.pop();
+      if (
+        url !== "about_us" &&
+        url !== "#why-skill-swap" &&
+        url !== "" &&
+        temp[temp.length - 1] !== "profile" &&
+        url !== "register"
+      ) {
         navigate("/login");
       }
     }
