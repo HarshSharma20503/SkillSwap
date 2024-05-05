@@ -11,28 +11,52 @@ export const sendMessage = asyncHandler(async (req, res) => {
   console.log("\n******** Inside sendMessage Controller function ********");
 
   const { chatId, content } = req.body;
-  console.log("Chat ID: ", chatId);
-  console.log("Content: ", content);
+
+  if (!chatId || !content) {
+    throw new ApiError(400, "Please provide all the details");
+  }
 
   const sender = req.user._id;
   console.log("Sender: ", sender);
 
   const check = await Chat.findOne({ _id: chatId });
-  console.log("check: ", check);
+  // console.log("check: ", check);
 
   if (!check.users.includes(sender)) {
     throw new ApiError(400, "Chat is not approved");
   }
 
-  const message = await Message.create({
+  const chat = await Chat.findById(chatId);
+  if (!chat) {
+    throw new ApiError(400, "Chat not found");
+  }
+
+  var message = await Message.create({
     chatId: chatId,
     sender: sender,
     content: content,
   });
 
-  const newMessages = await Message.find({ chatId: chatId });
+  // message = await message.populate("sender", "username name email picture");
+  // message = await message.populate("chatId");
 
-  return res.status(201).json(new ApiResponse(201, newMessages, "Message sent successfully"));
+  // console.log("Message: ", message);
+
+  // message = await User.populate(message, {
+  //   path: "chatId.users",
+  //   select: "username name email picture",
+  // });
+
+  console.log("Message: ", message);
+
+  await Chat.findByIdAndUpdate(
+    { _id: chatId },
+    {
+      latestMessage: message,
+    }
+  );
+
+  return res.status(201).json(new ApiResponse(201, message, "Message sent successfully"));
 });
 
 export const getMessages = asyncHandler(async (req, res) => {

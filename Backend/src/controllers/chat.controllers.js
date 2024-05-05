@@ -33,7 +33,10 @@ export const getChats = asyncHandler(async (req, res) => {
   console.log("User ID: ", userId);
 
   //   find all the chats where inside user array userId is present
-  const chats = await Chat.find({ users: userId }).populate("users", "username name");
+  const chats = await Chat.find({ users: userId })
+    .populate("users", "username name")
+    .populate("latestMessage")
+    .sort({ updatedAt: -1 });
 
   if (!chats) {
     throw new ApiError(500, "Error fetching chats");

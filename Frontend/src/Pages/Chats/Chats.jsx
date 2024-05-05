@@ -27,7 +27,7 @@ const Chats = () => {
         setChatLoading(true);
         const tempUser = JSON.parse(localStorage.getItem("userInfo"));
         const { data } = await axios.get("http://localhost:8000/chat");
-        // console.log("Chats", data.data);
+        console.log("Chats", data.data);
         toast.success(data.message);
         if (tempUser?._id) {
           const temp = data.data.map((chat) => {
@@ -91,7 +91,7 @@ const Chats = () => {
     try {
       const { data } = await axios.post("/message/sendMessage", { chatId: selectedChat, content: message });
       console.log("after sending message", data);
-      setChatMessages(data.data);
+      setChatMessages((prevState) => [...prevState, data.data]);
       setMessage("");
       // console.log("Data", data.message);
       toast.success(data.message);
