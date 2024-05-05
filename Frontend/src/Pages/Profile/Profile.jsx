@@ -1,5 +1,6 @@
 import React from 'react';
-import './Profile.css'; // Import CSS file for styling
+import './Profile.css';
+import Box from "./Box"
 
 const Profile = () => {
   return (
@@ -25,16 +26,6 @@ const Profile = () => {
         <button className="report-button">Report</button>
         </div>
       </div>
-    </div>
-
-      {/* Bio */}
-      <p className="bio">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-        euismod, nunc non dignissim cursus, nibh velit cursus magna, ut
-        pellentesque justo sem nec risus.
-      </p>
-
-      {/* Portfolio Links */}
       <div className="portfolio-links">
         <a href="github-link" className="portfolio-link">
           <img src="/assets/images/github.png" className="link" alt="Github" />
@@ -46,6 +37,15 @@ const Profile = () => {
           <img src="/assets/images/link.png" className="link" alt="Portfolio" />
         </a>
       </div>
+    </div>
+
+      {/* Bio */}
+      <h2>Bio</h2>
+      <p className="bio">
+        Yahan pe apan bio rakhenge
+      </p>
+
+      {/* Portfolio Links */}
 
       {/* Skills */}
       <div className="skills">
@@ -62,7 +62,13 @@ const Profile = () => {
         <h2>Education</h2>
         <div className="education-boxes">
           {/* Render education boxes here */}
-          <div className="education-box">React.JS</div>
+          <Box
+                head="Jaypee Institute of Information Technology, Noida-62"
+                date="September 2021 - June 2025"
+                spec="Computer Science"
+                desc="Pursued degree in CSE from 2021 to 2025."
+                skills={['HTML', 'CSS', 'JS']}
+              />
         </div>
       </div>
 
@@ -70,7 +76,12 @@ const Profile = () => {
       <div className="projects">
         <h2>Projects</h2>
         <div className="project-boxes">
-        <div className="project-box">React.JS</div>
+        <Box
+                head="CodeSphere"
+                date="February 2024"
+                desc="Created an integrated platform for college coding assignments."
+                skills={['React JS', 'GPT', 'Machine Learning']}
+              />
           {/* Render project boxes here */}
         </div>
       </div>

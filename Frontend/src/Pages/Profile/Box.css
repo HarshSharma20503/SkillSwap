@@ -1,0 +1,36 @@
+.box {
+    background-color: white;
+    color: #013e38;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+  }
+  
+  .desc
+  {
+    font-size: 0.7rem;
+  }
+
+  .details
+  {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: grey;
+  }
+
+  .boxskill-boxes
+  {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .skill-box {
+    text-align: center;
+    background-color: #809c5c;
+    color: white;
+    margin-right: 1rem;
+    border-radius: 5px;
+    min-width: 4rem;
+  }
