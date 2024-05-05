@@ -81,6 +81,29 @@
     background-color: red;
   }
   
+  .edit-links
+  {
+    display: flex;
+    margin-top: 1rem;
+    flex-direction: column;
+  }
+  .edit-button {
+    padding: 10px 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #013e38;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+
+  .connect-button:hover {
+    background-color: white;
+    color: #3bb4a1;
+  }
+  
   h2
   {
     color: #8adfd1 !important;
@@ -92,8 +115,8 @@
   }
   
   .portfolio-links {
-    display: flex;
     margin-top: 1rem;
+    display: flex;
     margin-bottom: 3rem;
     min-width: 15rem;
     justify-content: space-between;
@@ -151,6 +174,12 @@
     .left-div{
       display: flex;
       flex-direction: column;
+    }
+
+    .edit-button{
+      display: flex;
+      align-self: center;
+      margin-right: 0px !important;
     }
 
     .profile-box, .profile-photo

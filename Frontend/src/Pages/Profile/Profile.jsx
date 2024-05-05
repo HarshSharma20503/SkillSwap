@@ -60,17 +60,20 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div className="portfolio-links">
-            <a href="https://www.github.com/paakhim10" className="portfolio-link">
-              <img src="/assets/images/github.png" className="link" alt="Github" />
-            </a>
-            <a href="linkedin-link" className="portfolio-link">
-              <img src="/assets/images/linkedin.png" className="link" alt="LinkedIn" />
-            </a>
-            <a href="portfolio-link" className="portfolio-link">
-              <img src="/assets/images/link.png" className="link" alt="Portfolio" />
-            </a>
-          </div>
+          <div className="edit-links">
+            <button className="edit-button">Edit Profile ✎</button>
+            <div className="portfolio-links">
+              <a href="https://www.github.com/paakhim10" className="portfolio-link">
+                <img src="/assets/images/github.png" className="link" alt="Github" />
+              </a>
+              <a href="linkedin-link" className="portfolio-link">
+                <img src="/assets/images/linkedin.png" className="link" alt="LinkedIn" />
+              </a>
+              <a href="portfolio-link" className="portfolio-link">
+                <img src="/assets/images/link.png" className="link" alt="Portfolio" />
+              </a>
+            </div>
+            </div>
         </div>
 
         {/* Bio */}
