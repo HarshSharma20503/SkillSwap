@@ -82,7 +82,9 @@ button.primary.ghost {
 .profskills {
 	
 	background-color: rgba(48, 88, 100, 0.284);
-	padding: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-top: 0.3rem;
 	text-align: left;
 	margin-top: 2rem;
 	height: 15vh;
@@ -101,7 +103,9 @@ button.primary.ghost {
   text-align: center;
   background-color: #809c5c;
   color: white;
+  padding: 0.5rem;
   margin-right: 1rem;
+  margin-top: 1rem;
   border-radius: 5px;
   min-width: 4rem;
 }

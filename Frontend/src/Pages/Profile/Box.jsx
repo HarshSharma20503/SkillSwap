@@ -6,8 +6,8 @@ const Box = ({ head, date, spec, desc, skills }) => {
     <div className="box">
         <h5 style={{margin:"0.6rem"}}>{head}</h5>
         <div className="details">
-            <p><i>{spec}</i></p>
-            <p><i>{date}</i></p>
+            <i>{spec}</i>
+            <i>{date}</i>
         </div>
         <p className="desc">{desc}</p>
         <p className="details"><i>Skills Used:</i></p>
