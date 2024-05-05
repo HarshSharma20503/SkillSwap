@@ -23,12 +23,14 @@ const Login = () => {
   const loginBoxStyle = {
     height: "200px",
     display: "flex",
+    backgroundColor: "#2d2d2d",
     flexDirection: "column",
     justifyContent: "space-between",
     padding: "20px",
     border: "1px solid #fcaaa8", // Border color
     borderRadius: "10px",
     boxShadow: "10px 10px 10px #5c4242",
+    zIndex: "999",
   };
 
   const titleStyle = {
