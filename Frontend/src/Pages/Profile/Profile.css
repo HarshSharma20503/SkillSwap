@@ -129,21 +129,19 @@
   }
   
   .education-boxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 1rem;
     margin-bottom: 4rem;
   }
   
   .project-boxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 1rem;
     margin-bottom: 4rem;
-  }
-  
-  .project-box {
-    background-color: white;
-    color: #013e38;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
   }
   
   @media (max-width: 768px) {

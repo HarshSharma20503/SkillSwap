@@ -112,6 +112,12 @@ const Profile = () => {
             desc="Created an integrated platform for college coding assignments."
             skills={["React JS", "GPT", "Machine Learning"]}
           />
+          <Box
+            head="CodeSphere"
+            date="February 2024"
+            desc="Created an integrated platform for college coding assignments."
+            skills={["React JS", "GPT", "Machine Learning"]}
+          />
           {/* Render project boxes here */}
         </div>
       </div>
