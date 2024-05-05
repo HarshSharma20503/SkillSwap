@@ -17,8 +17,8 @@ h3 {
 h6 {
   font-family: var(--secfont);
   font-size: 1rem !important;
-	margin: 5px 0;
-	text-transform: uppercase;
+  margin: 5px 0;
+  text-transform: uppercase;
 }
  
 p {
@@ -36,7 +36,7 @@ p {
 	background-color: #00000050;
 	border-radius: 25px;
 	box-shadow: 10px 10px 15px rgba(0,0,0,0.35);
-	color: #B3B8CD;
+	color: #b3c2cd;
 	position: relative;
 	width: 25vw;
 	height: 60vh;
@@ -90,6 +90,7 @@ button.primary.ghost {
 	height: 15vh;
 	width: 100%;
 	bottom: 0;
+	overflow-y: auto; 
 }
 
 .profskill-boxes
@@ -108,5 +109,13 @@ button.primary.ghost {
   margin-top: 1rem;
   border-radius: 5px;
   min-width: 4rem;
+}
+
+@media (max-width: 768px) {
+
+    .card-container{
+		width: 90vw;
+		height: 80vh;
+	}
 }
 

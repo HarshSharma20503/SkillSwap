@@ -1,6 +1,6 @@
 .search-bar {
     transform: translateY(-50%);
-    width: 80%;
+    width: 80vw;
     left: 0 !important;
     background-color: #f0f0f0;
     border-radius: 20px;
@@ -13,7 +13,7 @@
   }
   
   .search-bar.active {
-    width: 90%;
+    width: 90vw;
   }
   
   .search-bar input {
