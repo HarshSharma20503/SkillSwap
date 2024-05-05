@@ -34,92 +34,94 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
+      <div className="container">
         <div className="profile-box">
-        <div className="left-div">
-          {/* Profile Photo */}
-          <div className="profile-photo">
-            <img src="/assets/images/sample_profile.jpg" alt="Profile" />
-          </div>
-          {/* Name */}
-          <div className="misc">
-            <h1 className="profile-name" style={{ marginLeft: "2rem" }}>
-              Paakhi Maheshwari
-            </h1>
-            {/* Rating */}
-            <div className="rating" style={{ marginLeft: "2rem" }}>
-              {/* Rating stars */}
-              <span className="rating-stars">★★★★★</span>
-              {/* Rating out of 5 */}
-              <span className="rating-value">(5)</span>
+          <div className="left-div">
+            {/* Profile Photo */}
+            <div className="profile-photo">
+              <img src="/assets/images/sample_profile.jpg" alt="Profile" />
             </div>
-            {/* Connect and Report Buttons */}
-            <div className="buttons">
-              <button className="connect-button">Connect</button>
-              <button className="report-button">Report</button>
+            {/* Name */}
+            <div className="misc">
+              <h1 className="profile-name" style={{ marginLeft: "2rem" }}>
+                Paakhi Maheshwari
+              </h1>
+              {/* Rating */}
+              <div className="rating" style={{ marginLeft: "2rem" }}>
+                {/* Rating stars */}
+                <span className="rating-stars">★★★★★</span>
+                {/* Rating out of 5 */}
+                <span className="rating-value">(5)</span>
+              </div>
+              {/* Connect and Report Buttons */}
+              <div className="buttons">
+                <button className="connect-button">Connect</button>
+                <button className="report-button">Report</button>
+              </div>
             </div>
           </div>
+          <div className="portfolio-links">
+            <a href="https://www.github.com/paakhim10" className="portfolio-link">
+              <img src="/assets/images/github.png" className="link" alt="Github" />
+            </a>
+            <a href="linkedin-link" className="portfolio-link">
+              <img src="/assets/images/linkedin.png" className="link" alt="LinkedIn" />
+            </a>
+            <a href="portfolio-link" className="portfolio-link">
+              <img src="/assets/images/link.png" className="link" alt="Portfolio" />
+            </a>
+          </div>
         </div>
-        <div className="portfolio-links">
-          <a href="https://www.github.com/paakhim10" className="portfolio-link">
-            <img src="/assets/images/github.png" className="link" alt="Github" />
-          </a>
-          <a href="linkedin-link" className="portfolio-link">
-            <img src="/assets/images/linkedin.png" className="link" alt="LinkedIn" />
-          </a>
-          <a href="portfolio-link" className="portfolio-link">
-            <img src="/assets/images/link.png" className="link" alt="Portfolio" />
-          </a>
+
+        {/* Bio */}
+        <h2>Bio</h2>
+        <p className="bio">Yahan pe apan bio rakhenge</p>
+
+        {/* Portfolio Links */}
+
+        {/* Skills */}
+        <div className="skills">
+          <h2>Skills Proficient At</h2>
+          <div className="skill-boxes">
+            <div className="skill-box">React.JS</div>
+            <div className="skill-box">React.JS</div>
+            {/* Render skill boxes here */}
+          </div>
         </div>
-      </div>
 
-      {/* Bio */}
-      <h2>Bio</h2>
-      <p className="bio">Yahan pe apan bio rakhenge</p>
-
-      {/* Portfolio Links */}
-
-      {/* Skills */}
-      <div className="skills">
-        <h2>Skills Proficient At</h2>
-        <div className="skill-boxes">
-          <div className="skill-box">React.JS</div>
-          <div className="skill-box">React.JS</div>
-          {/* Render skill boxes here */}
+        {/* Education */}
+        <div className="education">
+          <h2>Education</h2>
+          <div className="education-boxes">
+            {/* Render education boxes here */}
+            <Box
+              head="Jaypee Institute of Information Technology, Noida-62"
+              date="September 2021 - June 2025"
+              spec="Computer Science"
+              desc="Pursued degree in CSE from 2021 to 2025."
+              skills={["HTML", "CSS", "JS"]}
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Education */}
-      <div className="education">
-        <h2>Education</h2>
-        <div className="education-boxes">
-          {/* Render education boxes here */}
-          <Box
-            head="Jaypee Institute of Information Technology, Noida-62"
-            date="September 2021 - June 2025"
-            spec="Computer Science"
-            desc="Pursued degree in CSE from 2021 to 2025."
-            skills={["HTML", "CSS", "JS"]}
-          />
-        </div>
-      </div>
-
-      {/* Projects */}
-      <div className="projects">
-        <h2>Projects</h2>
-        <div className="project-boxes">
-          <Box
-            head="CodeSphere"
-            date="February 2024"
-            desc="Created an integrated platform for college coding assignments."
-            skills={["React JS", "GPT", "Machine Learning"]}
-          />
-          <Box
-            head="CodeSphere"
-            date="February 2024"
-            desc="Created an integrated platform for college coding assignments."
-            skills={["React JS", "GPT", "Machine Learning"]}
-          />
-          {/* Render project boxes here */}
+        {/* Projects */}
+        <div className="projects">
+          <h2>Projects</h2>
+          <div className="project-boxes">
+            <Box
+              head="CodeSphere"
+              date="February 2024"
+              desc="Created an integrated platform for college coding assignments."
+              skills={["React JS", "GPT", "Machine Learning"]}
+            />
+            <Box
+              head="CodeSphere"
+              date="February 2024"
+              desc="Created an integrated platform for college coding assignments."
+              skills={["React JS", "GPT", "Machine Learning"]}
+            />
+            {/* Render project boxes here */}
+          </div>
         </div>
       </div>
     </div>
