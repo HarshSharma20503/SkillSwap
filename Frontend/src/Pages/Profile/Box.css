@@ -2,18 +2,21 @@
     background-color: white;
     color: #013e38;
     padding: 10px;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     border-radius: 5px;
     box-shadow: 3px 3px 5px #5c9c94;
+    width: 80vw;
   }
   
   .desc
   {
+    margin: 0.6rem;
     font-size: 0.7rem;
   }
 
   .details
   {
+    margin: 0.6rem;
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
@@ -23,6 +26,7 @@
 
   .boxskill-boxes
   {
+    margin: 1rem;
     display: flex;
     flex-wrap: wrap;
   }

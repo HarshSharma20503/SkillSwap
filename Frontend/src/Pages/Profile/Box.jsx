@@ -4,7 +4,7 @@ import './Box.css'
 const Box = ({ head, date, spec, desc, skills }) => {
   return (
     <div className="box">
-        <h5>{head}</h5>
+        <h5 style={{margin:"0.6rem"}}>{head}</h5>
         <div className="details">
             <p><i>{spec}</i></p>
             <p><i>{date}</i></p>
