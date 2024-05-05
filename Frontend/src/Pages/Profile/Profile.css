@@ -86,8 +86,10 @@
   
   .portfolio-links {
     display: flex;
-    margin-top: 3rem;
-    margin-bottom: 6rem;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    min-width: 15rem;
+    justify-content: space-between;
   }
 
   .link {
@@ -95,7 +97,13 @@
   }
   
   .portfolio-link {
-    margin-left: 5rem;
+    opacity: 0.7;
+    transition: opacity 0.3s ease-in-out;
+
+  }
+
+  .portfolio-link:hover {
+    opacity: 1;
   }
   
   .skill-boxes {

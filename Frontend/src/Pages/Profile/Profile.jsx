@@ -8,11 +8,11 @@ const Profile = () => {
     <div className="profile-box">
         {/* Profile Photo */}
         <div className="profile-photo">
-            <img src="profile-photo-url" alt="Profile" />
+            <img src="/assets/images/sample_profile.jpg" alt="Profile" />
         </div>
         {/* Name */}
         <div>
-        <h1 className="profile-name" style={{marginLeft: "2rem"}}>Name</h1>
+        <h1 className="profile-name" style={{marginLeft: "2rem"}}>Paakhi Maheshwari</h1>
         {/* Rating */}
       <div className="rating" style={{marginLeft: "2rem"}}>
         {/* Rating stars */}
@@ -27,7 +27,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="portfolio-links">
-        <a href="github-link" className="portfolio-link">
+        <a href="https://www.github.com/paakhim10" className="portfolio-link">
           <img src="/assets/images/github.png" className="link" alt="Github" />
         </a>
         <a href="linkedin-link" className="portfolio-link">
