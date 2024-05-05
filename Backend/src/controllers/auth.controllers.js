@@ -34,7 +34,7 @@ export const googleAuthCallback = passport.authenticate("google", {
 
 export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
   console.log("\n******** Inside handleGoogleLoginCallback function ********");
-  console.log("User Google Info", req.user);
+  // console.log("User Google Info", req.user);
 
   const existingUser = await User.findOne({ email: req.user._json.email });
 
@@ -42,7 +42,7 @@ export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
     const jwtToken = generateJWTToken_username(existingUser);
     const expiryDate = new Date(Date.now() + 1 * 60 * 60 * 1000);
     res.cookie("accessToken", jwtToken, { httpOnly: true, expires: expiryDate, secure: false });
-    return res.redirect("http://localhost:5173/discover");
+    return res.redirect(`http://localhost:5173/profile/${existingUser.username}`);
   }
 
   let unregisteredUser = await UnRegisteredUser.findOne({ email: req.user._json.email });

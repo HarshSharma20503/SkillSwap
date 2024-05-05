@@ -17,6 +17,6 @@ router.route("/unregistered/saveEduDetail").post(verifyJWT_email, saveEduUnRegis
 router.route("/unregistered/saveAddDetail").post(verifyJWT_email, saveAddUnRegisteredUser);
 router.route("/registerUser").post(verifyJWT_email, registerUser);
 
-router.route("/registered/getDetails").get(verifyJWT_username, UserDetails);
+router.route("/registered/getDetails/:username").get(verifyJWT_username, UserDetails);
 
 export default router;
