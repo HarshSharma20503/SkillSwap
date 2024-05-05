@@ -17,18 +17,18 @@ export const sendMessage = asyncHandler(async (req, res) => {
   }
 
   const sender = req.user._id;
-  console.log("Sender: ", sender);
+  // console.log("Sender: ", sender);
 
-  console.log("Chat ID: ", chatId);
+  // console.log("Chat ID: ", chatId);
 
   const check = await Chat.findOne({ _id: chatId });
-  console.log("check: ", check);
+  // console.log("check: ", check);
 
   if (!check.users.includes(sender)) {
     throw new ApiError(400, "Chat is not approved");
   }
 
-  console.log("Chat ID: ", chatId);
+  // console.log("Chat ID: ", chatId);
 
   const chat = await Chat.findById(chatId);
   if (!chat) {
@@ -41,17 +41,17 @@ export const sendMessage = asyncHandler(async (req, res) => {
     content: content,
   });
 
-  // message = await message.populate("sender", "username name email picture");
-  // message = await message.populate("chatId");
+  message = await message.populate("sender", "username name email picture");
+  message = await message.populate("chatId");
 
   // console.log("Message: ", message);
 
-  // message = await User.populate(message, {
-  //   path: "chatId.users",
-  //   select: "username name email picture",
-  // });
+  message = await User.populate(message, {
+    path: "chatId.users",
+    select: "username name email picture",
+  });
 
-  console.log("Message: ", message);
+  // console.log("Message: ", message);
 
   await Chat.findByIdAndUpdate(
     { _id: chatId },
@@ -67,9 +67,9 @@ export const getMessages = asyncHandler(async (req, res) => {
   console.log("\n******** Inside getMessages Controller function ********");
 
   const chatId = req.params.chatId;
-  console.log("Chat ID: ", chatId);
+  // console.log("Chat ID: ", chatId);
 
-  const messages = await Message.find({ chatId: chatId });
+  const messages = await Message.find({ chatId: chatId }).populate("sender", "username name email picture chatId");
 
   return res.status(200).json(new ApiResponse(200, messages, "Messages fetched successfully"));
 });

@@ -7,21 +7,30 @@ import { toast } from "react-toastify";
 import { useUser } from "../../util/UserContext";
 import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
+import io from "socket.io-client";
 
+var socket;
 const Chats = () => {
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
+  // to store selected chat
   const [selectedChat, setSelectedChat] = useState(null);
+  // to store chat messages
   const [chatMessages, setChatMessages] = useState([]);
+  // to store chats
   const [chats, setChats] = useState([]);
   const [chatLoading, setChatLoading] = useState(true);
   const [chatMessageLoading, setChatMessageLoading] = useState(false);
+  // to store message
   const [message, setMessage] = useState("");
+
+  const [isTyping, setIsTyping] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const { user, setUser } = useUser();
 
   const navigate = useNavigate();
+
   useEffect(() => {
-    // Fetch chats from the backend
     const fetchChats = async () => {
       try {
         setChatLoading(true);
@@ -40,13 +49,16 @@ const Chats = () => {
           });
           setChats(temp);
         }
-
         // console.log(temp);
       } catch (err) {
         console.log(err);
         if (err?.response?.data?.message) {
           toast.error(err.response.data.message);
-          if (err.response.data.message === "Please Login") navigate("/login");
+          if (err.response.data.message === "Please Login") {
+            localStorage.removeItem("userInfo");
+            await axios.get("/auth/logout");
+            navigate("/login");
+          }
         } else {
           toast.error("Something went wrong");
         }
@@ -55,6 +67,14 @@ const Chats = () => {
       }
     };
     fetchChats();
+    socket = io(axios.defaults.baseURL);
+    if (user) {
+      socket.emit("setup", user);
+      console.log("user", user);
+      socket.on("connected", () => setSocketConnected(true));
+      socket.on("typing", () => setIsTyping(true));
+      socket.on("stop typing", () => setIsTyping(false));
+    }
   }, []);
 
   const handleScheduleClick = () => {
@@ -66,18 +86,24 @@ const Chats = () => {
       setChatMessageLoading(true);
       const { data } = await axios.get(`http://localhost:8000/message/getMessages/${chatId}`);
       setChatMessages(data.data);
+      console.log("Chat Messages:", data.data);
       setMessage("");
       console.log("Chats: ", chats);
       const chatDetails = chats.find((chat) => chat.id === chatId);
       setSelectedChat(chatDetails);
       console.log("selectedChat", chatDetails);
       // console.log("Data", data.message);
+      socket.emit("join chat", chatId);
       toast.success(data.message);
     } catch (err) {
       console.log(err);
       if (err?.response?.data?.message) {
         toast.error(err.response.data.message);
-        if (err.response.data.message === "Please Login") navigate("/login");
+        if (err.response.data.message === "Please Login") {
+          localStorage.removeItem("userInfo");
+          await axios.get("/auth/logout");
+          navigate("/login");
+        }
       } else {
         toast.error("Something went wrong");
       }
@@ -88,12 +114,14 @@ const Chats = () => {
 
   const sendMessage = async (e) => {
     try {
+      socket.emit("stop typing", selectedChat._id);
       if (message === "") {
         toast.error("Message is empty");
         return;
       }
       const { data } = await axios.post("/message/sendMessage", { chatId: selectedChat.id, content: message });
       console.log("after sending message", data);
+      socket.emit("new message", data.data);
       setChatMessages((prevState) => [...prevState, data.data]);
       setMessage("");
       // console.log("Data", data.message);
@@ -102,20 +130,32 @@ const Chats = () => {
       console.log(err);
       if (err?.response?.data?.message) {
         toast.error(err.response.data.message);
-        if (err.response.data.message === "Please Login") navigate("/login");
+        if (err.response.data.message === "Please Login") {
+          await axios.get("/auth/logout");
+          localStorage.removeItem("userInfo");
+          navigate("/login");
+        }
       } else {
         toast.error("Something went wrong");
       }
     }
   };
 
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (selectedChat && selectedChat.id === newMessageRecieved.chat) {
+        setChatMessages((prevState) => [...prevState, newMessageRecieved]);
+      }
+    });
+  });
+
   return (
     <div
-      style={{ backgroundColor: "#2d2d2d", minHeight: "100vh", fontFamily: "Montserrat, sans-serif", color: "white" }}
+      style={{ backgroundColor: "#2d2d2d", minHeight: "90vh", fontFamily: "Montserrat, sans-serif", color: "white" }}
     >
       <div style={{ display: "flex", backgroundColor: "lightgrey" }}>
         {/* Chat History */}
-        <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "100vh" }}>
+        <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "90vh" }}>
           <h2 style={{ padding: "10px" }}>Chat History</h2>
           <ListGroup style={{ padding: "10px" }}>
             {chatLoading ? (
@@ -132,7 +172,7 @@ const Chats = () => {
                       cursor: "pointer",
                       marginBottom: "10px",
                       padding: "10px",
-                      backgroundColor: selectedChat === chat.id ? "#3BB4A1" : "lightgrey",
+                      backgroundColor: selectedChat?.id === chat?.id ? "#3BB4A1" : "lightgrey",
                       borderRadius: "5px",
                     }}
                   >
@@ -199,18 +239,18 @@ const Chats = () => {
                         key={index}
                         style={{
                           display: "flex",
-                          justifyContent: message.sender == user._id ? "flex-end" : "flex-start",
+                          justifyContent: message.sender._id == user._id ? "flex-end" : "flex-start",
                           marginBottom: "10px",
                         }}
                       >
                         <div
                           style={{
-                            backgroundColor: message.sender === "me" ? "#3BB4A1" : "#2d2d2d",
+                            backgroundColor: message.sender._id === user._id ? "#3BB4A1" : "#2d2d2d",
                             color: "#ffffff",
                             padding: "10px",
                             borderRadius: "10px",
                             maxWidth: "70%",
-                            textAlign: message.sender == user._id ? "right" : "left",
+                            textAlign: message.sender._id == user._id ? "right" : "left",
                           }}
                         >
                           {message.content}

@@ -25,6 +25,7 @@ const Profile = () => {
           toast.error(error.response.data.message);
         }
         localStorage.removeItem("userInfo");
+        await axios.get("/auth/logout");
         navigate("/login");
       }
     };
