@@ -99,9 +99,9 @@
     transition: 0.3s ease-in-out;
   }
 
-  .connect-button:hover {
+  .edit-button:hover {
     background-color: white;
-    color: #3bb4a1;
+    color: #013e38;
   }
   
   h2
