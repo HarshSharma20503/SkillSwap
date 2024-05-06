@@ -2,6 +2,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
+import { Request } from "../models/request.model.js";
 import { UnRegisteredUser } from "../models/unRegisteredUser.model.js";
 import { generateJWTToken_username } from "../utils/generateJWTToken.js";
 
@@ -20,8 +21,19 @@ export const UserDetails = asyncHandler(async (req, res) => {
     throw new ApiError(404, "User not found");
   }
 
+  const receiverID = user._id;
+  const senderID = req.user._id;
+  const request = await Request.find({ sender: senderID, receiver: receiverID });
+
+  // console.log("request", request);
+
+  const status = request.length > 0 ? request[0].status : "Connect";
+
   // console.log(" userDetail: ", userDetail);
-  return res.status(200).json(new ApiResponse(200, user, "User details fetched successfully"));
+  // console.log("user", user);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, { ...user._doc, status: status }, "User details fetched successfully"));
 });
 
 export const UnRegisteredUserDetails = asyncHandler(async (req, res) => {
