@@ -1,205 +1,198 @@
 /* ProfilePage.css */
 
-.left-div
-{
-  display:flex;
+.left-div {
+  display: flex;
 }
 
-.profile-box
-{
-    display: flex;
-    flex-wrap: wrap;
-    padding: 1rem;
-    justify-content: space-between;
+.profile-box {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+  justify-content: space-between;
 }
 
 .profile-container {
-    font-family: 'Montserrat', sans-serif;
-    color: white;
-    padding: 20px;
-    background-color: #2d2d2d;
-  }
-  
-  .profile-photo img {
-    width: 150px;
-    border-radius: 50%;
-  }
-  
-  .profile-name {
-    font-size: 2rem !important;
-    margin-top: 10px;
-  }
-  
-  .rating {
-    margin-top: 10px;
-  }
-  
-  .rating-stars {
-    font-size: 24px;
-  }
-  
-  .rating-value {
-    margin-left: 5px;
-  }
-  
-  .buttons {
-    margin-top: 10px;
-  }
-  
-  .connect-button {
-    padding: 10px 20px;
-    margin-top: 1rem;
-    margin-bottom: 3rem;
-    margin-left: 2rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #3bb4a1;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-  }
+  font-family: "Montserrat", sans-serif;
+  color: white;
+  padding: 20px;
+  background-color: #2d2d2d;
+}
 
-  .connect-button:hover {
-    background-color: white;
-    color: #3bb4a1;
-  }
+.profile-photo img {
+  width: 150px;
+  border-radius: 50%;
+}
 
-  .report-button {
-    padding: 10px 20px;
-    margin-top: 1rem;
-    margin-bottom: 3rem;
-    margin-left: 2rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #f56664;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-  }
+.profile-name {
+  font-size: 2rem !important;
+  margin-top: 10px;
+}
 
-  .report-button:hover {
-    background-color: red;
-  }
-  
-  .edit-links
-  {
+.rating {
+  margin-top: 10px;
+}
+
+.rating-stars {
+  font-size: 24px;
+}
+
+.rating-value {
+  margin-left: 5px;
+}
+
+.buttons {
+  margin-top: 10px;
+}
+
+.connect-button {
+  padding: 10px 20px;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  margin-left: 2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #3bb4a1;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.connect-button:hover {
+  background-color: white;
+  color: #3bb4a1;
+}
+
+.report-button {
+  padding: 10px 20px;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  margin-left: 2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #f56664;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.report-button:hover {
+  background-color: red;
+}
+
+.edit-links {
+  display: flex;
+  margin-top: 1rem;
+  flex-direction: column;
+}
+.edit-button {
+  padding: 10px 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #013e38;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.edit-button:hover {
+  background-color: white;
+  color: #013e38;
+}
+
+h2 {
+  color: #8adfd1 !important;
+}
+
+.bio {
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+}
+
+.portfolio-links {
+  margin-top: 1rem;
+  display: flex;
+  margin-bottom: 3rem;
+  min-width: 15rem;
+  justify-content: space-between;
+}
+
+.link {
+  width: 50px;
+}
+
+.portfolio-link {
+  opacity: 0.7;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.portfolio-link:hover {
+  opacity: 1;
+}
+
+.skill-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+
+.skill-box {
+  background-color: #9c955c;
+  color: white;
+  padding: 5px 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.education-boxes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+}
+
+.project-boxes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+
+@media (max-width: 768px) {
+  .left-div {
     display: flex;
-    margin-top: 1rem;
     flex-direction: column;
   }
+
   .edit-button {
-    padding: 10px 20px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #013e38;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-  }
-
-  .edit-button:hover {
-    background-color: white;
-    color: #013e38;
-  }
-  
-  h2
-  {
-    color: #8adfd1 !important;
-  }
-  
-  .bio {
-    margin-bottom: 3rem;
-    font-size: 1rem;
-  }
-  
-  .portfolio-links {
-    margin-top: 1rem;
     display: flex;
-    margin-bottom: 3rem;
-    min-width: 15rem;
-    justify-content: space-between;
+    align-self: center;
+    margin-right: 0px !important;
   }
 
-  .link {
-    width: 50px;
-  }
-  
-  .portfolio-link {
-    opacity: 0.7;
-    transition: opacity 0.3s ease-in-out;
-
-  }
-
-  .portfolio-link:hover {
-    opacity: 1;
-  }
-  
-  .skill-boxes {
+  .profile-box,
+  .profile-photo {
     display: flex;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-    margin-bottom: 4rem;
+    align-items: center;
+    justify-content: center;
+  }
 
+  .connect-button,
+  .rating,
+  .profile-name {
+    margin-left: 0px !important;
   }
-  
-  .skill-box {
-    background-color: #9c955c;
-    color: white;
-    padding: 5px 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
-  
-  .education-boxes {
+
+  .misc {
     display: flex;
+    margin: auto;
     flex-direction: column;
     align-items: center;
-    margin-top: 1rem;
-    margin-bottom: 4rem;
+    justify-content: center;
   }
-  
-  .project-boxes {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1rem;
-    margin-bottom: 4rem;
-  }
-  
-  @media (max-width: 768px) {
-
-    .left-div{
-      display: flex;
-      flex-direction: column;
-    }
-
-    .edit-button{
-      display: flex;
-      align-self: center;
-      margin-right: 0px !important;
-    }
-
-    .profile-box, .profile-photo
-    {
-      display:flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .connect-button, .rating, .profile-name
-    {
-      margin-left: 0px !important;
-    }
-    
-    .misc
-    {
-      display: flex;
-      margin: auto;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-  }
+}

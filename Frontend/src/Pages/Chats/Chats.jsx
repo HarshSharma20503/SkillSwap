@@ -8,6 +8,7 @@ import { useUser } from "../../util/UserContext";
 import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import ScrollableFeed from "react-scrollable-feed";
 
 var socket;
 const Chats = () => {
@@ -36,7 +37,7 @@ const Chats = () => {
         setChatLoading(true);
         const tempUser = JSON.parse(localStorage.getItem("userInfo"));
         const { data } = await axios.get("http://localhost:8000/chat");
-        console.log("Chats", data.data);
+        // console.log("Chats", data.data);
         toast.success(data.message);
         if (tempUser?._id) {
           const temp = data.data.map((chat) => {
@@ -67,15 +68,32 @@ const Chats = () => {
       }
     };
     fetchChats();
+  }, []);
+
+  useEffect(() => {
     socket = io(axios.defaults.baseURL);
     if (user) {
       socket.emit("setup", user);
-      console.log("user", user);
-      socket.on("connected", () => setSocketConnected(true));
-      socket.on("typing", () => setIsTyping(true));
-      socket.on("stop typing", () => setIsTyping(false));
     }
-  }, []);
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
+    socket.on("message recieved", (newMessageRecieved) => {
+      console.log("New Message Recieved: ", newMessageRecieved);
+      console.log("Selected Chat: ", selectedChat);
+      console.log("Selected Chat ID: ", selectedChat.id);
+      console.log("New Message Chat ID: ", newMessageRecieved.chatId._id);
+      if (selectedChat && selectedChat.id === newMessageRecieved.chatId._id) {
+        setChatMessages((prevState) => [...prevState, newMessageRecieved]);
+      }
+    });
+    return () => {
+      socket.off("connected");
+      socket.off("typing");
+      socket.off("stop typing");
+      socket.off("message recieved");
+    };
+  }, [selectedChat]);
 
   const handleScheduleClick = () => {
     setScheduleModalShow(true);
@@ -86,12 +104,12 @@ const Chats = () => {
       setChatMessageLoading(true);
       const { data } = await axios.get(`http://localhost:8000/message/getMessages/${chatId}`);
       setChatMessages(data.data);
-      console.log("Chat Messages:", data.data);
+      // console.log("Chat Messages:", data.data);
       setMessage("");
-      console.log("Chats: ", chats);
+      // console.log("Chats: ", chats);
       const chatDetails = chats.find((chat) => chat.id === chatId);
       setSelectedChat(chatDetails);
-      console.log("selectedChat", chatDetails);
+      // console.log("selectedChat", chatDetails);
       // console.log("Data", data.message);
       socket.emit("join chat", chatId);
       toast.success(data.message);
@@ -120,7 +138,7 @@ const Chats = () => {
         return;
       }
       const { data } = await axios.post("/message/sendMessage", { chatId: selectedChat.id, content: message });
-      console.log("after sending message", data);
+      // console.log("after sending message", data);
       socket.emit("new message", data.data);
       setChatMessages((prevState) => [...prevState, data.data]);
       setMessage("");
@@ -140,14 +158,6 @@ const Chats = () => {
       }
     }
   };
-
-  useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved) => {
-      if (selectedChat && selectedChat.id === newMessageRecieved.chat) {
-        setChatMessages((prevState) => [...prevState, newMessageRecieved]);
-      }
-    });
-  });
 
   return (
     <div
@@ -230,7 +240,7 @@ const Chats = () => {
               }}
             >
               {selectedChat ? (
-                <>
+                <ScrollableFeed forceScroll="true">
                   {chatMessages.map((message, index) => {
                     // console.log("user:", user._id);
                     // console.log("sender:", message.sender);
@@ -258,7 +268,7 @@ const Chats = () => {
                       </div>
                     );
                   })}
-                </>
+                </ScrollableFeed>
               ) : (
                 <>
                   {chatMessageLoading ? (
