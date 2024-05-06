@@ -321,6 +321,7 @@ const Chats = () => {
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
                 zIndex: "1000",
               }}
+              onClick={() => setRequestModalShow(false)}
             >
               <div
                 style={{
@@ -494,6 +495,7 @@ const Chats = () => {
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             zIndex: "1000",
           }}
+          onClick={() => setScheduleModalShow(false)}
         >
           <div
             style={{
