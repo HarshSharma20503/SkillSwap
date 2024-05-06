@@ -1,7 +1,7 @@
 import React from "react";
 import "./Card.css";
 
-const ProfileCard = ({ profileImageUrl, bio, name, skills, rating }) => {
+const RequestCard = ({ profileImageUrl, bio, name, skills, rating }) => {
   return (
     <div className="card-container">
       <img className="img-container" src={profileImageUrl} alt="user" />
@@ -9,7 +9,6 @@ const ProfileCard = ({ profileImageUrl, bio, name, skills, rating }) => {
       <h6>{rating}</h6>
       <p>{bio}</p>
       <div className="prof-buttons">
-        <button className="primary">Connect</button>
         <button className="primary ghost">View Profile</button>
       </div>
       <div className="profskills">
@@ -26,4 +25,4 @@ const ProfileCard = ({ profileImageUrl, bio, name, skills, rating }) => {
   );
 };
 
-export default ProfileCard;
+export default RequestCard;

@@ -9,12 +9,16 @@ import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import ScrollableFeed from "react-scrollable-feed";
-import "./RequestCard";
+import RequestCard from "./RequestCard";
 
 var socket;
 const Chats = () => {
   const [showChatHistory, setShowChatHistory] = useState(true);
-  const [showRequests, setShowRequests] = useState(false);
+  const [showRequests, setShowRequests] = useState(null);
+  const [requests] = useState([
+    { id: 1, name: "Paakhi", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
+    { id: 2, name: "Harsh", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
+  ]);
 
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
   // to store selected chat
@@ -27,6 +31,8 @@ const Chats = () => {
   const [chatMessageLoading, setChatMessageLoading] = useState(false);
   // to store message
   const [message, setMessage] = useState("");
+
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   const [isTyping, setIsTyping] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
@@ -176,6 +182,10 @@ const Chats = () => {
     }
   };
 
+  const handleRequestClick = (request) => {
+    setSelectedRequest(request);
+  };
+
   return (
     <div
       style={{
@@ -223,8 +233,8 @@ const Chats = () => {
                 borderRight: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
                 borderLeft: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
                 borderBottom: "none",
-                backgroundColor: showRequests ? "#3bb4a1" : "#2d2d2d",
-                color: showRequests ? "black" : "white",
+                backgroundColor: showChatHistory ? "#2d2d2d" : "#3bb4a1",
+                color: showChatHistory ? "white" : "black",
                 cursor: "pointer",
                 minWidth: "150px",
                 padding: "10px",
@@ -280,19 +290,29 @@ const Chats = () => {
                 >
                   Chat Name goes here
                 </ListGroup.Item>
-                <ListGroup.Item
-                  style={{
-                    cursor: "pointer",
-                    marginBottom: "10px",
-                    padding: "10px",
-                    backgroundColor: selectedChat ? "lightgrey" : "#3BB4A1",
-                    borderRadius: "5px",
-                  }}
-                >
-                  Chat Name goes here
-                </ListGroup.Item>
+                {requests.map((request) => (
+                  <ListGroup.Item
+                    key={request.id}
+                    onClick={() => handleRequestClick(request)}
+                    style={{
+                      cursor: "pointer",
+                      marginBottom: "10px",
+                      padding: "10px",
+                      backgroundColor: selectedRequest && selectedRequest.id === request.id ? "#3BB4A1" : "lightgrey",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    {request.name}
+                  </ListGroup.Item>
+                ))}
               </ListGroup>
             </div>
+          )}
+          {selectedRequest && (
+            <RequestCard
+              name={selectedRequest}
+              onClose={() => setSelectedRequest(null)} // Close modal when clicked outside or close button
+            />
           )}
         </div>
         {/* Right Section */}
