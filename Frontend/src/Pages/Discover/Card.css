@@ -122,6 +122,6 @@ button.primary.ghost:hover {
 @media (max-width: 768px) {
   .card-container {
     width: 50vw;
-    height: 80vh;
+    height: 50vh;
   }
 }

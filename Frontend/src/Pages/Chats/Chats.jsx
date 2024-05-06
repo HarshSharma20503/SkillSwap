@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import ScrollableFeed from "react-scrollable-feed";
 import RequestCard from "./RequestCard";
-
+import "./Chats.css";
 var socket;
 const Chats = () => {
   const [showChatHistory, setShowChatHistory] = useState(true);
@@ -189,28 +189,14 @@ const Chats = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "#2d2d2d",
-        minHeight: "90vh",
-        fontFamily: "Montserrat, sans-serif",
-        color: "white",
-        orderRight: "1px solid #3bb4a1",
-      }}
-    >
-      <div style={{ display: "flex", backgroundColor: "lightgrey" }}>
+    <div className="container-overall">
+      <div className="container-right">
         {/* Chat History */}
-        <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "90vh" }}>
+        <div className="container-left">
           {/* Tabs */}
-          <div
-            style={{
-              display: "flex",
-              paddingTop: "2rem",
-              justifyContent: "space-around",
-              borderBottom: "1px solid #3bb4a1",
-            }}
-          >
+          <div className="tabs">
             <Button
+              className="chatButton"
               variant="secondary"
               style={{
                 borderTop: showChatHistory ? "1px solid lightgrey" : "1px solid lightgrey",
@@ -229,6 +215,7 @@ const Chats = () => {
               Chat History
             </Button>
             <Button
+              className="requestButton"
               variant="secondary"
               style={{
                 borderTop: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
@@ -250,8 +237,8 @@ const Chats = () => {
 
           {/* Chat History or Requests List */}
           {showChatHistory && (
-            <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "90vh" }}>
-              <ListGroup style={{ padding: "10px" }}>
+            <div className="container-left">
+              <ListGroup className="chat-list">
                 {chatLoading ? (
                   <div className="row m-auto">
                     <Spinner animation="border" variant="primary" />
@@ -279,7 +266,7 @@ const Chats = () => {
             </div>
           )}
           {showRequests && (
-            <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "90vh" }}>
+            <div className="container-left">
               <ListGroup style={{ padding: "10px" }}>
                 <ListGroup.Item
                   style={{
@@ -311,18 +298,7 @@ const Chats = () => {
             </div>
           )}
           {requestModalShow && (
-            <div
-              style={{
-                position: "fixed",
-                top: "0",
-                left: "0",
-                width: "100%",
-                height: "100%",
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-                zIndex: "1000",
-              }}
-              onClick={() => setRequestModalShow(false)}
-            >
+            <div className="modalBG" onClick={() => setRequestModalShow(false)}>
               <div
                 style={{
                   position: "absolute",
@@ -355,7 +331,7 @@ const Chats = () => {
           )}
         </div>
         {/* Right Section */}
-        <div style={{ minWidth: "70vw" }}>
+        <div className="container-chat">
           {/* Profile Bar */}
           <div
             style={{

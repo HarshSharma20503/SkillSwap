@@ -117,11 +117,12 @@ button.primary.ghost:hover {
   margin-top: 1rem;
   border-radius: 5px;
   min-width: 4rem;
+  font-size: 12px;
 }
 
 @media (max-width: 768px) {
   .card-container {
     width: 50vw;
-    height: 80vh;
+    height: 60vh;
   }
 }
