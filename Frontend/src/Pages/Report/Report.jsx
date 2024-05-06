@@ -24,8 +24,6 @@ const ReportForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const validate = () => {};
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.issue === "" || formData.issueDescription === "") {
