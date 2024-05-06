@@ -82,7 +82,8 @@ const Profile = () => {
                 </div>
               </div>
               <div className="edit-links">
-                <button className="edit-button">Edit Profile ✎</button>
+                {user.username === username && <button className="edit-button">Edit Profile ✎</button>}
+
                 {/* Portfolio Links */}
                 <div className="portfolio-links">
                   <a
