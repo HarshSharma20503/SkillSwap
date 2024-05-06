@@ -33,6 +33,7 @@ import authRouter from "./routes/auth.routes.js";
 import chatRouter from "./routes/chat.routes.js";
 import messageRouter from "./routes/message.routes.js";
 import requestRouter from "./routes/request.routes.js";
+import reportRouter from "./routes/report.routes.js";
 
 // Using routes
 app.use("/user", userRouter);
@@ -40,5 +41,6 @@ app.use("/auth", authRouter);
 app.use("/chat", chatRouter);
 app.use("/message", messageRouter);
 app.use("/request", requestRouter);
+app.use("/report", reportRouter);
 
 export { app };

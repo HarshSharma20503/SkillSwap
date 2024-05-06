@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import "./Report.css";
 import { useParams } from "react-router-dom";
 import { useUser } from "../../util/UserContext";
+import axios from "axios";
 
 const ReportForm = () => {
   const { username } = useParams();
 
   const { user, setUser } = useUser();
+  const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     username: user?.username,
     reportedUsername: username,
-    trained: "",
+    // trained: "",
     issue: "",
     issueDescription: "",
   });
@@ -22,15 +24,45 @@ const ReportForm = () => {
     console.log("handlechange", formData);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Add your submit logic here, such as sending the form data to the server
     console.log(formData); // Example: Log the form data to the console
+
+    try {
+      setLoading(true);
+      const { data } = await axios.post(`/request/create`, {
+        receiverID: profileUser._id,
+      });
+
+      console.log(data);
+      toast.success(data.message);
+      setProfileUser((prevState) => {
+        return {
+          ...prevState,
+          status: "Pending",
+        };
+      });
+    } catch (error) {
+      console.log(error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+        if (error.response.data.message === "Please Login") {
+          localStorage.removeItem("userInfo");
+          setUser(null);
+          await axios.get("/auth/logout");
+          navigate("/login");
+        }
+      }
+    } finally {
+      // setLoading(false);
+    }
+
     // Clear the form after submission if needed
     setFormData({
       username: "",
       reportedUsername: "",
-      trained: "",
+      // trained: "",
       issue: "",
       issueDescription: "",
     });
@@ -69,7 +101,7 @@ const ReportForm = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label className="question">Were you trained by this person?</label>
             <div className="radio-group">
               <input
@@ -91,7 +123,7 @@ const ReportForm = () => {
               />
               <label htmlFor="no">No, I was the trainer.</label>
             </div>
-          </div>
+          </div> */}
           <div className="form-group">
             <label className="question">What was the nature of the issue?</label>
             <div className="radio-group">
