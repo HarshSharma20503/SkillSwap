@@ -10,6 +10,7 @@ import Report from "./Pages/Report/Report";
 import Profile from "./Pages/Profile/Profile";
 import NotFound from "./Pages/NotFound/NotFound";
 import Register from "./Pages/Register/Register";
+import EditProfile from "./Pages/EditProfile/EditProfile";
 import PrivateRoutes from "./util/PrivateRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/discover" element={<Discover />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about_us" element={<AboutUs />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/report/:username" element={<Report />} />
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="*" element={<NotFound />} />

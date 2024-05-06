@@ -28,3 +28,23 @@ body {
   color: white;
   text-align: center;
 }
+::-webkit-scrollbar-track {
+  border: 5px solid #00211e;
+  background-color: #b2bec3;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  background-color: #dfe6e9;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--cyan);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 0;
+  width: 0;
+  display: none;
+}
