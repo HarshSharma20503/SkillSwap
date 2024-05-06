@@ -94,11 +94,31 @@ const UserProfileDropdown = () => {
 const Header = () => {
   const [navUser, setNavUser] = useState(null);
   const { user } = useUser();
+  const [discover, setDiscover] = useState(false);
 
   useEffect(() => {
     setNavUser(JSON.parse(localStorage.getItem("userInfo")));
     // console.log("navUser", navUser);
   }, [user]);
+
+  useEffect(() => {
+    const handleUrlChange = () => {
+      // Your logic to run when there is a change in the URL
+      console.log("URL has changed:", window.location.href);
+    };
+    window.addEventListener("popstate", handleUrlChange);
+
+    const temp = window.location.href.split("/");
+    const url = temp.pop();
+    if (url === "discover") {
+      setDiscover(true);
+    } else {
+      setDiscover(false);
+    }
+    return () => {
+      window.removeEventListener("popstate", handleUrlChange);
+    };
+  }, [window.location.href]);
 
   return (
     <>
@@ -135,6 +155,25 @@ const Header = () => {
                     >
                       Discover
                     </Nav.Link>
+                    {/* Paakhi discover page ke links yeha dalde please */}
+                    {discover && (
+                      <>
+                        <Nav.Link
+                          href="#"
+                          style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}
+                          className="d-md-none"
+                        >
+                          For You
+                        </Nav.Link>
+                        <Nav.Link
+                          href="#"
+                          style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}
+                          className="d-md-none"
+                        >
+                          Recommended
+                        </Nav.Link>
+                      </>
+                    )}
                     <Nav.Link as={Link} to="/chats" style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
                       Your Chats
                     </Nav.Link>
