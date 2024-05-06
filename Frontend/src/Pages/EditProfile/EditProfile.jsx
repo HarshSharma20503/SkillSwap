@@ -10,11 +10,13 @@ import axios from "axios";
 import "./EditProfile.css";
 import Badge from "react-bootstrap/Badge";
 import { v4 as uuidv4 } from "uuid";
+import { useUser } from "../../util/UserContext";
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
+  const { user } = useUser();
 
   const [form, setForm] = useState({
     profilePhoto: null,
@@ -47,61 +49,20 @@ const EditProfile = () => {
   const [activeKey, setActiveKey] = useState("registration");
 
   useEffect(() => {
-    setLoading(true);
-    const getUser = async () => {
-      try {
-        const { data } = await axios.get("/user/unregistered/getDetails");
-        console.log("User Data: ", data.data);
-        const edu = data?.data?.education;
-        edu.forEach((ele) => {
-          ele.id = uuidv4();
-        });
-        if (edu.length === 0) {
-          edu.push({
-            id: uuidv4(),
-            institution: "",
-            degree: "",
-            startDate: "",
-            endDate: "",
-            score: "",
-            description: "",
-          });
-        }
-        const proj = data?.data?.projects;
-        proj.forEach((ele) => {
-          ele.id = uuidv4();
-        });
-        console.log(proj);
-        if (proj) {
-          setTechStack(proj.map((item) => "Select some Tech Stack"));
-        }
-        setForm((prevState) => ({
-          ...prevState,
-          name: data?.data?.name,
-          email: data?.data?.email,
-          username: data?.data?.username,
-          skillsProficientAt: data?.data?.skillsProficientAt,
-          skillsToLearn: data?.data?.skillsToLearn,
-          linkedinLink: data?.data?.linkedinLink,
-          githubLink: data?.data?.githubLink,
-          portfolioLink: data?.data?.portfolioLink,
-          education: edu,
-          bio: data?.data?.bio,
-          projects: proj ? proj : prevState.projects,
-        }));
-      } catch (error) {
-        console.log(error);
-        if (error?.response?.data?.message) {
-          toast.error(error.response.data.message);
-          navigate("/login");
-        } else {
-          toast.error("Some error occurred");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    getUser();
+    setForm((prevState) => ({
+      ...prevState,
+      name: user?.name,
+      email: user?.email,
+      username: user?.username,
+      skillsProficientAt: user?.skillsProficientAt,
+      skillsToLearn: user?.skillsToLearn,
+      portfolioLink: user?.portfolioLink,
+      githubLink: user?.githubLink,
+      linkedinLink: user?.linkedinLink,
+      education: user?.education,
+      bio: user?.bio,
+      projects: user?.projects,
+    }));
   }, []);
 
   const handleNext = () => {
@@ -576,7 +537,7 @@ const EditProfile = () => {
                     </option>
                   ))}
                 </Form.Select>
-                {form.skillsProficientAt.length > 0 && (
+                {form?.skillsProficientAt?.length > 0 && (
                   <div>
                     {form.skillsProficientAt.map((skill, index) => (
                       <Badge
@@ -611,7 +572,7 @@ const EditProfile = () => {
                     </option>
                   ))}
                 </Form.Select>
-                {form.skillsToLearn.length > 0 && (
+                {form?.skillsToLearn?.length > 0 && (
                   <div>
                     {form.skillsToLearn.map((skill, index) => (
                       <Badge
@@ -640,7 +601,7 @@ const EditProfile = () => {
               </div>
             </Tab>
             <Tab eventKey="education" title="Education">
-              {form.education.map((edu, index) => (
+              {form?.education?.map((edu, index) => (
                 <div className="border border-dark rounded-1 p-3 m-1" key={edu.id}>
                   {index !== 0 && (
                     <span className="w-100 d-flex justify-content-end">
@@ -809,7 +770,7 @@ const EditProfile = () => {
               <div className="">
                 <label style={{ color: "#3BB4A1" }}>Projects</label>
 
-                {form.projects.map((project, index) => (
+                {form?.projects?.map((project, index) => (
                   <div className="border border-dark rounded-1 p-3 m-1" key={project.id}>
                     <span className="w-100 d-flex justify-content-end">
                       <button
@@ -859,7 +820,7 @@ const EditProfile = () => {
                     </Form.Select>
                     {techStack[index].length > 0 && (
                       <div>
-                        {form.projects[index].techStack.map((skill, i) => (
+                        {form?.projects[index]?.techStack.map((skill, i) => (
                           <Badge
                             key={i}
                             bg="secondary"
@@ -1127,7 +1088,7 @@ const EditProfile = () => {
                     className="link"
                   >
                     <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills Proficient At:</span>
-                    <span style={{ flex: 2 }}>{form.skillsProficientAt.join(", ") || "Yet to be filled"}</span>
+                    <span style={{ flex: 2 }}>{form?.skillsProficientAt?.join(", ") || "Yet to be filled"}</span>
                   </div>
                   <div
                     style={{
@@ -1140,7 +1101,7 @@ const EditProfile = () => {
                     className="link"
                   >
                     <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Skills To Learn:</span>
-                    <span style={{ flex: 2 }}>{form.skillsToLearn.join(", ") || "Yet to be filled"}</span>
+                    <span style={{ flex: 2 }}>{form?.skillsToLearn?.join(", ") || "Yet to be filled"}</span>
                   </div>
 
                   <div
@@ -1154,7 +1115,7 @@ const EditProfile = () => {
                     className="link"
                   >
                     <span style={{ flex: 1, fontWeight: "bold", color: "#3BB4A1" }}>Bio:</span>
-                    <span style={{ flex: 2 }}>{form.bio || "Yet to be filled"}</span>
+                    <span style={{ flex: 2 }}>{form?.bio || "Yet to be filled"}</span>
                   </div>
                 </div>
                 <div className="row">

@@ -12,7 +12,11 @@ const reportSchema = new Schema(
       required: true,
       ref: "User",
     },
-    reason: {
+    nature: {
+      type: String,
+      enum: ["Personal conduct", "Professional expertise", "Others"],
+    },
+    description: {
       type: String,
       required: true,
     },
