@@ -9,10 +9,19 @@ import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import ScrollableFeed from "react-scrollable-feed";
-
+import RequestCard from "./RequestCard";
+import "./Chats.css";
 var socket;
 const Chats = () => {
+  const [showChatHistory, setShowChatHistory] = useState(true);
+  const [showRequests, setShowRequests] = useState(null);
+  const [requests, setRequests] = useState([
+    { id: 1, name: "Paakhi", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
+    { id: 2, name: "Harsh", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
+  ]);
+
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
+  const [requestModalShow, setRequestModalShow] = useState(false);
   // to store selected chat
   const [selectedChat, setSelectedChat] = useState(null);
   // to store chat messages
@@ -23,6 +32,8 @@ const Chats = () => {
   const [chatMessageLoading, setChatMessageLoading] = useState(false);
   // to store message
   const [message, setMessage] = useState("");
+
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   const [isTyping, setIsTyping] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
@@ -162,42 +173,165 @@ const Chats = () => {
     }
   };
 
+  const handleTabClick = (tab) => {
+    if (tab === "chat") {
+      setShowChatHistory(true);
+      setShowRequests(false);
+    } else if (tab === "requests") {
+      setShowChatHistory(false);
+      setShowRequests(true);
+    }
+  };
+
+  const handleRequestClick = (request) => {
+    setSelectedRequest(request);
+    setRequestModalShow(true);
+  };
+
   return (
-    <div
-      style={{ backgroundColor: "#2d2d2d", minHeight: "90vh", fontFamily: "Montserrat, sans-serif", color: "white" }}
-    >
-      <div style={{ display: "flex", backgroundColor: "lightgrey" }}>
+    <div className="container-overall">
+      <div className="container-right">
         {/* Chat History */}
-        <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "90vh" }}>
-          <h2 style={{ padding: "10px" }}>Chat History</h2>
-          <ListGroup style={{ padding: "10px" }}>
-            {chatLoading ? (
-              <div className="row m-auto">
-                <Spinner animation="border" variant="primary" />
-              </div>
-            ) : (
-              <>
-                {chats.map((chat) => (
+        <div className="container-left">
+          {/* Tabs */}
+          <div className="tabs">
+            <Button
+              className="chatButton"
+              variant="secondary"
+              style={{
+                borderTop: showChatHistory ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderRight: showChatHistory ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderLeft: showChatHistory ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderBottom: "none",
+                backgroundColor: showChatHistory ? "#3bb4a1" : "#2d2d2d",
+                color: showChatHistory ? "black" : "white",
+                cursor: "pointer",
+                minWidth: "150px",
+                padding: "10px",
+                borderRadius: "5px 5px 0 0",
+              }}
+              onClick={() => handleTabClick("chat")}
+            >
+              Chat History
+            </Button>
+            <Button
+              className="requestButton"
+              variant="secondary"
+              style={{
+                borderTop: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderRight: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderLeft: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderBottom: "none",
+                backgroundColor: showChatHistory ? "#2d2d2d" : "#3bb4a1",
+                color: showChatHistory ? "white" : "black",
+                cursor: "pointer",
+                minWidth: "150px",
+                padding: "10px",
+                borderRadius: "5px 5px 0 0",
+              }}
+              onClick={() => handleTabClick("requests")}
+            >
+              Requests
+            </Button>
+          </div>
+
+          {/* Chat History or Requests List */}
+          {showChatHistory && (
+            <div className="container-left">
+              <ListGroup className="chat-list">
+                {chatLoading ? (
+                  <div className="row m-auto">
+                    <Spinner animation="border" variant="primary" />
+                  </div>
+                ) : (
+                  <>
+                    {chats.map((chat) => (
+                      <ListGroup.Item
+                        key={chat.id}
+                        onClick={() => handleChatClick(chat.id)}
+                        style={{
+                          cursor: "pointer",
+                          marginBottom: "10px",
+                          padding: "10px",
+                          backgroundColor: selectedChat?.id === chat?.id ? "#3BB4A1" : "lightgrey",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        {chat.name}
+                      </ListGroup.Item>
+                    ))}
+                  </>
+                )}
+              </ListGroup>
+            </div>
+          )}
+          {showRequests && (
+            <div className="container-left">
+              <ListGroup style={{ padding: "10px" }}>
+                <ListGroup.Item
+                  style={{
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                    padding: "10px",
+                    backgroundColor: selectedChat ? "lightgrey" : "#3BB4A1",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Chat Name goes here
+                </ListGroup.Item>
+                {requests.map((request) => (
                   <ListGroup.Item
-                    key={chat.id}
-                    onClick={() => handleChatClick(chat.id)}
+                    key={request.id}
+                    onClick={() => handleRequestClick(request)}
                     style={{
                       cursor: "pointer",
                       marginBottom: "10px",
                       padding: "10px",
-                      backgroundColor: selectedChat?.id === chat?.id ? "#3BB4A1" : "lightgrey",
+                      backgroundColor: selectedRequest && selectedRequest.id === request.id ? "#3BB4A1" : "lightgrey",
                       borderRadius: "5px",
                     }}
                   >
-                    {chat.name}
+                    {request.name}
                   </ListGroup.Item>
                 ))}
-              </>
-            )}
-          </ListGroup>
+              </ListGroup>
+            </div>
+          )}
+          {requestModalShow && (
+            <div className="modalBG" onClick={() => setRequestModalShow(false)}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  backgroundColor: "#2d2d2d",
+                  color: "#3BB4A1",
+                  padding: "50px",
+                  borderRadius: "10px",
+                }}
+              >
+                <h2 style={{ textAlign: "center" }}>Confirm your choice?</h2>
+                {selectedRequest && (
+                  <RequestCard
+                    name={selectedRequest.name}
+                    skills={selectedRequest.skills}
+                    rating={selectedRequest.rating}
+                    onClose={() => setSelectedRequest(null)} // Close modal when clicked outside or close button
+                  />
+                )}
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <button className="connect-button" style={{ marginLeft: "0" }}>
+                    Accept!
+                  </button>
+                  <button className="report-button">Reject</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         {/* Right Section */}
-        <div style={{ minWidth: "70vw" }}>
+        <div className="container-chat">
           {/* Profile Bar */}
           <div
             style={{
@@ -337,6 +471,7 @@ const Chats = () => {
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             zIndex: "1000",
           }}
+          onClick={() => setScheduleModalShow(false)}
         >
           <div
             style={{

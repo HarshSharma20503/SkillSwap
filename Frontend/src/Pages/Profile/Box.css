@@ -33,7 +33,9 @@
   text-align: center;
   background-color: #809c5c;
   color: white;
+  font-size: 5px !important;
   margin-right: 1rem;
   border-radius: 5px;
   min-width: 4rem;
+  font-size: 12px;
 }
