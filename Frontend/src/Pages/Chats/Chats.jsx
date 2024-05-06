@@ -9,9 +9,13 @@ import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import ScrollableFeed from "react-scrollable-feed";
+import "./RequestCard";
 
 var socket;
 const Chats = () => {
+  const [showChatHistory, setShowChatHistory] = useState(true);
+  const [showRequests, setShowRequests] = useState(false);
+
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
   // to store selected chat
   const [selectedChat, setSelectedChat] = useState(null);
@@ -162,39 +166,134 @@ const Chats = () => {
     }
   };
 
+  const handleTabClick = (tab) => {
+    if (tab === "chat") {
+      setShowChatHistory(true);
+      setShowRequests(false);
+    } else if (tab === "requests") {
+      setShowChatHistory(false);
+      setShowRequests(true);
+    }
+  };
+
   return (
     <div
-      style={{ backgroundColor: "#2d2d2d", minHeight: "90vh", fontFamily: "Montserrat, sans-serif", color: "white" }}
+      style={{
+        backgroundColor: "#2d2d2d",
+        minHeight: "90vh",
+        fontFamily: "Montserrat, sans-serif",
+        color: "white",
+        orderRight: "1px solid #3bb4a1",
+      }}
     >
       <div style={{ display: "flex", backgroundColor: "lightgrey" }}>
         {/* Chat History */}
         <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "90vh" }}>
-          <h2 style={{ padding: "10px" }}>Chat History</h2>
-          <ListGroup style={{ padding: "10px" }}>
-            {chatLoading ? (
-              <div className="row m-auto">
-                <Spinner animation="border" variant="primary" />
-              </div>
-            ) : (
-              <>
-                {chats.map((chat) => (
-                  <ListGroup.Item
-                    key={chat.id}
-                    onClick={() => handleChatClick(chat.id)}
-                    style={{
-                      cursor: "pointer",
-                      marginBottom: "10px",
-                      padding: "10px",
-                      backgroundColor: selectedChat?.id === chat?.id ? "#3BB4A1" : "lightgrey",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    {chat.name}
-                  </ListGroup.Item>
-                ))}
-              </>
-            )}
-          </ListGroup>
+          {/* Tabs */}
+          <div
+            style={{
+              display: "flex",
+              paddingTop: "2rem",
+              justifyContent: "space-around",
+              borderBottom: "1px solid #3bb4a1",
+            }}
+          >
+            <Button
+              variant="secondary"
+              style={{
+                borderTop: showChatHistory ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderRight: showChatHistory ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderLeft: showChatHistory ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderBottom: "none",
+                backgroundColor: showChatHistory ? "#3bb4a1" : "#2d2d2d",
+                color: showChatHistory ? "black" : "white",
+                cursor: "pointer",
+                minWidth: "150px",
+                padding: "10px",
+                borderRadius: "5px 5px 0 0",
+              }}
+              onClick={() => handleTabClick("chat")}
+            >
+              Chat History
+            </Button>
+            <Button
+              variant="secondary"
+              style={{
+                borderTop: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderRight: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderLeft: showRequests ? "1px solid lightgrey" : "1px solid lightgrey",
+                borderBottom: "none",
+                backgroundColor: showRequests ? "#3bb4a1" : "#2d2d2d",
+                color: showRequests ? "black" : "white",
+                cursor: "pointer",
+                minWidth: "150px",
+                padding: "10px",
+                borderRadius: "5px 5px 0 0",
+              }}
+              onClick={() => handleTabClick("requests")}
+            >
+              Requests
+            </Button>
+          </div>
+
+          {/* Chat History or Requests List */}
+          {showChatHistory && (
+            <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "90vh" }}>
+              <ListGroup style={{ padding: "10px" }}>
+                {chatLoading ? (
+                  <div className="row m-auto">
+                    <Spinner animation="border" variant="primary" />
+                  </div>
+                ) : (
+                  <>
+                    {chats.map((chat) => (
+                      <ListGroup.Item
+                        key={chat.id}
+                        onClick={() => handleChatClick(chat.id)}
+                        style={{
+                          cursor: "pointer",
+                          marginBottom: "10px",
+                          padding: "10px",
+                          backgroundColor: selectedChat?.id === chat?.id ? "#3BB4A1" : "lightgrey",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        {chat.name}
+                      </ListGroup.Item>
+                    ))}
+                  </>
+                )}
+              </ListGroup>
+            </div>
+          )}
+          {showRequests && (
+            <div style={{ flex: "3", backgroundColor: "#2d2d2d", minHeight: "90vh" }}>
+              <ListGroup style={{ padding: "10px" }}>
+                <ListGroup.Item
+                  style={{
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                    padding: "10px",
+                    backgroundColor: selectedChat ? "lightgrey" : "#3BB4A1",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Chat Name goes here
+                </ListGroup.Item>
+                <ListGroup.Item
+                  style={{
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                    padding: "10px",
+                    backgroundColor: selectedChat ? "lightgrey" : "#3BB4A1",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Chat Name goes here
+                </ListGroup.Item>
+              </ListGroup>
+            </div>
+          )}
         </div>
         {/* Right Section */}
         <div style={{ minWidth: "70vw" }}>
