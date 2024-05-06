@@ -111,15 +111,15 @@ const Discover = () => {
               </div>
             ) : (
               <>
-                <div>
+                {/* <div>
                   <Search />
-                </div>
+                </div> */}
                 <h1
                   id="for-you"
                   style={{
                     fontFamily: "Josefin Sans, sans-serif",
                     color: "#fbf1a4",
-                    marginTop: "1rem",
+                    marginTop: "2rem",
                     marginBottom: "1rem",
                   }}
                 >
