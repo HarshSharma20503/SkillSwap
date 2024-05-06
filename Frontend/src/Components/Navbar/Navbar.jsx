@@ -110,7 +110,7 @@ const Header = () => {
 
     const temp = window.location.href.split("/");
     const url = temp.pop();
-    if (url === "discover") {
+    if (url.startsWith("discover")) {
       setDiscover(true);
     } else {
       setDiscover(false);
@@ -155,28 +155,54 @@ const Header = () => {
                     >
                       Discover
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/chats" style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
+                      Your Chats
+                    </Nav.Link>
                     {/* Paakhi discover page ke links yeha dalde please */}
                     {discover && (
                       <>
                         <Nav.Link
-                          href="#"
-                          style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}
+                          href="#for-you"
+                          style={{
+                            fontFamily: "Montserrat, sans-serif",
+                            color: "#f56664",
+                            fontSize: "1.2rem",
+                            marginTop: "2rem",
+                          }}
                           className="d-md-none"
                         >
                           For You
                         </Nav.Link>
                         <Nav.Link
-                          href="#"
-                          style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}
+                          href="#popular"
+                          style={{ fontFamily: "Montserrat, sans-serif", color: "#3bb4a1", fontSize: "1.2rem" }}
                           className="d-md-none"
                         >
-                          Recommended
+                          Popular
+                        </Nav.Link>
+                        <Nav.Link
+                          href="#web-development"
+                          style={{ fontFamily: "Montserrat, sans-serif", color: "#013e38", marginLeft: "1.5rem" }}
+                          className="d-md-none"
+                        >
+                          Web Development
+                        </Nav.Link>
+                        <Nav.Link
+                          href="#machine-learning"
+                          style={{ fontFamily: "Montserrat, sans-serif", color: "#013e38", marginLeft: "1.5rem" }}
+                          className="d-md-none"
+                        >
+                          Machine Learning
+                        </Nav.Link>
+                        <Nav.Link
+                          href="#others"
+                          style={{ fontFamily: "Montserrat, sans-serif", color: "#013e38", marginLeft: "1.5rem" }}
+                          className="d-md-none"
+                        >
+                          Others
                         </Nav.Link>
                       </>
                     )}
-                    <Nav.Link as={Link} to="/chats" style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
-                      Your Chats
-                    </Nav.Link>
                     <Nav.Link as={Dropdown} style={{ fontFamily: "Montserrat, sans-serif", color: "#2d2d2d" }}>
                       <UserProfileDropdown />
                     </Nav.Link>
