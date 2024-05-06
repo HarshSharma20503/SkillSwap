@@ -37,7 +37,7 @@ export const getRequests = asyncHandler(async (req, res, next) => {
 
   const receiverID = req.user._id;
 
-  const requests = await Request.find({ receiver: receiverID }).populate("sender");
+  const requests = await Request.find({ receiver: receiverID, status: "Pending" }).populate("sender");
 
   if (requests.length > 0) {
     const sendersDetails = requests.map((request) => {
@@ -47,4 +47,43 @@ export const getRequests = asyncHandler(async (req, res, next) => {
   }
 
   return res.status(200).json(new ApiResponse(200, requests, "Requests fetched successfully"));
+});
+
+export const acceptRequest = asyncHandler(async (req, res, next) => {
+  console.log("\n******** Inside acceptRequest Controller function ********");
+
+  const { requestId } = req.body;
+  const senderId = req.user._id;
+
+  console.log("RequestId: ", requestId);
+  console.log("Sender ID: ", senderId);
+
+  const existingRequest = await Request.find({ sender: requestId, receiver: senderId });
+
+  console.log("Existing Request: ", existingRequest);
+
+  if (existingRequest.length === 0) {
+    throw new ApiError(400, "Request does not exist");
+  }
+
+  const existingChat = await Chat.find({ users: { $all: [requestId, senderId] } });
+
+  if (existingChat.length > 0) {
+    throw new ApiError(400, "Chat already exists");
+  }
+
+  const chat = await Chat.create({
+    users: [requestId, senderId],
+  });
+
+  if (!chat) return next(new ApiError(500, "Chat not created"));
+
+  await Request.findOneAndUpdate(
+    { sender: requestId, receiver: senderId },
+    {
+      status: "Connected",
+    }
+  );
+
+  res.status(201).json(new ApiResponse(201, chat, "Request accepted successfully"));
 });

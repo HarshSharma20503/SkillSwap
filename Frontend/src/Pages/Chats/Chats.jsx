@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useUser } from "../../util/UserContext";
 import Spinner from "react-bootstrap/Spinner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import ScrollableFeed from "react-scrollable-feed";
 import RequestCard from "./RequestCard";
@@ -18,6 +18,7 @@ const Chats = () => {
   const [showRequests, setShowRequests] = useState(null);
   const [requests, setRequests] = useState([]);
   const [requestLoading, setRequestLoading] = useState(false);
+  const [acceptRequestLoading, setAcceptRequestLoading] = useState(false);
 
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
   const [requestModalShow, setRequestModalShow] = useState(false);
@@ -206,6 +207,61 @@ const Chats = () => {
     setRequestModalShow(true);
   };
 
+  const handleRequestAccept = async (e) => {
+    console.log("Request accepted");
+
+    try {
+      setAcceptRequestLoading(true);
+      const { data } = await axios.post("/request/acceptRequest", { requestId: selectedRequest._id });
+      console.log(data);
+      toast.success(data.message);
+      // remove this request from the requests list
+      setRequests((prevState) => prevState.filter((request) => request.id !== selectedRequest.id));
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.data?.message) {
+        toast.error(err.response.data.message);
+        if (err.response.data.message === "Please Login") {
+          await axios.get("/auth/logout");
+          setUser(null);
+          localStorage.removeItem("userInfo");
+          navigate("/login");
+        }
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setAcceptRequestLoading(false);
+      setRequestModalShow(false);
+    }
+  };
+
+  const handleRequestReject = async () => {
+    console.log("Request rejected");
+    try {
+      setAcceptRequestLoading(true);
+      const { data } = axios.post("/request/rejectRequest", { requestId: selectedRequest.id });
+      console.log(data);
+      toast.success(data.message);
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.data?.message) {
+        toast.error(err.response.data.message);
+        if (err.response.data.message === "Please Login") {
+          await axios.get("/auth/logout");
+          setUser(null);
+          localStorage.removeItem("userInfo");
+          navigate("/login");
+        }
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setAcceptRequestLoading(false);
+      setRequestModalShow(false);
+    }
+  };
+
   return (
     <div className="container-overall">
       <div className="container-right">
@@ -328,10 +384,24 @@ const Chats = () => {
                   />
                 )}
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <button className="connect-button" style={{ marginLeft: "0" }}>
-                    Accept!
+                  <button className="connect-button" style={{ marginLeft: "0" }} onClick={handleRequestAccept}>
+                    {acceptRequestLoading ? (
+                      <div className="row m-auto ">
+                        <Spinner animation="border" variant="primary" />
+                      </div>
+                    ) : (
+                      "Accept!"
+                    )}
                   </button>
-                  <button className="report-button">Reject</button>
+                  <button className="report-button" onClick={handleRequestReject}>
+                    {acceptRequestLoading ? (
+                      <div className="row m-auto ">
+                        <Spinner animation="border" variant="primary" />
+                      </div>
+                    ) : (
+                      "Reject"
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
