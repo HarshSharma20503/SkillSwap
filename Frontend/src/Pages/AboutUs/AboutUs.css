@@ -1,0 +1,17 @@
+.content1-container {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  background-color: #2d2d2d;
+  justify-content: center;
+}
+
+@media (max-width: 780px) {
+  .content1-container {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    text-align: center !important;
+  }
+}
