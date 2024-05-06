@@ -11,6 +11,7 @@ import io from "socket.io-client";
 import ScrollableFeed from "react-scrollable-feed";
 import RequestCard from "./RequestCard";
 import "./Chats.css";
+
 var socket;
 const Chats = () => {
   const [showChatHistory, setShowChatHistory] = useState(true);
@@ -19,6 +20,7 @@ const Chats = () => {
     { id: 1, name: "Paakhi", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
     { id: 2, name: "Harsh", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
   ]);
+  const [requestLoading, setRequestLoading] = useState(false);
 
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
   const [requestModalShow, setRequestModalShow] = useState(false);
@@ -34,9 +36,6 @@ const Chats = () => {
   const [message, setMessage] = useState("");
 
   const [selectedRequest, setSelectedRequest] = useState(null);
-
-  const [isTyping, setIsTyping] = useState(false);
-  const [socketConnected, setSocketConnected] = useState(false);
 
   const { user, setUser } = useUser();
 
@@ -87,9 +86,6 @@ const Chats = () => {
     if (user) {
       socket.emit("setup", user);
     }
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
     socket.on("message recieved", (newMessageRecieved) => {
       console.log("New Message Recieved: ", newMessageRecieved);
       console.log("Selected Chat: ", selectedChat);
@@ -100,9 +96,6 @@ const Chats = () => {
       }
     });
     return () => {
-      socket.off("connected");
-      socket.off("typing");
-      socket.off("stop typing");
       socket.off("message recieved");
     };
   }, [selectedChat]);
@@ -173,13 +166,40 @@ const Chats = () => {
     }
   };
 
-  const handleTabClick = (tab) => {
+  const getRequests = async () => {
+    try {
+      setRequestLoading(true);
+      const { data } = await axios.get("/request/getRequests");
+      setRequests(data.data);
+      console.log(data.data);
+      toast.success(data.message);
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.data?.message) {
+        toast.error(err.response.data.message);
+        if (err.response.data.message === "Please Login") {
+          await axios.get("/auth/logout");
+          setUser(null);
+          localStorage.removeItem("userInfo");
+          navigate("/login");
+        }
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      // setRequestLoading(false);
+    }
+  };
+
+  const handleTabClick = async (tab) => {
     if (tab === "chat") {
       setShowChatHistory(true);
       setShowRequests(false);
     } else if (tab === "requests") {
       setShowChatHistory(false);
       setShowRequests(true);
+
+      await getRequests();
     }
   };
 
@@ -267,18 +287,8 @@ const Chats = () => {
           )}
           {showRequests && (
             <div className="container-left">
+              {}
               <ListGroup style={{ padding: "10px" }}>
-                <ListGroup.Item
-                  style={{
-                    cursor: "pointer",
-                    marginBottom: "10px",
-                    padding: "10px",
-                    backgroundColor: selectedChat ? "lightgrey" : "#3BB4A1",
-                    borderRadius: "5px",
-                  }}
-                >
-                  Chat Name goes here
-                </ListGroup.Item>
                 {requests.map((request) => (
                   <ListGroup.Item
                     key={request.id}
@@ -299,24 +309,13 @@ const Chats = () => {
           )}
           {requestModalShow && (
             <div className="modalBG" onClick={() => setRequestModalShow(false)}>
-              <div
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  backgroundColor: "#2d2d2d",
-                  color: "#3BB4A1",
-                  padding: "50px",
-                  borderRadius: "10px",
-                }}
-              >
+              <div className="modalContent">
                 <h2 style={{ textAlign: "center" }}>Confirm your choice?</h2>
                 {selectedRequest && (
                   <RequestCard
-                    name={selectedRequest.name}
-                    skills={selectedRequest.skills}
-                    rating={selectedRequest.rating}
+                    name={selectedRequest?.name}
+                    skills={selectedRequest?.skillsProficientAt}
+                    rating="4"
                     onClose={() => setSelectedRequest(null)} // Close modal when clicked outside or close button
                   />
                 )}
