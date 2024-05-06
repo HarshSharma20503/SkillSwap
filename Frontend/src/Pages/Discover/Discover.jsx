@@ -23,6 +23,8 @@ const Discover = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [discoverUsers, setDiscoverUsers] = useState([]);
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -42,7 +44,20 @@ const Discover = () => {
         navigate("/login");
       }
     };
+    const getDiscoverUsers = async () => {
+      try {
+        const { data } = await axios.get("/user/discover");
+        console.log(data);
+        setDiscoverUsers(data.data);
+      } catch (error) {
+        console.log(error);
+        if (error?.response?.data?.message) {
+          toast.error(error.response.data.message);
+        }
+      }
+    };
     getUser();
+    getDiscoverUsers();
     setLoading(false);
   }, []);
 
@@ -97,7 +112,21 @@ const Discover = () => {
                   For You
                 </h1>
                 <div className="profile-cards">
-                  <ProfileCard
+                  {discoverUsers && discoverUsers.length > 0 ? (
+                    discoverUsers.map((user) => (
+                      <ProfileCard
+                        profileImageUrl={user?.picture}
+                        name={user?.name}
+                        rating={4}
+                        bio={user?.bio}
+                        skills={user?.skillsProficientAt}
+                        username={user?.username}
+                      />
+                    ))
+                  ) : (
+                    <h1 style={{ color: "#fbf1a4" }}>No users to show</h1>
+                  )}
+                  {/* <ProfileCard
                     profileImageUrl="/assets/images/sample_profile.jpg"
                     name="Paakhi Maheshwari"
                     rating="⭐⭐⭐⭐⭐"
@@ -110,7 +139,7 @@ const Discover = () => {
                     rating="⭐⭐⭐⭐⭐"
                     bio="Web Developer and Competitive programmer, specialising in MERN stack."
                     skills={["React.JS", "MongoDB", "DSA", "Node.JS"]}
-                  />
+                  /> */}
                 </div>
                 <h1
                   id="popular"

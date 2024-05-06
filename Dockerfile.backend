@@ -1,0 +1,52 @@
+# Use an official Node.js runtime as a base image (npm is included in this image)
+FROM node:20
+
+# fetch the latest version of the package lists
+RUN apt-get update
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the contents of the Backend directory
+COPY Backend/ /app/Backend
+
+WORKDIR /app/Backend
+
+# Remove node_modules and .env files from the Backend directory if they exist
+RUN rm -rf node_modules .env
+
+# Install Node.js dependencies in the container app directory
+RUN npm install
+
+
+ARG PORT
+ARG CORS_ORIGIN
+ARG MONGODB_URI
+ARG CLOUDINARY_CLOUD_NAME
+ARG CLOUDINARY_API_KEY
+ARG CLOUDINARY_API_SECRET
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+ARG GOOGLE_CALLBACK_URL
+ARG JWT_SECRET
+
+
+#write the environment variables to a .env file
+RUN echo "PORT=${PORT}" > .env \
+    && echo "CORS_ORIGIN=${CORS_ORIGIN}" >> .env \
+    && echo "MONGODB_URI=${MONGODB_URI}" >> .env \
+    && echo "CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}" >> .env \
+    && echo "CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}" >> .env \
+    && echo "CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}" >> .env \
+    && echo "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}" >> .env \
+    && echo "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}" >> .env \
+    && echo "GOOGLE_CALLBACK_URL=${GOOGLE_CALLBACK_URL}" >> .env \
+    && echo "JWT_SECRET=${JWT_SECRET}" >> .env
+
+RUN cat .env
+
+# expose the port 8000
+EXPOSE 8000
+
+# Run the Node.js application
+CMD ["node", "src/index.js"]

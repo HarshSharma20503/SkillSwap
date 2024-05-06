@@ -516,3 +516,31 @@ export const uploadPic = asyncHandler(async (req, res) => {
 
   res.status(200).json(new ApiResponse(200, { url: picture.url }, "Picture uploaded successfully"));
 });
+
+export const discoverUsers = asyncHandler(async (req, res) => {
+  console.log("******** Inside discoverUsers Function *******");
+
+  // Find all the users except the current users who are proficient in the skills that the current user wants to learn
+
+  const users = await User.find({
+    skillsProficientAt: { $in: req.user.skillsToLearn },
+    username: { $ne: req.user.username },
+  });
+
+  if (!users) {
+    throw new ApiError(500, "Error in fetching users");
+  }
+
+  // if the users are more than 5 than send only 5 users randomly
+  if (users.length > 5) {
+    const randomUsers = [];
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = Math.floor(Math.random() * users.length);
+      randomUsers.push(users[randomIndex]);
+      users.splice(randomIndex, 1);
+    }
+    return res.status(200).json(new ApiResponse(200, randomUsers, "Users fetched successfully"));
+  }
+
+  return res.status(200).json(new ApiResponse(200, users, "Users fetched successfully"));
+});

@@ -12,10 +12,9 @@ import {
   saveEduRegisteredUser,
   saveAddRegisteredUser,
   uploadPic,
+  discoverUsers,
 } from "../controllers/user.controllers.js";
 import { upload } from "../middlewares/multer.middleware.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { uploadOnCloudinary } from "../config/connectCloudinary.js";
 
 const router = Router();
 
@@ -38,5 +37,8 @@ router.route("/uploadPicture").post(verifyJWT_username, upload.fields([{ name: "
 // get user details
 router.route("/registered/getDetails/:username").get(verifyJWT_username, UserDetails);
 router.route("/registered/getDetails").get(verifyJWT_username, userDetailsWithoutID);
+
+// get profiles for discover page
+router.route("/discover").get(verifyJWT_username, discoverUsers);
 
 export default router;

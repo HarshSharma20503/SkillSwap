@@ -1,0 +1,31 @@
+# Use an official Node.js runtime as a base image (npm is included in this image)
+FROM node:20
+
+# fetch the latest version of the package lists
+RUN apt-get update
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the contents of the Frontend directory
+COPY Frontend/ /app/Frontend
+
+WORKDIR /app/Frontend
+
+# Remove node_modules and .env files from the Frontend directory if they exist
+RUN rm -rf node_modules .env
+
+# Install Node.js dependencies in the container app directory
+RUN npm install
+
+ARG VITE_LOCALHOST
+
+#write the environment variables to a .env file
+RUN echo "VITE_LOCALHOST=${VITE_LOCALHOST}" > .env
+
+RUN cat .env
+
+EXPOSE 5173
+
+# Run the frontend development server
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

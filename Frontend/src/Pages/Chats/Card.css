@@ -54,6 +54,7 @@ p {
   height: 100px;
   width: 100px;
   margin: 1rem;
+  aspect-ratio: 1;
 }
 
 .prof-buttons {

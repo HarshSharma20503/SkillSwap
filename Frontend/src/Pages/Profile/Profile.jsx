@@ -143,21 +143,21 @@ const Profile = () => {
                 <div className="portfolio-links">
                   <a
                     href={profileUser?.githubLink ? profileUser.githubLink : "#"}
-                    target="_blank"
+                    target={profileUser?.githubLink ? "_blank" : "_self"}
                     className="portfolio-link"
                   >
                     <img src="/assets/images/github.png" className="link" alt="Github" />
                   </a>
                   <a
                     href={profileUser?.linkedinLink ? profileUser.linkedinLink : "#"}
-                    target="_blank"
+                    target={profileUser?.linkedinLink ? "_blank" : "_self"}
                     className="portfolio-link"
                   >
                     <img src="/assets/images/linkedin.png" className="link" alt="LinkedIn" />
                   </a>
                   <a
                     href={profileUser?.portfolioLink ? profileUser.portfolioLink : "#"}
-                    target="_blank"
+                    target={profileUser?.portfolioLink ? "_blank" : "_self"}
                     className="portfolio-link"
                   >
                     <img src="/assets/images/link.png" className="link" alt="Portfolio" />
