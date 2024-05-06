@@ -138,7 +138,11 @@ h2 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin-left: 20px;
+    margin-left: 0;
+  }
+
+  .card-container {
+    height: 100%;
   }
 
   .search-bar {
