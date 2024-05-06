@@ -69,7 +69,7 @@
 .profile-cards {
   display: flex;
   flex-wrap: wrap;
-  padding: 50px;
+  /* padding: 50px; */
 }
 
 .profile-row {
@@ -118,12 +118,19 @@ h2 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-width: 100vw;
+    /* min-width: 100vw; */
     max-width: 100vw;
   }
 
   .profile-cards {
     justify-content: center;
+  }
+
+  .profile-cards {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0px;
   }
 
   .content-container {

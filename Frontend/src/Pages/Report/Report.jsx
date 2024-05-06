@@ -9,7 +9,7 @@ const ReportForm = () => {
   const { user, setUser } = useUser();
 
   const [formData, setFormData] = useState({
-    username: user.username,
+    username: user?.username,
     reportedUsername: username,
     trained: "",
     issue: "",
