@@ -54,9 +54,23 @@
   min-width: 70vw;
 }
 
+.modalContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #2d2d2d;
+  color: #3bb4a1;
+  padding: 50px;
+  border-radius: 10px;
+}
+
 @media (max-width: 780px) {
   .container-right {
     display: flex;
     flex-direction: column;
+  }
+  .modalContent {
+    padding: 0px;
   }
 }

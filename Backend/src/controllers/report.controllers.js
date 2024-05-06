@@ -9,6 +9,7 @@ import { Chat } from "../models/chat.model.js";
 import { Report } from "../models/report.model.js";
 
 export const createReport = asyncHandler(async (req, res, next) => {
+  console.log("\n******** Inside createReport Controller function ********");
   const { username, reportedUsername, issue, issueDescription } = req.body;
 
   if (!username || !reportedUsername || !issue || !issueDescription) {

@@ -49,16 +49,6 @@ connectDB()
         });
       });
 
-      socket.on("typing", (room) => {
-        console.log("Typing in room: ", room);
-        socket.in(room).emit("typing");
-      });
-
-      socket.on("stop typing", (room) => {
-        console.log("Stop typing in room: ", room);
-        socket.in(room).emit("stop typing");
-      });
-
       socket.off("setup", () => {
         console.log("Disconnected from socket");
         console.log("Disconnected from socket");

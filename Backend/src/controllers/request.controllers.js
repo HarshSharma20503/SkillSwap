@@ -8,6 +8,8 @@ import { Request } from "../models/request.model.js";
 import { Chat } from "../models/chat.model.js";
 
 export const createRequest = asyncHandler(async (req, res, next) => {
+  console.log("\n******** Inside createRequest Controller function ********");
+
   const { receiverID } = req.body;
   const senderID = req.user._id;
 
@@ -28,4 +30,21 @@ export const createRequest = asyncHandler(async (req, res, next) => {
   if (!receiver) return next(new ApiError(500, "Request not created"));
 
   res.status(201).json(new ApiResponse(201, receiver, "Request created successfully"));
+});
+
+export const getRequests = asyncHandler(async (req, res, next) => {
+  console.log("\n******** Inside getRequests Controller function ********");
+
+  const receiverID = req.user._id;
+
+  const requests = await Request.find({ receiver: receiverID }).populate("sender");
+
+  if (requests.length > 0) {
+    const sendersDetails = requests.map((request) => {
+      return request._doc.sender;
+    });
+    return res.status(200).json(new ApiResponse(200, sendersDetails, "Requests fetched successfully"));
+  }
+
+  return res.status(200).json(new ApiResponse(200, requests, "Requests fetched successfully"));
 });
