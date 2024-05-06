@@ -9,24 +9,35 @@ import { Chat } from "../models/chat.model.js";
 import { Report } from "../models/report.model.js";
 
 export const createReport = asyncHandler(async (req, res, next) => {
-  const { receiverID } = req.body;
-  const senderID = req.user._id;
+  const { username, reportedUsername, issue, issueDescription } = req.body;
 
-  console.log("Sender ID: ", senderID);
-  console.log("Receiver ID: ", receiverID);
-
-  const existingReport = await Report.find({ sender: senderID, receiver: receiverID });
-
-  if (existingReport.length > 0) {
-    throw new ApiError(400, "Report already exists");
+  if (!username || !reportedUsername || !issue || !issueDescription) {
+    return next(new ApiError(400, "Please fill all the details"));
   }
 
-  const receiver = await Report.create({
-    sender: senderID,
-    receiver: receiverID,
+  const reporter = await User.findOne({ username: username });
+  const reported = await User.findOne({ username: reportedUsername });
+
+  if (!reporter || !reported) {
+    return next(new ApiError(400, "User not found"));
+  }
+
+  const chat = await Chat.findOne({
+    users: {
+      $all: [reported._id, reporter._id],
+    },
   });
 
-  if (!receiver) return next(new ApiError(500, "Report not created"));
+  if (!chat) {
+    return next(new ApiError(400, "User never interacted with the reported user so cannot report"));
+  }
 
-  res.status(201).json(new ApiResponse(201, receiver, "Report created successfully"));
+  const report = await Report.create({
+    reporter: reporter._id,
+    reported: reported._id,
+    nature: issue,
+    description: issueDescription,
+  });
+
+  res.status(201).json(new ApiResponse(201, report, "User Reported successfully"));
 });
