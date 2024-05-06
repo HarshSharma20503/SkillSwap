@@ -7,18 +7,20 @@ import { useUser } from "../../util/UserContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { user, setUser } = useUser();
   const [profileUser, setProfileUser] = useState(null);
   const { username } = useParams();
   const [loading, setLoading] = useState(true);
+  const [connectLoading, setConnectLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const { data } = await axios.get(`/user/registered/getDetails/${username}`);
         console.log(data.data);
         setProfileUser(data.data);
@@ -31,16 +33,49 @@ const Profile = () => {
         setUser(null);
         await axios.get("/auth/logout");
         navigate("/login");
+      } finally {
+        setLoading(false);
       }
     };
     getUser();
-    setLoading(false);
   }, []);
 
   const convertDate = (dateTimeString) => {
     const date = new Date(dateTimeString);
     const formattedDate = date.toLocaleDateString("en-US", { month: "2-digit", year: "numeric" }).replace("/", "-");
     return formattedDate;
+  };
+
+  const connectHandler = async () => {
+    console.log("Connect");
+    try {
+      setConnectLoading(true);
+      const { data } = await axios.post(`/request/create`, {
+        receiverID: profileUser._id,
+      });
+
+      console.log(data);
+      toast.success(data.message);
+      setProfileUser((prevState) => {
+        return {
+          ...prevState,
+          status: "Pending",
+        };
+      });
+    } catch (error) {
+      console.log(error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+        if (error.response.data.message === "Please Login") {
+          localStorage.removeItem("userInfo");
+          setUser(null);
+          await axios.get("/auth/logout");
+          navigate("/login");
+        }
+      }
+    } finally {
+      setConnectLoading(false);
+    }
   };
 
   return (
@@ -75,8 +110,21 @@ const Profile = () => {
                     // If the user is the same as the logged in user, don't show the connect and report buttons
                     user?.username !== username && (
                       <div className="buttons">
-                        <button className="connect-button">Connect</button>
-                        <button className="report-button">Report</button>
+                        <button
+                          className="connect-button"
+                          onClick={profileUser?.status === "Connect" ? connectHandler : undefined}
+                        >
+                          {connectLoading ? (
+                            <>
+                              <Spinner animation="border" variant="light" size="sm" style={{ marginRight: "0.5rem" }} />
+                            </>
+                          ) : (
+                            profileUser?.status
+                          )}
+                        </button>
+                        <Link to={`/report/${profileUser.username}`}>
+                          <button className="report-button">Report</button>
+                        </Link>
                       </div>
                     )
                   }

@@ -4,7 +4,7 @@ import { verifyJWT_username } from "../middlewares/verifyJWT.middleware.js";
 
 const router = express.Router();
 
-router.post("/", verifyJWT_username, createRequest);
+router.post("/create", verifyJWT_username, createRequest);
 // router.get("/", verifyJWT_username, getRequests);
 
 export default router;

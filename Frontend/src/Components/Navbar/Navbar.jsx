@@ -48,7 +48,7 @@ const UserProfileDropdown = () => {
         }}
       >
         <img
-          src={user.picture} // Replace with your image URL
+          src={user?.picture} // Replace with your image URL
           alt="User Avatar"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
