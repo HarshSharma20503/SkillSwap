@@ -75,4 +75,7 @@ export const skills = [
   "Jira",
   "Trello",
   "Asana",
+  "Natural Language Processing",
+  "Deep Learning",
+  "PyTorch",
 ];

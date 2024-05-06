@@ -18,7 +18,6 @@ RUN rm -rf node_modules .env
 # Install Node.js dependencies in the container app directory
 RUN npm install
 
-
 ARG PORT
 ARG CORS_ORIGIN
 ARG MONGODB_URI

@@ -520,27 +520,65 @@ export const uploadPic = asyncHandler(async (req, res) => {
 export const discoverUsers = asyncHandler(async (req, res) => {
   console.log("******** Inside discoverUsers Function *******");
 
-  // Find all the users except the current users who are proficient in the skills that the current user wants to learn
+  const webDevSkills = [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    "Angular",
+    "Vue",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "SQL",
+    "NoSQL",
+  ];
 
-  const users = await User.find({
-    skillsProficientAt: { $in: req.user.skillsToLearn },
-    username: { $ne: req.user.username },
-  });
+  const machineLearningSkills = ["Python", "Natural Language Processing", "Deep Learning", "PyTorch"];
+
+  // Find all the users except the current users who are proficient in the skills that the current user wants to learn and also the the users who are proficient in the web development skills and machine learning skills in the array above
+  //
+
+  const users = await User.find({});
+
+  // now make three seperate list of the users who are proficient in the skills that the current user wants to learn, the users who are proficient in the web development skills and the users who are proficient in the machine learning skills and others also limit the size of the array to 5;
+
+  // const users = await User.find({
+  //   skillsProficientAt: { $in: req.user.skillsToLearn },
+  //   username: { $ne: req.user.username },
+  // });
 
   if (!users) {
     throw new ApiError(500, "Error in fetching users");
   }
+  const usersToLearn = [];
+  const webDevUsers = [];
+  const mlUsers = [];
+  const otherUsers = [];
 
-  // if the users are more than 5 than send only 5 users randomly
-  if (users.length > 5) {
-    const randomUsers = [];
-    for (let i = 0; i < 5; i++) {
-      const randomIndex = Math.floor(Math.random() * users.length);
-      randomUsers.push(users[randomIndex]);
-      users.splice(randomIndex, 1);
+  // randomly suffle the users array
+
+  users.sort(() => Math.random() - 0.5);
+
+  users.forEach((user) => {
+    if (user.skillsProficientAt.some((skill) => req.user.skillsToLearn.includes(skill)) && usersToLearn.length < 5) {
+      usersToLearn.push(user);
+    } else if (user.skillsProficientAt.some((skill) => webDevSkills.includes(skill)) && webDevUsers.length < 5) {
+      webDevUsers.push(user);
+    } else if (user.skillsProficientAt.some((skill) => machineLearningSkills.includes(skill)) && mlUsers.length < 5) {
+      mlUsers.push(user);
+    } else {
+      if (otherUsers.length < 5) otherUsers.push(user);
     }
-    return res.status(200).json(new ApiResponse(200, randomUsers, "Users fetched successfully"));
-  }
+  });
 
-  return res.status(200).json(new ApiResponse(200, users, "Users fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { forYou: usersToLearn, webDev: webDevUsers, ml: mlUsers, others: otherUsers },
+        "Users fetched successfully"
+      )
+    );
 });

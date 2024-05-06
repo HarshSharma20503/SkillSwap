@@ -25,6 +25,12 @@ const Discover = () => {
 
   const [discoverUsers, setDiscoverUsers] = useState([]);
 
+  const [webDevUsers, setWebDevUsers] = useState([]);
+
+  const [mlUsers, setMlUsers] = useState([]);
+
+  const [otherUsers, setOtherUsers] = useState([]);
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -48,17 +54,25 @@ const Discover = () => {
       try {
         const { data } = await axios.get("/user/discover");
         console.log(data);
-        setDiscoverUsers(data.data);
+        setDiscoverUsers(data.data.forYou);
+        setWebDevUsers(data.data.webDev);
+        setMlUsers(data.data.ml);
+        setOtherUsers(data.data.others);
       } catch (error) {
         console.log(error);
         if (error?.response?.data?.message) {
           toast.error(error.response.data.message);
         }
+        localStorage.removeItem("userInfo");
+        setUser(null);
+        await axios.get("/auth/logout");
+        navigate("/login");
+      } finally {
+        setLoading(false);
       }
     };
     getUser();
     getDiscoverUsers();
-    setLoading(false);
   }, []);
 
   return (
@@ -155,18 +169,39 @@ const Discover = () => {
                 <h2 id="web-development">Web Development</h2>
                 <div className="profile-cards">
                   {/* Profile cards go here */}
-                  <ProfileCard
-                    profileImageUrl="/assets/images/profile1.jpg"
-                    name="Shefali Gaur"
-                    rating="⭐⭐⭐⭐"
-                    bio="Web Developer professional working @Siemens Technology."
-                    skills={["React.JS", "MongoDB", "DSA", "Node.JS"]}
-                  />
+                  {webDevUsers && webDevUsers.length > 0 ? (
+                    webDevUsers.map((user) => (
+                      <ProfileCard
+                        profileImageUrl={user?.picture}
+                        name={user?.name}
+                        rating={4}
+                        bio={user?.bio}
+                        skills={user?.skillsProficientAt}
+                        username={user?.username}
+                      />
+                    ))
+                  ) : (
+                    <h1 style={{ color: "#fbf1a4" }}>No users to show</h1>
+                  )}
                   {/* Add more ProfileCard components as needed */}
                 </div>
                 <h2 id="machine-learning">Machine Learning</h2>
                 <div className="profile-cards">
-                  <ProfileCard
+                  {mlUsers && mlUsers.length > 0 ? (
+                    mlUsers.map((user) => (
+                      <ProfileCard
+                        profileImageUrl={user?.picture}
+                        name={user?.name}
+                        rating={4}
+                        bio={user?.bio}
+                        skills={user?.skillsProficientAt}
+                        username={user?.username}
+                      />
+                    ))
+                  ) : (
+                    <h1 style={{ color: "#fbf1a4" }}>No users to show</h1>
+                  )}
+                  {/* <ProfileCard
                     profileImageUrl="/assets/images/profile2.png"
                     name="Madan Gupta"
                     rating="⭐⭐⭐⭐⭐"
@@ -179,7 +214,7 @@ const Discover = () => {
                     rating="⭐⭐⭐⭐"
                     bio="Working professional specialising in Artificial Intelligence and Machine Learning Research."
                     skills={["Machine Learning", "Python", "Data Science", "Artificial Intelligence"]}
-                  />
+                  /> */}
                 </div>
                 {/* <h2 id="graphic-design">Graphic Design</h2>
                 <div className="profile-cards">
@@ -218,7 +253,21 @@ const Discover = () => {
                 <h2 id="others">Others</h2>
                 <div className="profile-cards">
                   {/* Profile cards go here */}
-                  <ProfileCard
+                  {otherUsers && otherUsers.length > 0 ? (
+                    otherUsers.map((user) => (
+                      <ProfileCard
+                        profileImageUrl={user?.picture}
+                        name={user?.name}
+                        rating={4}
+                        bio={user?.bio}
+                        skills={user?.skillsProficientAt}
+                        username={user?.username}
+                      />
+                    ))
+                  ) : (
+                    <h1 style={{ color: "#fbf1a4" }}>No users to show</h1>
+                  )}
+                  {/* <ProfileCard
                     profileImageUrl="/assets/images/profile.jpg"
                     name="Anil Khosla"
                     rating="⭐⭐⭐⭐"
@@ -231,7 +280,7 @@ const Discover = () => {
                     rating="⭐⭐⭐⭐"
                     bio="Photography and art enthusiast. National Wildlife Photography Awardee."
                     skills={["Art", "Photography"]}
-                  />
+                  /> */}
                   {/* Add more ProfileCard components as needed */}
                 </div>
                 {/* Add more ProfileCard components as needed */}

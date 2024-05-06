@@ -9,7 +9,7 @@ const ProfileCard = ({ profileImageUrl, bio, name, skills, rating, username }) =
       <img className="img-container" src={profileImageUrl} alt="user" />
       <h3>{name}</h3>
       <h6>Rating: {rating} ⭐</h6>
-      <p>{bio}</p>
+      <p style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "150px" }}>{bio}</p>
       <div className="prof-buttons">
         {/* <button className="primary">Connect</button> */}
         <Link to={`/profile/${username}`}>
