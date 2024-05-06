@@ -7,6 +7,7 @@ import { useUser } from "../../util/UserContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { user, setUser } = useUser();
@@ -113,9 +114,17 @@ const Profile = () => {
                           className="connect-button"
                           onClick={profileUser?.status === "Connect" ? connectHandler : undefined}
                         >
-                          {profileUser?.status}
+                          {connectLoading ? (
+                            <>
+                              <Spinner animation="border" variant="light" size="sm" style={{ marginRight: "0.5rem" }} />
+                            </>
+                          ) : (
+                            profileUser?.status
+                          )}
                         </button>
-                        <button className="report-button">Report</button>
+                        <Link to={`/report/${profileUser.username}`}>
+                          <button className="report-button">Report</button>
+                        </Link>
                       </div>
                     )
                   }
