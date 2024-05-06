@@ -16,10 +16,7 @@ var socket;
 const Chats = () => {
   const [showChatHistory, setShowChatHistory] = useState(true);
   const [showRequests, setShowRequests] = useState(null);
-  const [requests, setRequests] = useState([
-    { id: 1, name: "Paakhi", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
-    { id: 2, name: "Harsh", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
-  ]);
+  const [requests, setRequests] = useState([]);
   const [requestLoading, setRequestLoading] = useState(false);
 
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
@@ -42,42 +39,6 @@ const Chats = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        setChatLoading(true);
-        const tempUser = JSON.parse(localStorage.getItem("userInfo"));
-        const { data } = await axios.get("http://localhost:8000/chat");
-        // console.log("Chats", data.data);
-        toast.success(data.message);
-        if (tempUser?._id) {
-          const temp = data.data.map((chat) => {
-            return {
-              id: chat._id,
-              name: chat?.users.find((u) => u?._id !== tempUser?._id).name,
-              picture: chat?.users.find((u) => u?._id !== tempUser?._id).picture,
-              username: chat?.users.find((u) => u?._id !== tempUser?._id).username,
-            };
-          });
-          setChats(temp);
-        }
-        // console.log(temp);
-      } catch (err) {
-        console.log(err);
-        if (err?.response?.data?.message) {
-          toast.error(err.response.data.message);
-          if (err.response.data.message === "Please Login") {
-            localStorage.removeItem("userInfo");
-            setUser(null);
-            await axios.get("/auth/logout");
-            navigate("/login");
-          }
-        } else {
-          toast.error("Something went wrong");
-        }
-      } finally {
-        setChatLoading(false);
-      }
-    };
     fetchChats();
   }, []);
 
@@ -99,6 +60,43 @@ const Chats = () => {
       socket.off("message recieved");
     };
   }, [selectedChat]);
+
+  const fetchChats = async () => {
+    try {
+      setChatLoading(true);
+      const tempUser = JSON.parse(localStorage.getItem("userInfo"));
+      const { data } = await axios.get("http://localhost:8000/chat");
+      // console.log("Chats", data.data);
+      toast.success(data.message);
+      if (tempUser?._id) {
+        const temp = data.data.map((chat) => {
+          return {
+            id: chat._id,
+            name: chat?.users.find((u) => u?._id !== tempUser?._id).name,
+            picture: chat?.users.find((u) => u?._id !== tempUser?._id).picture,
+            username: chat?.users.find((u) => u?._id !== tempUser?._id).username,
+          };
+        });
+        setChats(temp);
+      }
+      // console.log(temp);
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.data?.message) {
+        toast.error(err.response.data.message);
+        if (err.response.data.message === "Please Login") {
+          localStorage.removeItem("userInfo");
+          setUser(null);
+          await axios.get("/auth/logout");
+          navigate("/login");
+        }
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setChatLoading(false);
+    }
+  };
 
   const handleScheduleClick = () => {
     setScheduleModalShow(true);
@@ -187,7 +185,7 @@ const Chats = () => {
         toast.error("Something went wrong");
       }
     } finally {
-      // setRequestLoading(false);
+      setRequestLoading(false);
     }
   };
 
@@ -195,10 +193,10 @@ const Chats = () => {
     if (tab === "chat") {
       setShowChatHistory(true);
       setShowRequests(false);
+      await fetchChats();
     } else if (tab === "requests") {
       setShowChatHistory(false);
       setShowRequests(true);
-
       await getRequests();
     }
   };
@@ -260,7 +258,7 @@ const Chats = () => {
             <div className="container-left">
               <ListGroup className="chat-list">
                 {chatLoading ? (
-                  <div className="row m-auto">
+                  <div className="row m-auto mt-5">
                     <Spinner animation="border" variant="primary" />
                   </div>
                 ) : (
@@ -287,23 +285,31 @@ const Chats = () => {
           )}
           {showRequests && (
             <div className="container-left">
-              {}
               <ListGroup style={{ padding: "10px" }}>
-                {requests.map((request) => (
-                  <ListGroup.Item
-                    key={request.id}
-                    onClick={() => handleRequestClick(request)}
-                    style={{
-                      cursor: "pointer",
-                      marginBottom: "10px",
-                      padding: "10px",
-                      backgroundColor: selectedRequest && selectedRequest.id === request.id ? "#3BB4A1" : "lightgrey",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    {request.name}
-                  </ListGroup.Item>
-                ))}
+                {requestLoading ? (
+                  <div className="row m-auto mt-5">
+                    <Spinner animation="border" variant="primary" />
+                  </div>
+                ) : (
+                  <>
+                    {requests.map((request) => (
+                      <ListGroup.Item
+                        key={request.id}
+                        onClick={() => handleRequestClick(request)}
+                        style={{
+                          cursor: "pointer",
+                          marginBottom: "10px",
+                          padding: "10px",
+                          backgroundColor:
+                            selectedRequest && selectedRequest.id === request.id ? "#3BB4A1" : "lightgrey",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        {request.name}
+                      </ListGroup.Item>
+                    ))}
+                  </>
+                )}
               </ListGroup>
             </div>
           )}
@@ -316,6 +322,8 @@ const Chats = () => {
                     name={selectedRequest?.name}
                     skills={selectedRequest?.skillsProficientAt}
                     rating="4"
+                    picture={selectedRequest?.picture}
+                    username={selectedRequest?.username}
                     onClose={() => setSelectedRequest(null)} // Close modal when clicked outside or close button
                   />
                 )}

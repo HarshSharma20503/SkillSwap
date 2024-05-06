@@ -1,16 +1,19 @@
 import React from "react";
 import "./Card.css";
+import { Link } from "react-router-dom";
 
-const RequestCard = ({ profileImageUrl, bio, name, skills, rating }) => {
+const RequestCard = ({ picture, bio, name, skills, rating, username }) => {
   console.log(skills);
   return (
     <div className="card-container">
-      <img className="img-container" src={profileImageUrl} alt="user" />
+      <img className="img-container" src={picture} alt="user" />
       <h3>{name}</h3>
-      <h6>{rating}</h6>
+      <h6>Rating : {rating}</h6>
       <p>{bio}</p>
       <div className="prof-buttons">
-        <button className="primary ghost">View Profile</button>
+        <Link to={`/profile/${username}`}>
+          <button className="primary ghost">View Profile</button>
+        </Link>
       </div>
       <div className="profskills">
         <h6>Skills</h6>
