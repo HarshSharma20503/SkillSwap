@@ -5,6 +5,7 @@ import { User } from "../models/user.model.js";
 import { Request } from "../models/request.model.js";
 import { UnRegisteredUser } from "../models/unRegisteredUser.model.js";
 import { generateJWTToken_username } from "../utils/generateJWTToken.js";
+import { uploadOnCloudinary } from "../config/connectCloudinary.js";
 
 export const userDetailsWithoutID = asyncHandler(async (req, res) => {
   console.log("\n******** Inside userDetailsWithoutID Controller function ********");
@@ -285,3 +286,234 @@ export const registerUser = async (req, res) => {
   res.clearCookie("accessTokenRegistration");
   return res.status(200).json(new ApiResponse(200, newUser, "NewUser registered successfully"));
 };
+
+export const saveRegRegisteredUser = asyncHandler(async (req, res) => {
+  console.log("******** Inside saveRegRegisteredUser Function *******");
+
+  const { name, username, linkedinLink, githubLink, portfolioLink, skillsProficientAt, skillsToLearn, picture } =
+    req.body;
+
+  console.log("Body: ", req.body);
+
+  if (!name || !username || skillsProficientAt.length === 0 || skillsToLearn.length === 0) {
+    throw new ApiError(400, "Please provide all the details");
+  }
+
+  if (username.length < 3) {
+    throw new ApiError(400, "Username should be atleast 3 characters long");
+  }
+
+  if (githubLink === "" && linkedinLink === "" && portfolioLink === "") {
+    throw new ApiError(400, "Please provide atleast one link");
+  }
+
+  const githubRegex = /^(?:http(?:s)?:\/\/)?(?:www\.)?github\.com\/[a-zA-Z0-9_-]+(?:\/)?$/;
+  const linkedinRegex = /^(?:http(?:s)?:\/\/)?(?:www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+(?:\/)?$/;
+  if ((linkedinLink && !linkedinLink.match(linkedinRegex)) || (githubLink && !githubLink.match(githubRegex))) {
+    throw new ApiError(400, "Please provide valid github and linkedin links");
+  }
+
+  const user = await User.findOneAndUpdate(
+    { username: req.user.username },
+    {
+      name: name,
+      username: username,
+      linkedinLink: linkedinLink,
+      githubLink: githubLink,
+      portfolioLink: portfolioLink,
+      skillsProficientAt: skillsProficientAt,
+      skillsToLearn: skillsToLearn,
+      picture: picture,
+    }
+  );
+
+  if (!user) {
+    throw new ApiError(500, "Error in saving user details");
+  }
+
+  return res.status(200).json(new ApiResponse(200, user, "User details saved successfully"));
+});
+
+export const saveEduRegisteredUser = asyncHandler(async (req, res) => {
+  console.log("******** Inside saveEduRegisteredUser Function *******");
+
+  const { education } = req.body;
+
+  if (education.length === 0) {
+    throw new ApiError(400, "Education is required");
+  }
+
+  education.forEach((edu) => {
+    if (!edu.institution || !edu.degree) {
+      throw new ApiError(400, "Please provide all the details");
+    }
+    if (
+      !edu.startDate ||
+      !edu.endDate ||
+      !edu.score ||
+      edu.score < 0 ||
+      edu.score > 100 ||
+      edu.startDate > edu.endDate
+    ) {
+      throw new ApiError(400, "Please provide valid score and dates");
+    }
+  });
+
+  const user = await User.findOneAndUpdate({ username: req.user.username }, { education: education });
+
+  if (!user) {
+    throw new ApiError(500, "Error in saving user details");
+  }
+
+  return res.status(200).json(new ApiResponse(200, user, "User details saved successfully"));
+});
+
+export const saveAddRegisteredUser = asyncHandler(async (req, res) => {
+  console.log("******** Inside saveAddRegisteredUser Function *******");
+
+  const { bio, projects } = req.body;
+
+  if (!bio) {
+    throw new ApiError(400, "Bio is required");
+  }
+
+  if (bio.length > 500) {
+    throw new ApiError(400, "Bio should be less than 500 characters");
+  }
+
+  if (projects.size > 0) {
+    projects.forEach((project) => {
+      if (!project.title || !project.description || !project.projectLink || !project.startDate || !project.endDate) {
+        throw new ApiError(400, "Please provide all the details");
+      }
+      if (project.projectLink.match(/^(http|https):\/\/[^ "]+$/)) {
+        throw new ApiError(400, "Please provide valid project link");
+      }
+      if (project.startDate > project.endDate) {
+        throw new ApiError(400, "Please provide valid dates");
+      }
+    });
+  }
+
+  const user = await User.findOneAndUpdate({ username: req.user.username }, { bio: bio, projects: projects });
+
+  if (!user) {
+    throw new ApiError(500, "Error in saving user details");
+  }
+
+  return res.status(200).json(new ApiResponse(200, user, "User details saved successfully"));
+});
+
+export const updateRegisteredUser = asyncHandler(async (req, res) => {
+  console.log("******** Inside updateRegisteredUser Function *******");
+
+  const {
+    name,
+    username,
+    linkedinLink,
+    githubLink,
+    portfolioLink,
+    skillsProficientAt,
+    skillsToLearn,
+    education,
+    bio,
+    projects,
+  } = req.body;
+
+  if (!name || !username || skillsProficientAt.length === 0 || skillsToLearn.length === 0) {
+    throw new ApiError(400, "Please provide all the details");
+  }
+
+  if (username.length < 3) {
+    throw new ApiError(400, "Username should be atleast 3 characters long");
+  }
+
+  if (githubLink === "" && linkedinLink === "" && portfolioLink === "") {
+    throw new ApiError(400, "Please provide atleast one link");
+  }
+
+  const githubRegex = /^(?:http(?:s)?:\/\/)?(?:www\.)?github\.com\/[a-zA-Z0-9_-]+(?:\/)?$/;
+  const linkedinRegex = /^(?:http(?:s)?:\/\/)?(?:www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+(?:\/)?$/;
+  if ((linkedinLink && !linkedinLink.match(linkedinRegex)) || (githubLink && !githubLink.match(githubRegex))) {
+    throw new ApiError(400, "Please provide valid github and linkedin links");
+  }
+
+  if (education.length === 0) {
+    throw new ApiError(400, "Education is required");
+  }
+
+  education.forEach((edu) => {
+    if (!edu.institution || !edu.degree) {
+      throw new ApiError(400, "Please provide all the details");
+    }
+    if (
+      !edu.startDate ||
+      !edu.endDate ||
+      !edu.score ||
+      edu.score < 0 ||
+      edu.score > 100 ||
+      edu.startDate > edu.endDate
+    ) {
+      throw new ApiError(400, "Please provide valid score and dates");
+    }
+  });
+
+  if (!bio) {
+    throw new ApiError(400, "Bio is required");
+  }
+
+  if (bio.length > 500) {
+    throw new ApiError(400, "Bio should be less than 500 characters");
+  }
+
+  if (projects.size > 0) {
+    projects.forEach((project) => {
+      if (!project.title || !project.description || !project.projectLink || !project.startDate || !project.endDate) {
+        throw new ApiError(400, "Please provide all the details");
+      }
+      if (project.projectLink.match(/^(http|https):\/\/[^ "]+$/)) {
+        throw new ApiError(400, "Please provide valid project link");
+      }
+      if (project.startDate > project.endDate) {
+        throw new ApiError(400, "Please provide valid dates");
+      }
+    });
+  }
+
+  const user = await User.findOneAndUpdate(
+    { username: req.user.username },
+    {
+      name: name,
+      username: username,
+      linkedinLink: linkedinLink,
+      githubLink: githubLink,
+      portfolioLink: portfolioLink,
+      skillsProficientAt: skillsProficientAt,
+      skillsToLearn: skillsToLearn,
+      education: education,
+      bio: bio,
+      projects: projects,
+    }
+  );
+
+  if (!user) {
+    throw new ApiError(500, "Error in saving user details");
+  }
+
+  return res.status(200).json(new ApiResponse(200, user, "User details saved successfully"));
+});
+
+export const uploadPic = asyncHandler(async (req, res) => {
+  const LocalPath = req.files?.picture[0]?.path;
+
+  if (!LocalPath) {
+    throw new ApiError(400, "Avatar file is required");
+  }
+  const picture = await uploadOnCloudinary(LocalPath);
+
+  if (!picture) {
+    throw new ApiError(500, "Error uploading picture");
+  }
+
+  res.status(200).json(new ApiResponse(200, { url: picture.url }, "Picture uploaded successfully"));
+});

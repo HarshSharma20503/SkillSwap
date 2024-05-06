@@ -16,7 +16,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const [form, setForm] = useState({
     profilePhoto: null,
@@ -49,20 +49,23 @@ const EditProfile = () => {
   const [activeKey, setActiveKey] = useState("registration");
 
   useEffect(() => {
-    setForm((prevState) => ({
-      ...prevState,
-      name: user?.name,
-      email: user?.email,
-      username: user?.username,
-      skillsProficientAt: user?.skillsProficientAt,
-      skillsToLearn: user?.skillsToLearn,
-      portfolioLink: user?.portfolioLink,
-      githubLink: user?.githubLink,
-      linkedinLink: user?.linkedinLink,
-      education: user?.education,
-      bio: user?.bio,
-      projects: user?.projects,
-    }));
+    if (user) {
+      setForm((prevState) => ({
+        ...prevState,
+        name: user?.name,
+        email: user?.email,
+        username: user?.username,
+        skillsProficientAt: user?.skillsProficientAt,
+        skillsToLearn: user?.skillsToLearn,
+        portfolioLink: user?.portfolioLink,
+        githubLink: user?.githubLink,
+        linkedinLink: user?.linkedinLink,
+        education: user?.education,
+        bio: user?.bio,
+        projects: user?.projects,
+      }));
+      setTechStack(user?.projects.map((project) => "Select some Tech Stack"));
+    }
   }, []);
 
   const handleNext = () => {
@@ -73,12 +76,35 @@ const EditProfile = () => {
     }
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setForm({
-      ...form,
-      profilePhoto: file,
-    });
+  const handleFileChange = async (e) => {
+    const data = new FormData();
+    data.append("picture", e.target.files[0]);
+    console.log("Data: ", data);
+    try {
+      toast.info("Uploading your pic please wait upload confirmation..");
+      const response = await axios.post("/user/uploadPicture", data);
+      toast.success("Pic uploaded successfully");
+      // setPic(response.data.data.url);
+      console.log("Pic url:", response.data);
+      setForm(() => {
+        return {
+          ...form,
+          picture: response.data.data.url,
+        };
+      });
+    } catch (error) {
+      console.log(error);
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+        if (error.response.data.message === "Please Login") {
+          localStorage.removeItem("userInfo");
+          setUser(null);
+          await axios.get("/auth/logout");
+          navigate("/login");
+        }
+      }
+    }
+    // console.log(file);
   };
 
   const handleInputChange = (e) => {
@@ -159,7 +185,7 @@ const EditProfile = () => {
   };
 
   const handleRemoveEducation = (e, tid) => {
-    const updatedEducation = form.education.filter((item, i) => item.id !== tid);
+    const updatedEducation = form.education.filter((item, i) => item._id !== tid);
     console.log("Updated Education: ", updatedEducation);
     setForm((prevState) => ({
       ...prevState,
@@ -297,7 +323,8 @@ const EditProfile = () => {
     if (check) {
       setSaveLoading(true);
       try {
-        const { data } = await axios.post("/user/unregistered/saveRegDetails", form);
+        console.log("form:", form);
+        const { data } = await axios.post("/user/registered/saveRegDetails", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -317,7 +344,7 @@ const EditProfile = () => {
     if (check1 && check2) {
       setSaveLoading(true);
       try {
-        const { data } = await axios.post("/user/unregistered/saveEduDetail", form);
+        const { data } = await axios.post("/user/registered/saveEduDetail", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -339,7 +366,7 @@ const EditProfile = () => {
     if (check1 && check2 && check3) {
       setSaveLoading(true);
       try {
-        const { data } = await axios.post("/user/unregistered/saveAddDetail", form);
+        const { data } = await axios.post("/user/registered/saveAddDetail", form);
         toast.success("Details saved successfully");
       } catch (error) {
         console.log(error);
@@ -354,34 +381,34 @@ const EditProfile = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    const check1 = validateRegForm();
-    const check2 = validateEduForm();
-    const check3 = validateAddForm();
-    if (check1 && check2 && check3) {
-      setSaveLoading(true);
-      try {
-        const { data } = await axios.post("/user/registerUser", form);
-        toast.success("Registration Successful");
-        console.log("Data: ", data.data);
-        navigate("/discover");
-      } catch (error) {
-        console.log(error);
-        if (error?.response?.data?.message) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("Some error occurred");
-        }
-      } finally {
-        setSaveLoading(false);
-      }
-    }
-  };
+  // const handleSubmit = async () => {
+  //   const check1 = validateRegForm();
+  //   const check2 = validateEduForm();
+  //   const check3 = validateAddForm();
+  //   if (check1 && check2 && check3) {
+  //     setSaveLoading(true);
+  //     try {
+  //       const { data } = await axios.post("/user/registered/updateDetails", form);
+  //       toast.success("Registration Successful");
+  //       console.log("Data: ", data.data);
+  //       navigate("/discover");
+  //     } catch (error) {
+  //       console.log(error);
+  //       if (error?.response?.data?.message) {
+  //         toast.error(error.response.data.message);
+  //       } else {
+  //         toast.error("Some error occurred");
+  //       }
+  //     } finally {
+  //       setSaveLoading(false);
+  //     }
+  //   }
+  // };
 
   return (
     <div className="register_page ">
       <h1 className="m-4" style={{ fontFamily: "Oswald", color: "#3BB4A1" }}>
-        Registration Form
+        Update Profile Details
       </h1>
       {loading ? (
         <div className="row m-auto w-100 d-flex justify-content-center align-items-center" style={{ height: "80.8vh" }}>
@@ -415,8 +442,9 @@ const EditProfile = () => {
                   disabled
                 />
               </div>
-              <div>
+              <div className="mt-3">
                 <label style={{ color: "#3BB4A1" }}>Profile Photo</label>
+                <br />
                 <input type="file" accept="image/*" onChange={handleFileChange} />
               </div>
               {/* Email */}
@@ -602,10 +630,10 @@ const EditProfile = () => {
             </Tab>
             <Tab eventKey="education" title="Education">
               {form?.education?.map((edu, index) => (
-                <div className="border border-dark rounded-1 p-3 m-1" key={edu.id}>
+                <div className="border border-dark rounded-1 p-3 m-1" key={edu?._id}>
                   {index !== 0 && (
                     <span className="w-100 d-flex justify-content-end">
-                      <button className="w-25" onClick={(e) => handleRemoveEducation(e, edu.id)}>
+                      <button className="w-25" onClick={(e) => handleRemoveEducation(e, edu?._id)}>
                         cross
                       </button>
                     </span>
@@ -771,14 +799,14 @@ const EditProfile = () => {
                 <label style={{ color: "#3BB4A1" }}>Projects</label>
 
                 {form?.projects?.map((project, index) => (
-                  <div className="border border-dark rounded-1 p-3 m-1" key={project.id}>
+                  <div className="border border-dark rounded-1 p-3 m-1" key={project?._id}>
                     <span className="w-100 d-flex justify-content-end">
                       <button
                         className="w-25"
                         onClick={() => {
                           setForm((prevState) => ({
                             ...prevState,
-                            projects: prevState.projects.filter((item) => item.id !== project.id),
+                            projects: prevState.projects.filter((item) => item?._id !== project?._id),
                           }));
                         }}
                       >
@@ -972,12 +1000,12 @@ const EditProfile = () => {
                 <button className="btn btn-warning" onClick={handleSaveAdditional} disabled={saveLoading}>
                   {saveLoading ? <Spinner animation="border" variant="primary" /> : "Save"}
                 </button>
-                <button onClick={handleNext} className="mt-2 btn btn-primary">
+                {/* <button onClick={handleNext} className="mt-2 btn btn-primary">
                   Next
-                </button>
+                </button> */}
               </div>
             </Tab>
-            <Tab eventKey="Preview" title="Confirm Details">
+            {/* <Tab eventKey="Preview" title="Confirm Details">
               <div>
                 <h3 style={{ color: "#3BB4A1", marginBottom: "20px" }} className="link w-100 text-center">
                   Preview of the Form
@@ -1135,7 +1163,7 @@ const EditProfile = () => {
                   </button>
                 </div>
               </div>
-            </Tab>
+            </Tab> */}
           </Tabs>
         </div>
       )}

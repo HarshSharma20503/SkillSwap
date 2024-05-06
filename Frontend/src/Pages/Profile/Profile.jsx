@@ -28,11 +28,13 @@ const Profile = () => {
         console.log(error);
         if (error?.response?.data?.message) {
           toast.error(error.response.data.message);
+          if (error.response.data.message === "Please Login") {
+            localStorage.removeItem("userInfo");
+            setUser(null);
+            await axios.get("/auth/logout");
+            navigate("/login");
+          }
         }
-        localStorage.removeItem("userInfo");
-        setUser(null);
-        await axios.get("/auth/logout");
-        navigate("/login");
       } finally {
         setLoading(false);
       }

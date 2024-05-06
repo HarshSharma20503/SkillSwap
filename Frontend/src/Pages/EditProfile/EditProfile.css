@@ -19,10 +19,10 @@
   border-radius: 10px;
 }
 
-.previewForm{
+.previewForm {
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  /* width: 100vw; */
   justify-content: space-between;
 }
 
