@@ -1,5 +1,6 @@
 import React from "react";
 import "./AboutUs.css";
+
 const containerStyle = {
   display: "flex",
   flexDirection: "row",
