@@ -1,82 +1,88 @@
-  .form-container {
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #2d2d2d;
+  min-height: 100vh;
+  min-width: 70vw;
+}
+
+.form-container h1 {
+  padding: 3rem;
+  text-align: center;
+  color: #f56664 !important;
+  font-family: "Montserrat", sans-serif;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-box {
+  background-color: #f1f1f1;
+  padding: 1rem;
+  min-width: 70vw;
+  margin: 5rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+}
+
+.question {
+  color: #087464 !important;
+  margin-bottom: 0.6rem;
+  margin-top: 1rem;
+}
+
+.form-group label {
+  color: #2d2d2d;
+}
+
+.form-control {
+  background-color: #f1f1f1;
+  border: 1px solid #3bb4a1;
+  border-radius: 5px;
+  padding: 10px;
+  width: 70%;
+  margin-bottom: 20px;
+}
+
+.form-control::placeholder {
+  color: #6d6e7089 !important; /* Adjust placeholder color as needed */
+}
+
+.radio-group {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.radio-group input[type="radio"] {
+  margin: 0.3rem;
+  margin-left: 1rem;
+}
+
+.textarea-control {
+  height: 150px;
+}
+
+.submit-button {
+  background-color: #3bb4a1;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #013e38;
+}
+
+@media (max-width: 768px) {
+  .submitButton {
+    width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    background-color: #2d2d2d;
-    min-height: 100vh;
-    min-width: 70vw;
+    justify-content: center;
   }
-  
-  .form-container h1 {
-    padding: 3rem;
-    text-align: center;
-    color: #f56664 !important;
-    font-family: 'Montserrat', sans-serif;
-  }
-
-  .form-group
-  {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-box {
-    background-color: #f1f1f1;
-    padding: 1rem;
-    min-width: 70vw;
-    margin: 5rem;
-    margin-top: 1rem;
-    border-radius: 0.5rem;
-  }
-
-  .question
-  {
-    color:#087464 !important;
-    margin-bottom: 0.6rem;
-    margin-top: 1rem;
-  }
-
-  .form-group label {
-    color: #2d2d2d;
-  }
-  
-  .form-control {
-    background-color: #f1f1f1;
-    border: 1px solid #3bb4a1;
-    border-radius: 5px;
-    padding: 10px;
-    width: 70%;
-    margin-bottom: 20px;
-  }
-
-  .form-control::placeholder {
-    color: #6d6e7089 !important; /* Adjust placeholder color as needed */
-  }
-  
-  .radio-group {
-    display: flex;
-    margin-bottom: 20px;
-  }
-  
-  .radio-group input[type="radio"] {
-    margin: 0.3rem;
-    margin-left: 1rem;
-  }
-  
-  .textarea-control {
-    height: 150px;
-  }
-  
-  .submit-button {
-    background-color: #3bb4a1;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .submit-button:hover {
-    background-color: #013e38;
-  }
-  
+}

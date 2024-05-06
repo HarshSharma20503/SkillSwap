@@ -3,17 +3,18 @@ import "./Report.css";
 import { useParams } from "react-router-dom";
 import { useUser } from "../../util/UserContext";
 import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
+import { toast } from "react-toastify";
 
 const ReportForm = () => {
   const { username } = useParams();
 
   const { user, setUser } = useUser();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     username: user?.username,
     reportedUsername: username,
-    // trained: "",
     issue: "",
     issueDescription: "",
   });
@@ -21,26 +22,24 @@ const ReportForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log("handlechange", formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your submit logic here, such as sending the form data to the server
-    console.log(formData); // Example: Log the form data to the console
-
+    if (formData.issue === "" || formData.issueDescription === "") {
+      toast.error("Please fill all the details");
+      return;
+    }
+    // console.log("formData:", formData);
     try {
       setLoading(true);
-      const { data } = await axios.post(`/request/create`, {
-        receiverID: profileUser._id,
-      });
-
-      console.log(data);
+      const { data } = await axios.post(`/report/create`, formData);
       toast.success(data.message);
-      setProfileUser((prevState) => {
+      setFormData((prevState) => {
         return {
-          ...prevState,
-          status: "Pending",
+          ...formData,
+          issue: "",
+          issueDescription: "",
         };
       });
     } catch (error) {
@@ -55,17 +54,8 @@ const ReportForm = () => {
         }
       }
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
-
-    // Clear the form after submission if needed
-    setFormData({
-      username: "",
-      reportedUsername: "",
-      // trained: "",
-      issue: "",
-      issueDescription: "",
-    });
   };
 
   return (
@@ -101,29 +91,6 @@ const ReportForm = () => {
               onChange={handleChange}
             />
           </div>
-          {/* <div className="form-group">
-            <label className="question">Were you trained by this person?</label>
-            <div className="radio-group">
-              <input
-                type="radio"
-                id="yes"
-                name="trained"
-                value="Yes"
-                checked={formData.trained === "Yes"}
-                onChange={handleChange}
-              />
-              <label htmlFor="yes">Yes</label>
-              <input
-                type="radio"
-                id="no"
-                name="trained"
-                value="No"
-                checked={formData.trained === "No"}
-                onChange={handleChange}
-              />
-              <label htmlFor="no">No, I was the trainer.</label>
-            </div>
-          </div> */}
           <div className="form-group">
             <label className="question">What was the nature of the issue?</label>
             <div className="radio-group">
@@ -169,9 +136,17 @@ const ReportForm = () => {
               onChange={handleChange}
             ></textarea>
           </div>
-          <button type="submit" className="submit-button">
-            Submit
-          </button>
+          <div className="submitButton">
+            <button type="submit" className="submit-button">
+              {loading ? (
+                <>
+                  <Spinner animation="border" variant="light" size="sm" style={{ marginRight: "0.5rem" }} />
+                </>
+              ) : (
+                "Submit"
+              )}
+            </button>
+          </div>
         </form>
       </div>
     </div>
