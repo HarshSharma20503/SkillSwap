@@ -216,7 +216,7 @@ const Chats = () => {
       console.log(data);
       toast.success(data.message);
       // remove this request from the requests list
-      setRequests((prevState) => prevState.filter((request) => request.id !== selectedRequest.id));
+      setRequests((prevState) => prevState.filter((request) => request._id !== selectedRequest._id));
     } catch (err) {
       console.log(err);
       if (err?.response?.data?.message) {
@@ -240,9 +240,10 @@ const Chats = () => {
     console.log("Request rejected");
     try {
       setAcceptRequestLoading(true);
-      const { data } = axios.post("/request/rejectRequest", { requestId: selectedRequest.id });
+      const { data } = axios.post("/request/rejectRequest", { requestId: selectedRequest._id });
       console.log(data);
       toast.success(data.message);
+      setRequests((prevState) => prevState.filter((request) => request._id !== selectedRequest._id));
     } catch (err) {
       console.log(err);
       if (err?.response?.data?.message) {

@@ -55,12 +55,12 @@ export const acceptRequest = asyncHandler(async (req, res, next) => {
   const { requestId } = req.body;
   const senderId = req.user._id;
 
-  console.log("RequestId: ", requestId);
-  console.log("Sender ID: ", senderId);
+  // console.log("RequestId: ", requestId);
+  // console.log("Sender ID: ", senderId);
 
   const existingRequest = await Request.find({ sender: requestId, receiver: senderId });
 
-  console.log("Existing Request: ", existingRequest);
+  // console.log("Existing Request: ", existingRequest);
 
   if (existingRequest.length === 0) {
     throw new ApiError(400, "Request does not exist");
@@ -86,4 +86,26 @@ export const acceptRequest = asyncHandler(async (req, res, next) => {
   );
 
   res.status(201).json(new ApiResponse(201, chat, "Request accepted successfully"));
+});
+
+export const rejectRequest = asyncHandler(async (req, res, next) => {
+  console.log("\n******** Inside rejectRequest Controller function ********");
+
+  const { requestId } = req.body;
+  const senderId = req.user._id;
+
+  // console.log("RequestId: ", requestId);
+  // console.log("Sender ID: ", senderId);
+
+  const existingRequest = await Request.find({ sender: requestId, receiver: senderId, status: "Pending" });
+
+  // console.log("Existing Request: ", existingRequest);
+
+  if (existingRequest.length === 0) {
+    throw new ApiError(400, "Request does not exist");
+  }
+
+  await Request.findOneAndUpdate({ sender: requestId, receiver: senderId }, { status: "Rejected" });
+
+  res.status(200).json(new ApiResponse(200, null, "Request rejected successfully"));
 });

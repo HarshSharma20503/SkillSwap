@@ -23,7 +23,12 @@ export const UserDetails = asyncHandler(async (req, res) => {
 
   const receiverID = user._id;
   const senderID = req.user._id;
-  const request = await Request.find({ sender: senderID, receiver: receiverID });
+  const request = await Request.find({
+    $or: [
+      { sender: senderID, receiver: receiverID },
+      { sender: receiverID, receiver: senderID },
+    ],
+  });
 
   // console.log("request", request);
 
