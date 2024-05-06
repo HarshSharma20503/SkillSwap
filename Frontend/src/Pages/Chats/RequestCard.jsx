@@ -2,6 +2,7 @@ import React from "react";
 import "./Card.css";
 
 const RequestCard = ({ profileImageUrl, bio, name, skills, rating }) => {
+  console.log(skills);
   return (
     <div className="card-container">
       <img className="img-container" src={profileImageUrl} alt="user" />

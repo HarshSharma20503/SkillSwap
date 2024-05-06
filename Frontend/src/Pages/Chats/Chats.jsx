@@ -15,12 +15,13 @@ var socket;
 const Chats = () => {
   const [showChatHistory, setShowChatHistory] = useState(true);
   const [showRequests, setShowRequests] = useState(null);
-  const [requests] = useState([
+  const [requests, setRequests] = useState([
     { id: 1, name: "Paakhi", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
     { id: 2, name: "Harsh", rating: "*****", skills: ["Mathematics", "Algebra", "Arithmetic"] },
   ]);
 
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
+  const [requestModalShow, setRequestModalShow] = useState(false);
   // to store selected chat
   const [selectedChat, setSelectedChat] = useState(null);
   // to store chat messages
@@ -184,6 +185,7 @@ const Chats = () => {
 
   const handleRequestClick = (request) => {
     setSelectedRequest(request);
+    setRequestModalShow(true);
   };
 
   return (
@@ -308,11 +310,47 @@ const Chats = () => {
               </ListGroup>
             </div>
           )}
-          {selectedRequest && (
-            <RequestCard
-              name={selectedRequest}
-              onClose={() => setSelectedRequest(null)} // Close modal when clicked outside or close button
-            />
+          {requestModalShow && (
+            <div
+              style={{
+                position: "fixed",
+                top: "0",
+                left: "0",
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                zIndex: "1000",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  backgroundColor: "#2d2d2d",
+                  color: "#3BB4A1",
+                  padding: "50px",
+                  borderRadius: "10px",
+                }}
+              >
+                <h2 style={{ textAlign: "center" }}>Confirm your choice?</h2>
+                {selectedRequest && (
+                  <RequestCard
+                    name={selectedRequest.name}
+                    skills={selectedRequest.skills}
+                    rating={selectedRequest.rating}
+                    onClose={() => setSelectedRequest(null)} // Close modal when clicked outside or close button
+                  />
+                )}
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <button className="connect-button" style={{ marginLeft: "0" }}>
+                    Accept!
+                  </button>
+                  <button className="report-button">Reject</button>
+                </div>
+              </div>
+            </div>
           )}
         </div>
         {/* Right Section */}
