@@ -78,7 +78,7 @@ const Profile = () => {
 
         {/* Bio */}
         <h2>Bio</h2>
-        <p className="bio">Yahan pe apan bio rakhenge</p>
+        <p className="bio">Computer Science student specialising in data science and machine learning</p>
 
         {/* Portfolio Links */}
 
