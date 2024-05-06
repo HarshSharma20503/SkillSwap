@@ -57,6 +57,7 @@ const Chats = () => {
           toast.error(err.response.data.message);
           if (err.response.data.message === "Please Login") {
             localStorage.removeItem("userInfo");
+            setUser(null);
             await axios.get("/auth/logout");
             navigate("/login");
           }
@@ -119,6 +120,7 @@ const Chats = () => {
         toast.error(err.response.data.message);
         if (err.response.data.message === "Please Login") {
           localStorage.removeItem("userInfo");
+          setUser(null);
           await axios.get("/auth/logout");
           navigate("/login");
         }
@@ -150,6 +152,7 @@ const Chats = () => {
         toast.error(err.response.data.message);
         if (err.response.data.message === "Please Login") {
           await axios.get("/auth/logout");
+          setUser(null);
           localStorage.removeItem("userInfo");
           navigate("/login");
         }
