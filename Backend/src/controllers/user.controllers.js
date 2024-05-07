@@ -540,7 +540,9 @@ export const discoverUsers = asyncHandler(async (req, res) => {
   // Find all the users except the current users who are proficient in the skills that the current user wants to learn and also the the users who are proficient in the web development skills and machine learning skills in the array above
   //
 
-  const users = await User.find({});
+  //  fetch all users except the current user
+
+  const users = await User.find({ username: { $ne: req.user.username } });
 
   // now make three seperate list of the users who are proficient in the skills that the current user wants to learn, the users who are proficient in the web development skills and the users who are proficient in the machine learning skills and others also limit the size of the array to 5;
 
