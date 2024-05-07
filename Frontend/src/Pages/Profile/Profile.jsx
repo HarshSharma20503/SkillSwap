@@ -127,6 +127,9 @@ const Profile = () => {
                         <Link to={`/report/${profileUser.username}`}>
                           <button className="report-button">Report</button>
                         </Link>
+                        <Link to={`/rating/${profileUser.username}`}>
+                          <button className="report-button bg-success">Rate</button>
+                        </Link>
                       </div>
                     )
                   }

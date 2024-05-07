@@ -19,11 +19,14 @@ const userSchema = new Schema(
       type: String,
       default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToK4qEfbnd-RN82wdL2awn_PMviy_pelocqQ",
     },
+    rating: {
+      type: Number,
+      default: 0,
+    },
     linkedinLink: {
       type: String,
       default: "",
     },
-
     githubLink: {
       type: String,
       default: "",

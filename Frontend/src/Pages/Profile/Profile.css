@@ -188,6 +188,10 @@ h2 {
   .profile-name {
     margin-left: 0px !important;
   }
+  .report-button,
+  .connect-button {
+    padding: 5px 10px;
+  }
 
   .misc {
     display: flex;
