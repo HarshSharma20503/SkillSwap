@@ -535,7 +535,13 @@ export const discoverUsers = asyncHandler(async (req, res) => {
     "NoSQL",
   ];
 
-  const machineLearningSkills = ["Python", "Natural Language Processing", "Deep Learning", "PyTorch"];
+  const machineLearningSkills = [
+    "Python",
+    "Natural Language Processing",
+    "Deep Learning",
+    "PyTorch",
+    "Machine Learning",
+  ];
 
   // Find all the users except the current users who are proficient in the skills that the current user wants to learn and also the the users who are proficient in the web development skills and machine learning skills in the array above
   //

@@ -103,9 +103,13 @@ const Profile = () => {
                   {/* Rating */}
                   <div className="rating" style={{ marginLeft: "2rem" }}>
                     {/* Rating stars */}
-                    <span className="rating-stars">⭐⭐⭐⭐⭐</span>
+                    <span className="rating-stars">
+                      {profileUser?.rating
+                        ? Array.from({ length: profileUser.rating }, (_, index) => <span key={index}>⭐</span>)
+                        : "⭐⭐⭐⭐⭐"}
+                    </span>
                     {/* Rating out of 5 */}
-                    <span className="rating-value">(5)</span>
+                    <span className="rating-value">{profileUser?.rating ? profileUser?.rating : "5"}</span>
                   </div>
                   {/* Connect and Report Buttons */}
                   {
