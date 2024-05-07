@@ -179,7 +179,7 @@ const Profile = () => {
               {/* Render skill boxes here */}
               <div className="skill-boxes">
                 {profileUser?.skillsProficientAt.map((skill, index) => (
-                  <div className="skill-box" key={index}>
+                  <div className="skill-box" style={{ fontSize: "16px" }} key={index}>
                     {skill}
                   </div>
                 ))}
