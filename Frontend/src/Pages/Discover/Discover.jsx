@@ -131,7 +131,7 @@ const Discover = () => {
                       <ProfileCard
                         profileImageUrl={user?.picture}
                         name={user?.name}
-                        rating={4}
+                        rating={user?.rating ? user?.rating : 4}
                         bio={user?.bio}
                         skills={user?.skillsProficientAt}
                         username={user?.username}
