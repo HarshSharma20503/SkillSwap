@@ -6,6 +6,7 @@ import { Request } from "../models/request.model.js";
 import { UnRegisteredUser } from "../models/unRegisteredUser.model.js";
 import { generateJWTToken_username } from "../utils/generateJWTToken.js";
 import { uploadOnCloudinary } from "../config/connectCloudinary.js";
+import { sendMail } from "../utils/SendMail.js";
 
 export const userDetailsWithoutID = asyncHandler(async (req, res) => {
   console.log("\n******** Inside userDetailsWithoutID Controller function ********");
@@ -581,4 +582,27 @@ export const discoverUsers = asyncHandler(async (req, res) => {
         "Users fetched successfully"
       )
     );
+});
+
+export const sendScheduleMeet = asyncHandler(async (req, res) => {
+  console.log("******** Inside sendScheduleMeet Function *******");
+
+  const { date, time, username } = req.body;
+  if (!date || !time || !username) {
+    throw new ApiError(400, "Please provide all the details");
+  }
+
+  const user = await User.findOne({ username: username });
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  const to = user.email;
+  const subject = "Request for Scheduling a meeting";
+  const message = `${req.user.name} has requested for a meet at ${time} time on ${date} date. Please respond to the request.`;
+
+  await sendMail(to, subject, message);
+
+  return res.status(200).json(new ApiResponse(200, null, "Email sent successfully"));
 });

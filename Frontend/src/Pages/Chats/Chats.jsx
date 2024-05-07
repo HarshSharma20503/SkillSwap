@@ -11,6 +11,7 @@ import io from "socket.io-client";
 import ScrollableFeed from "react-scrollable-feed";
 import RequestCard from "./RequestCard";
 import "./Chats.css";
+import Modal from "react-bootstrap/Modal";
 
 var socket;
 const Chats = () => {
@@ -22,6 +23,7 @@ const Chats = () => {
 
   const [scheduleModalShow, setScheduleModalShow] = useState(false);
   const [requestModalShow, setRequestModalShow] = useState(false);
+
   // to store selected chat
   const [selectedChat, setSelectedChat] = useState(null);
   // to store chat messages
@@ -38,6 +40,11 @@ const Chats = () => {
   const { user, setUser } = useUser();
 
   const navigate = useNavigate();
+
+  const [scheduleForm, setScheduleForm] = useState({
+    date: "",
+    time: "",
+  });
 
   useEffect(() => {
     fetchChats();
@@ -434,7 +441,7 @@ const Chats = () => {
                   </span>
                 </div>
                 <Button variant="info" onClick={handleScheduleClick}>
-                  Schedule Video Call
+                  Request Video Call
                 </Button>
               </>
             )}
@@ -547,9 +554,8 @@ const Chats = () => {
             width: "100%",
             height: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.7)",
-            zIndex: "1000",
+            zIndex: "500",
           }}
-          onClick={() => setScheduleModalShow(false)}
         >
           <div
             style={{
@@ -561,31 +567,64 @@ const Chats = () => {
               color: "#3BB4A1",
               padding: "50px",
               borderRadius: "10px",
+              zIndex: "1001",
             }}
           >
-            <h3>Schedule Video Call</h3>
+            <h3>Request a Meeting</h3>
             <Form>
-              <Form.Group controlId="formName" style={{ marginBottom: "20px" }}>
-                <Form.Label>Your Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter your name" />
-              </Form.Group>
-
-              <Form.Group controlId="formEmail" style={{ marginBottom: "20px" }}>
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
-              </Form.Group>
-
-              <Form.Group controlId="formDate" style={{ marginBottom: "20px" }}>
+              <Form.Group controlId="formDate" style={{ marginBottom: "20px", zIndex: "1001" }}>
                 <Form.Label>Preferred Date</Form.Label>
-                <Form.Control type="date" />
+                <Form.Control
+                  type="date"
+                  value={scheduleForm.date}
+                  onChange={(e) => setScheduleForm({ ...scheduleForm, date: e.target.value })}
+                />
               </Form.Group>
 
-              <Form.Group controlId="formTime" style={{ marginBottom: "20px" }}>
+              <Form.Group controlId="formTime" style={{ marginBottom: "20px", zIndex: "1001" }}>
                 <Form.Label>Preferred Time</Form.Label>
-                <Form.Control type="time" />
+                <Form.Control
+                  type="time"
+                  value={scheduleForm.time}
+                  onChange={(e) => setScheduleForm({ ...scheduleForm, time: e.target.value })}
+                />
               </Form.Group>
 
-              <Button variant="success" type="submit">
+              <Button
+                variant="success"
+                type="submit"
+                onClick={async (e) => {
+                  e.preventDefault();
+                  if (scheduleForm.date === "" || scheduleForm.time === "") {
+                    toast.error("Please fill all the fields");
+                    return;
+                  }
+
+                  scheduleForm.username = selectedChat.username;
+                  try {
+                    const { data } = await axios.post("/user/sendScheduleMeet", scheduleForm);
+                    toast.success("Request mail has been sent successfully!");
+                    setScheduleForm({
+                      date: "",
+                      time: "",
+                    });
+                  } catch (error) {
+                    console.log(error);
+                    if (error?.response?.data?.message) {
+                      toast.error(error.response.data.message);
+                      if (error.response.data.message === "Please Login") {
+                        localStorage.removeItem("userInfo");
+                        setUser(null);
+                        await axios.get("/auth/logout");
+                        navigate("/login");
+                      }
+                    } else {
+                      toast.error("Something went wrong");
+                    }
+                  }
+                  setScheduleModalShow(false);
+                }}
+              >
                 Submit
               </Button>
               <Button variant="danger" onClick={() => setScheduleModalShow(false)} style={{ marginLeft: "10px" }}>

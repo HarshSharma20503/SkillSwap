@@ -13,6 +13,7 @@ import {
   saveAddRegisteredUser,
   uploadPic,
   discoverUsers,
+  sendScheduleMeet,
 } from "../controllers/user.controllers.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
@@ -40,5 +41,8 @@ router.route("/registered/getDetails").get(verifyJWT_username, userDetailsWithou
 
 // get profiles for discover page
 router.route("/discover").get(verifyJWT_username, discoverUsers);
+
+// send schedule meet email
+router.route("/sendScheduleMeet").post(verifyJWT_username, sendScheduleMeet);
 
 export default router;
