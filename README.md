@@ -20,6 +20,10 @@ In today's fast-paced world, the acquisition of new skills is essential for pers
 - `Deployment`: Docker and Docker Compose
 - `Tools`: Google Cloud Console (OAuth), MongoDB Compass, Postman, Docker, Docker Compose, VSCode, Git, GitHub.
 
+## Screenshots
+
+See the screenshots of the project in the screenshots folder.
+
 ## Installation
 
 To run SkillSwap locally, follow these steps:
@@ -144,7 +148,3 @@ sudo docker-compose down --rmi all
 ```
 
 Now you can run the website on `http://localhost:5173`
-
-## Contributing
-
-If you find any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
